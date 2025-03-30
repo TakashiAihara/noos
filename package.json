@@ -1,0 +1,10 @@
+{
+  "name": "noos",
+  "version": "0.0.1",
+  "scripts": {
+    "doc:arch:generate": "d2 docs/architecture.d2 docs/architecture.svg",
+    "doc:arch:watch": "pnpm doc:arch:generate --watch"
+  },
+  "license": "ISC",
+  "packageManager": "pnpm@10.7.0"
+}

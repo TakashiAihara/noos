@@ -1,0 +1,88 @@
+direction: right
+
+### Shapes
+Noos: {
+  Client: {
+    approuter: {
+      shape: queue
+      label: "AppRouter"
+    }
+
+    frontend: FrontEnd
+  }
+
+  Core: {
+    yoga: {
+      shape: queue
+      label: "GraphQL Yoga BFF"
+    }
+
+    worker: {
+      label: "Worker (NestJS)"
+    }
+
+    graphdb: {
+      shape: cylinder
+      label: "GraphDB (Dgraph)"
+    }
+
+    rdbms: {
+      shape: cylinder
+      label: "RDBMS (CockroachDB)"
+    }
+
+    blob: {
+      shape: cylinder
+      label: "Blob Storage (S3-compatible)"
+    }
+  }
+}
+
+### Connections
+Noos.Client.frontend -> Noos.Client.approuter: {
+  label: "tRPC"
+  style: {
+    stroke: green
+  }
+}
+
+Noos.Client.frontend -> Noos.Core.yoga: {
+  label: "GraphQL"
+  style: {
+    stroke: red
+  }
+}
+
+Noos.Client.approuter -> Noos.Core.yoga: {
+  label: "GraphQL"
+  style: {
+    stroke: red
+  }
+}
+
+Noos.Client.approuter -> Noos.Core.worker: {
+  label: "gRPC"
+  style: {
+    stroke: blue
+  }
+}
+
+Noos.Client.approuter -> Noos.Core.blob: {}
+
+Noos.Core.yoga -> Noos.Core.graphdb: {
+  label: "GraphQL"
+  style: {
+    stroke: red
+  }
+}
+
+Noos.Core.yoga -> Noos.Core.blob: {}
+
+Noos.Core.worker -> Noos.Core.rdbms: {}
+
+Noos.Core.worker -> Noos.Core.yoga: {
+  label: "GraphQL"
+  style: {
+    stroke: red
+  }
+}
