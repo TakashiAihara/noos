@@ -16,6 +16,17 @@ services:
     env_file:
       - .env.docker
     command: ["pnpm","start:dev:watch", "--filter=@core/graph-organizer"]
+    depends_on:
+      db:
+        condition: service_healthy
+      graph-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3100/health"]
+      interval: 20s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   user-web:
     build:
@@ -34,6 +45,15 @@ services:
       - NODE_ENV=development
     env_file:
       - .env.docker
+    depends_on:
+      graph-organizer:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 20s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   db:
     image: postgres
@@ -43,12 +63,18 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
       POSTGRES_DB: noos_local
     ports:
       - ${DB_PORT:-5432}:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   graph-db:
     image: dgraph/dgraph
@@ -62,6 +88,15 @@ services:
       - 8080:8080
       - 9080:9080
     command: dgraph alpha --my=graph-db:7080 --zero=graph-db-cluster-manager:5080
+    depends_on:
+      graph-db-cluster-manager:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   graph-db-cluster-manager:
     image: dgraph/dgraph
@@ -75,6 +110,12 @@ services:
       - 5080:5080
       - 6080:6080
     command: dgraph zero --my=graph-db-cluster-manager:5080
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   graph-db-ui:
     image: dgraph/ratel
@@ -84,6 +125,9 @@ services:
     restart: unless-stopped
     ports:
       - 8000:8000
+    depends_on:
+      graph-db:
+        condition: service_healthy
 
 volumes:
   dgraph_data:
