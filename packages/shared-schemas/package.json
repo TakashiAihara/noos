@@ -4,22 +4,12 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist/**"],
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
-    "analyze": "pnpm analyze:check",
-    "analyze:check": "biome check --verbose --log-level=debug",
-    "analyze:check:ci": "pnpm analyze:check --log-level=debug --reporter=github",
-    "analyze:check:staged": "pnpm analyze:check --staged --no-errors-on-unmatched",
-    "analyze:check:unsafe": "pnpm analyze:check --unsafe",
-    "analyze:write": "biome check --write",
     "build": "pnpm build:tsc",
     "build:tsc": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json && fix-esm-import-path dist",
-    "format": "pnpm format:write && pnpm format:packages",
-    "format:check": "biome format",
-    "format:packages": "sort-package-json",
-    "format:write": "biome format --write",
-    "lint:check": "biome lint",
-    "lint:write": "biome lint --write",
     "type:check": "tsc --noEmit"
   },
   "dependencies": {

@@ -3,7 +3,7 @@
   "compilerOptions": {
     "noEmit": false,
     "composite": true,
-    "declaration": true,
+    "declaration": true
   },
   "extends": "./base.json"
 }

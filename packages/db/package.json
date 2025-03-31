@@ -27,13 +27,10 @@
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist/**"],
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
-    "analyze": "pnpm analyze:check",
-    "analyze:check": "biome check --verbose --log-level=debug",
-    "analyze:check:ci": "pnpm analyze:check --log-level=debug --reporter=github",
-    "analyze:check:unsafe": "pnpm analyze:check --unsafe",
-    "analyze:write": "biome check --write",
     "build": "pnpm build:tsc",
     "build:debug": "tsc --project tsconfig.build.json --showConfig",
     "build:tsc": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json && fix-esm-import-path dist",
@@ -48,14 +45,8 @@
     "db:push": "prisma db push --skip-generate",
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
-    "format": "pnpm format:prisma && pnpm format:write && pnpm format:packages",
-    "format:check": "biome format",
-    "format:packages": "sort-package-json",
+    "format": "pnpm format:prisma",
     "format:prisma": "prisma format",
-    "format:write": "biome format --write",
-    "lint": "biome check src",
-    "lint:check": "biome lint",
-    "lint:write": "biome lint --write",
     "prepare": "if [ -d node_modules/prisma ]; then pnpm db:generate; fi",
     "type:check": "tsc --noEmit"
   },

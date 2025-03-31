@@ -26,6 +26,6 @@
       "@presentation/*": ["./src/presentation/*"],
       "@infrastructure/*": ["./src/infrastructure/*"]
     },
-    "exactOptionalPropertyTypes": false,
+    "exactOptionalPropertyTypes": false
   }
 }
