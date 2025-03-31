@@ -2,72 +2,72 @@ direction: right
 
 ### Shapes
 Noos: {
-  Client: {
+  User: {
+    frontend: FrontEnd
+
     approuter: {
       shape: queue
-      label: "AppRouter"
+      label: "BFF\nAppRouter"
     }
-
-    frontend: FrontEnd
   }
 
   Core: {
     yoga: {
       shape: queue
-      label: "GraphQL Yoga BFF"
+      label: "Graph Organizer\nYoga"
     }
 
     worker: {
-      label: "Worker (NestJS)"
+      label: "Worker\nNestJS"
     }
 
     graphdb: {
       shape: cylinder
-      label: "GraphDB (Dgraph)"
+      label: "GraphDB\nDgraph"
     }
 
     rdbms: {
       shape: cylinder
-      label: "RDBMS (CockroachDB)"
+      label: "RDBMS\nCockroachDB"
     }
 
     blob: {
       shape: cylinder
-      label: "Blob Storage (S3-compatible)"
+      label: "Blob Storage\nS3-compatible"
     }
   }
 }
 
 ### Connections
-Noos.Client.frontend -> Noos.Client.approuter: {
+Noos.User.frontend -> Noos.User.approuter: {
   label: "tRPC"
   style: {
     stroke: green
   }
 }
 
-Noos.Client.frontend -> Noos.Core.yoga: {
+Noos.User.frontend -> Noos.Core.yoga: {
   label: "GraphQL"
   style: {
     stroke: red
   }
 }
 
-Noos.Client.approuter -> Noos.Core.yoga: {
+Noos.User.approuter -> Noos.Core.yoga: {
   label: "GraphQL"
   style: {
     stroke: red
   }
 }
 
-Noos.Client.approuter -> Noos.Core.worker: {
+Noos.User.approuter -> Noos.Core.worker: {
   label: "gRPC"
   style: {
     stroke: blue
   }
 }
 
-Noos.Client.approuter -> Noos.Core.blob: {}
+Noos.User.approuter -> Noos.Core.blob: {}
 
 Noos.Core.yoga -> Noos.Core.graphdb: {
   label: "GraphQL"

@@ -1,0 +1,91 @@
+services:
+  graph-organizer:
+    build:
+      context: .
+      dockerfile: ./apps/core/graph-organizer/Dockerfile
+      target: development
+    profiles:
+      - all
+    ports:
+      - 3100:3100
+    volumes:
+      - .:/app:delegated
+      - ${HOME}/.pnpm-store:/app/.pnpm-store:delegated
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - .env.docker
+    command: ["pnpm","start:dev:watch", "--filter=@core/graph-organizer"]
+
+  user-web:
+    build:
+      context: .
+      dockerfile: ./apps/user/web/Dockerfile
+      target: development
+    profiles:
+      - all
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app:delegated
+      - ${HOME}/.pnpm-store:/app/.pnpm-store:delegated
+    command: ["pnpm","start:dev:watch", "--filter=@user/web"]
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - .env.docker
+
+  db:
+    image: postgres
+    profiles:
+      - db
+      - all
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: noos_local
+    ports:
+      - ${DB_PORT:-5432}:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  graph-db:
+    image: dgraph/dgraph
+    profiles:
+      - all
+      - dgraph
+    restart: unless-stopped
+    volumes:
+      - dgraph_data:/dgraph
+    ports:
+      - 8080:8080
+      - 9080:9080
+    command: dgraph alpha --my=graph-db:7080 --zero=graph-db-cluster-manager:5080
+
+  graph-db-cluster-manager:
+    image: dgraph/dgraph
+    profiles:
+      - all
+      - dgraph
+    restart: unless-stopped
+    volumes:
+      - dgraph_data:/dgraph
+    ports:
+      - 5080:5080
+      - 6080:6080
+    command: dgraph zero --my=graph-db-cluster-manager:5080
+
+  graph-db-ui:
+    image: dgraph/ratel
+    profiles:
+      - all
+      - dgraph
+    restart: unless-stopped
+    ports:
+      - 8000:8000
+
+volumes:
+  dgraph_data:
+  postgres_data:
+    driver: local

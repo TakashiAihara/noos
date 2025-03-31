@@ -1,0 +1,7 @@
+{
+  "extends": "@tooling/tsconfig/base.json",
+  "compilerOptions": {
+    "types": ["vitest/globals"]
+  },
+  "exclude": ["node_modules", "coverage", "dist"]
+}

@@ -1,20 +1,23 @@
-# Setup
+# Directories
 
-```shell
-go install github.com/asdf-vm/asdf/cmd/asdf@latest
-asdf plugin add nodejs
-asdf plugin add pnpm
-asdf install
-pnpm install
 ```
-
-# Doc
-
-## Architecture Diagram
-
-### Generate
-
-```shell
-pnpm doc:arch:generate
-pnpm doc:arch:watch
+.
+├── apps                  # Base application workspaces
+│   └── core              # Core domain (back-end)
+│       └── graphql-organizer  # BFF GraphQL(Yoga)
+│           ├── src           # Main application source code
+│           │   └── utility   # Utility modules
+│           │       ├── Config      # Configuration utilities
+│           │       └── HealthCheck # Health check utilities
+│           └── test           # Unit and integration tests
+│
+├── packages               # Shared codes and database implementation
+│   └── shared             # Shared code modules
+│       └── types          # Shared TypeScript types
+│
+├── testing                # Browser (E2E) testing and manual testing
+│   └── api               # Bruno API request collection
+│
+└── tooling                # Tool settings for development
+    └── tsconfig         # Shared TypeScript configurations
 ```

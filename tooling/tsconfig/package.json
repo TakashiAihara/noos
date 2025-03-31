@@ -1,0 +1,10 @@
+{
+  "name": "@tooling/tsconfig",
+  "files": [
+    "*.json"
+  ],
+  "devDependencies": {
+    "@tsconfig/strictest": "catalog:",
+    "sort-package-json": "catalog:"
+  }
+}

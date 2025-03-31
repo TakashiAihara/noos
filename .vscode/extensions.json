@@ -1,5 +1,11 @@
 {
-    "recommendations": [
-        "terrastruct.d2"
-    ]
+  "recommendations": [
+    "streetsidesoftware.code-spell-checker",
+    "unional.vscode-sort-package-json",
+    "redhat.vscode-yaml",
+    "biomejs.biome",
+    "bocovo.dbml-erd-visualizer",
+    "vercel.turbo-vsc",
+    "terrastruct.d2"
+  ]
 }

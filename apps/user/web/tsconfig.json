@@ -1,0 +1,17 @@
+{
+	"extends": "@tooling/tsconfig/nextjs.json",
+	"compilerOptions": {
+		"baseUrl": "."
+	},
+	"include": [
+		".eslintrc.cjs",
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.cjs",
+		"**/*.js",
+		".next/types/**/*.ts",
+		"src/env.ts"
+	],
+	"exclude": ["node_modules"]
+}

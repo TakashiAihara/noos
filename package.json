@@ -1,10 +1,62 @@
 {
   "name": "noos",
   "version": "0.0.1",
-  "scripts": {
-    "doc:arch:generate": "d2 docs/architecture.d2 docs/architecture.svg",
-    "doc:arch:watch": "pnpm doc:arch:generate --watch"
-  },
+  "private": true,
   "license": "ISC",
-  "packageManager": "pnpm@10.7.0"
+  "author": "TakashiAihara",
+  "scripts": {
+    "analyze": "pnpm analyze:check",
+    "analyze:check": "biome check --verbose --log-level=debug",
+    "analyze:check:ci": "pnpm analyze:check --log-level=debug --reporter=github",
+    "analyze:check:staged": "pnpm analyze:check --staged --no-errors-on-unmatched",
+    "analyze:check:unsafe": "pnpm analyze:check --unsafe",
+    "analyze:write": "biome check --write",
+    "build": "pnpm --filter '@packages/shared-*' build && pnpm --filter '@packages/env' build && pnpm --filter '@packages/db' build && pnpm --filter '@core/*' build && pnpm --filter '@user/*' build",
+    "db:base": "pnpm --filter '@packages/db'",
+    "db:format": "pnpm db:base db:format",
+    "db:generate": "pnpm db:base db:generate",
+    "db:migrate": "pnpm db:base db:migrate",
+    "db:migrate:deploy": "pnpm db:base db:migrate:deploy",
+    "db:migrate:status": "pnpm db:base db:migrate:status",
+    "db:pull": "pnpm db:base db:pull",
+    "db:push": "pnpm db:base db:push",
+    "db:rollback": "pnpm db:base db:rollback",
+    "db:seed": "pnpm db:base db:seed",
+    "db:studio": "pnpm db:base db:studio",
+    "doc:arch:generate": "d2 docs/architecture.d2 docs/architecture.svg",
+    "doc:arch:watch": "pnpm doc:arch:generate --watch",
+    "format": "pnpm format:write && pnpm format:packages",
+    "format:check": "biome format",
+    "format:packages": "sort-package-json",
+    "format:write": "biome format --write",
+    "lint:check": "biome lint",
+    "lint:write": "biome lint --write",
+    "turbo:init": "turbo login && turbo link",
+    "type:check": "pnpm -r type:check"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "@tsconfig/strictest": "catalog:",
+    "sort-package-json": "catalog:",
+    "turbo": "^2.4.4"
+  },
+  "packageManager": "pnpm@10.7.0",
+  "engines": {
+    "node": ">=22.14.0",
+    "npm": "DO NOT USE NPM",
+    "pnpm": "10.7.0",
+    "yarn": "DO NOT USE YARN"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@biomejs/biome",
+      "@nestjs/core",
+      "@prisma/client",
+      "@prisma/engines",
+      "@swc/core",
+      "esbuild",
+      "prisma"
+    ],
+    "ignoredBuiltDependencies": ["@nestjs/core"]
+  }
 }

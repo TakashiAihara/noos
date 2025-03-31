@@ -1,0 +1,46 @@
+{
+    "biome.enabled": true,
+    "cSpell.words": [
+        "biomejs",
+        "nestjs",
+        "nextjs",
+        "noos",
+        "outdir",
+        "protobuf",
+        "swcrc",
+        "tidb",
+        "trpc",
+        "tsbuildinfo",
+        "typecheck",
+        "unplugin"
+    ],
+    "[javascript][typescript][typescriptreact]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[css]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[graphql]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "editor.codeActionsOnSave": {
+        "quickfix.biome": "explicit",
+        "source.fixAll.biome": "explicit",
+        "source.organizeImports": "explicit",
+        "source.removeUnusedImports": "explicit",
+        "source.sortImports": "explicit",
+        "source.removeUnused.ts": "explicit",
+        "source.fixAll.ts": "explicit",
+        "source.sortPackageJson": "explicit"
+    },
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "turbo.path": "./node_modules/.bin/turbo",
+    "turbo.useLocalTurbo": true
+}

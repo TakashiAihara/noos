@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "noUncheckedIndexedAccess": true,
+    "checkJs": true,
+    "lib": ["dom", "dom.iterable", "ESNext"],
+    "noEmit": true,
+    "jsx": "preserve",
+    "plugins": [{ "name": "next" }],
+    "paths": {
+      "~/*": ["./*"],
+      "@/*": ["./src/*"],
+      "@domain/*": ["./src/domain/*"],
+      "@application/*": ["./src/application/*"],
+      "@presentation/*": ["./src/presentation/*"],
+      "@infrastructure/*": ["./src/infrastructure/*"]
+    }
+  }
+}
