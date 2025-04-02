@@ -4,7 +4,6 @@ import { NodeSchema } from '@packages/shared-schemas';
 import { z } from 'zod';
 
 const logger = new Logger();
-
 const envSchema = NodeSchema;
 
 export type Env = z.infer<typeof envSchema>;

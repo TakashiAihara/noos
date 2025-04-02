@@ -1,0 +1,6 @@
+{
+  "$schema": "./node_modules/dclint/schemas/linter-config.schema.json",
+  "rules": {
+    "no-unbound-port-interfaces": 0
+  }
+}

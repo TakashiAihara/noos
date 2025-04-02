@@ -1,7 +1,7 @@
 ARG PNPM_VERSION=10.7.0
 ARG NODE_VERSION=22.14.0
 
-ARG APP_NAME=@core/graph-organizer
+ARG APP_NAME=@noos/graph-organizer
 ARG APP_DIR=apps/core/graph-organizer
 ARG WORK_DIR=/app
 

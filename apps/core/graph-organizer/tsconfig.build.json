@@ -1,0 +1,17 @@
+{
+  "extends": "@tooling/tsconfig/build.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "exclude": [
+    "node_modules",
+    "coverage",
+    "dist",
+    "test",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "vitest.config.ts",
+    "vitest.config.integration.ts"
+  ]
+}

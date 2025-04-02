@@ -27,14 +27,12 @@
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist/**"
-  ],
+  "files": ["dist/**"],
   "scripts": {
-    "build": "pnpm build:tsc",
+    "build": "pnpm db:generate && pnpm build:tsc",
     "build:debug": "tsc --project tsconfig.build.json --showConfig",
     "build:tsc": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json && fix-esm-import-path dist",
-    "clean": "rimraf node_modules dist",
+    "clean": "git clean -dfx dist .turbo node_modules",
     "db:format": "prisma format",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
@@ -45,8 +43,6 @@
     "db:push": "prisma db push --skip-generate",
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
-    "format": "pnpm format:prisma",
-    "format:prisma": "prisma format",
     "prepare": "if [ -d node_modules/prisma ]; then pnpm db:generate; fi",
     "type:check": "tsc --noEmit"
   },
@@ -54,7 +50,8 @@
     "@nestjs/common": "^11.0.12",
     "@packages/env": "workspace:",
     "@packages/shared-schemas": "workspace:",
-    "@prisma/client": "^6.5.0"
+    "@prisma/client": "^6.5.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@onozaty/prisma-db-comments-generator": "^1.1.0",
@@ -64,12 +61,9 @@
     "fix-esm-import-path": "catalog:",
     "prisma": "^6.5.0",
     "prisma-dbml-generator": "^0.12.0",
-    "rimraf": "catalog:",
-    "sort-package-json": "catalog:",
     "tsc-alias": "catalog:",
     "tsup": "catalog:",
     "typescript": "catalog:",
-    "zod": "^3.24.2",
     "zod-prisma-types": "^3.2.4"
   }
 }

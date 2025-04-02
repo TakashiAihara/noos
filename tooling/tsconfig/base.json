@@ -17,15 +17,6 @@
     "noPropertyAccessFromIndexSignature": false,
     "esModuleInterop": true,
     "composite": true,
-
-    "paths": {
-      "~/*": ["./*"],
-      "@/*": ["./src/*"],
-      "@domain/*": ["./src/domain/*"],
-      "@application/*": ["./src/application/*"],
-      "@presentation/*": ["./src/presentation/*"],
-      "@infrastructure/*": ["./src/infrastructure/*"]
-    },
     "exactOptionalPropertyTypes": false
   }
 }

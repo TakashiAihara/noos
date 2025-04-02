@@ -1,7 +1,7 @@
 ARG PNPM_VERSION=10.7.0
 ARG NODE_VERSION=22.14.0
 
-ARG APP_NAME=@core/user-web
+ARG APP_NAME=@noos/user-web
 ARG APP_DIR=apps/user/web
 ARG WORK_DIR=/app
 

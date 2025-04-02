@@ -4,12 +4,10 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist/**"
-  ],
+  "files": ["dist/**"],
   "scripts": {
-    "build": "pnpm build:tsc",
-    "build:tsc": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json && fix-esm-import-path dist",
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json && fix-esm-import-path dist",
+    "clean": "git clean -dfx dist .turbo node_modules",
     "type:check": "tsc --noEmit"
   },
   "dependencies": {
@@ -21,7 +19,6 @@
     "@tsconfig/strictest": "catalog:",
     "@types/node": "catalog:",
     "fix-esm-import-path": "catalog:",
-    "sort-package-json": "catalog:",
     "tsc-alias": "catalog:",
     "typescript": "catalog:"
   },

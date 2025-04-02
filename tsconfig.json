@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@tooling/tsconfig": ["packages/tooling/tsconfig"],
+
+      "@packages/db": ["packages/db/src"],
+      "@packages/env": ["packages/env/src"],
+      "@packages/shared-schemas": ["packages/shared-schemas/src"],
+      "@packages/shared-constants": ["packages/shared-constants/src"],
+      "@packages/shared-utils": ["packages/shared-utils/src"],
+
+      "@noos/user-web": ["apps/user/web/src"],
+      "@noos/graph-organizer": ["apps/core/graph-organizer/src"]
+    },
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true
+  }
+}

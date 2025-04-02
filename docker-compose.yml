@@ -1,135 +1,197 @@
+x-common-volume: &common-volume
+  volumes:
+    - .:/app:delegated
+    - ${HOME}/.pnpm-store:/app/.pnpm-store:delegated
+
+name: noos-local
+
 services:
+  db:
+    image: cockroachdb/cockroach:latest-v25.1
+    volumes:
+      - crdb_data:/cockroach/cockroach-data
+    environment:
+      COCKROACH_DATABASE: noos_local
+      COCKROACH_USER: crdb
+      COCKROACH_PASSWORD: ${DB_PASSWORD:-crdb}
+    env_file:
+      - packages/db/.env.docker
+    ports:
+      - '8081:8080'
+      - '26257:26257'
+    command: start-single-node --insecure
+    restart: unless-stopped
+    healthcheck:
+      test: cockroach sql --insecure --execute='SELECT 1;' || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    profiles:
+      - db
+      - all
+
+  graph-db:
+    image: dgraph/dgraph:${DB_DGRAPH_VERSION:-v24.1.2}
+    depends_on:
+      graph-db-cluster-manager:
+        condition: service_healthy
+    volumes:
+      - dgraph_data:/dgraph
+    ports:
+      - '8080:8080'
+      - '9080:9080'
+    command: dgraph alpha --my=graph-db:7080 --zero=graph-db-cluster-manager:5080
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    profiles:
+      - all
+      - dgraph
+
+  graph-db-cluster-manager:
+    image: dgraph/dgraph:${DB_DGRAPH_VERSION:-v24.1.2}
+    volumes:
+      - dgraph_data:/dgraph
+    ports:
+      - '5080:5080'
+      - '6080:6080'
+    command: dgraph zero --my=graph-db-cluster-manager:5080
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:6080/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    profiles:
+      - all
+      - dgraph
+
+  graph-db-ui:
+    image: dgraph/ratel:${RATEL_VERSION:-v21.12.0}
+    depends_on:
+      graph-db:
+        condition: service_healthy
+    ports:
+      - '8000:8000'
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    profiles:
+      - all
+      - dgraph
+
   graph-organizer:
     build:
       context: .
       dockerfile: ./apps/core/graph-organizer/Dockerfile
       target: development
-    profiles:
-      - all
-    ports:
-      - 3100:3100
-    volumes:
-      - .:/app:delegated
-      - ${HOME}/.pnpm-store:/app/.pnpm-store:delegated
-    environment:
-      - NODE_ENV=development
-    env_file:
-      - .env.docker
-    command: ["pnpm","start:dev:watch", "--filter=@core/graph-organizer"]
     depends_on:
       db:
         condition: service_healthy
       graph-db:
         condition: service_healthy
+      localstack:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - docker/.env.docker
+      - apps/core/graph-organizer/.env.docker
+    ports:
+      - '3100:3100'
+    command: [ "pnpm", "start:dev:watch", "--filter=@core/graph-organizer" ]
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3100/health"]
-      interval: 20s
+      test: [ "CMD", "curl", "-f", "http://localhost:3100/health" ]
+      interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 30s
+      start_period: 15s
+    <<: *common-volume
+    profiles:
+      - all
+
+  localstack:
+    image: localstack/localstack:${LOCALSTACK_VERSION:-4.3.0}
+    volumes:
+      - localstack_data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      DEBUG: ${LOCALSTACK_DEBUG:-0}
+      PERSISTENCE: ${LOCALSTACK_PERSISTENCE:-1}
+      SERVICES: >
+        s3, ssm, sqs, sns, logs, lambda, events, cloudwatch, iam, apigateway,
+        cloudformation, scheduler, serverless
+    ports:
+      - '4510-4559:4510-4559'
+      - '4566:4566'
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4566/_localstack/health" ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    profiles:
+      - all
+
+  localstack-init:
+    image: amazon/aws-cli:${AWS_CLI_VERSION:-2.25.8}
+    depends_on:
+      localstack:
+        condition: service_healthy
+    volumes:
+      - ./docker/localstack/init-aws.sh:/init/init-aws.sh:ro
+    environment:
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+      AWS_REGION: ap-southeast-1
+      AWS_ENDPOINT_URL: http://localstack:4566
+      AWS_CONFIG_FILE: /root/.aws/config
+    env_file:
+      - docker/.env.docker
+    entrypoint: /init/init-aws.sh
+    profiles:
+      - all
 
   user-web:
     build:
       context: .
       dockerfile: ./apps/user/web/Dockerfile
       target: development
-    profiles:
-      - all
-    ports:
-      - 3000:3000
-    volumes:
-      - .:/app:delegated
-      - ${HOME}/.pnpm-store:/app/.pnpm-store:delegated
-    command: ["pnpm","start:dev:watch", "--filter=@user/web"]
-    environment:
-      - NODE_ENV=development
-    env_file:
-      - .env.docker
     depends_on:
       graph-organizer:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
-      interval: 20s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
-
-  db:
-    image: postgres
-    profiles:
-      - db
-      - all
-    restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
-      POSTGRES_DB: noos_local
+      - NODE_ENV=development
+      - BACKEND_URL=http://graph-organizer:3100
+    env_file:
+      - docker/.env.docker
+      - apps/user/web/.env.docker
     ports:
-      - ${DB_PORT:-5432}:5432
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - '3000:3000'
+    command: [ "pnpm", "start:dev:watch", "--filter=@user/web" ]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-
-  graph-db:
-    image: dgraph/dgraph
-    profiles:
-      - all
-      - dgraph
-    restart: unless-stopped
-    volumes:
-      - dgraph_data:/dgraph
-    ports:
-      - 8080:8080
-      - 9080:9080
-    command: dgraph alpha --my=graph-db:7080 --zero=graph-db-cluster-manager:5080
-    depends_on:
-      graph-db-cluster-manager:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/api/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 30s
-
-  graph-db-cluster-manager:
-    image: dgraph/dgraph
+      start_period: 15s
+    <<: *common-volume
     profiles:
       - all
-      - dgraph
-    restart: unless-stopped
-    volumes:
-      - dgraph_data:/dgraph
-    ports:
-      - 5080:5080
-      - 6080:6080
-    command: dgraph zero --my=graph-db-cluster-manager:5080
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:6080/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
-
-  graph-db-ui:
-    image: dgraph/ratel
-    profiles:
-      - all
-      - dgraph
-    restart: unless-stopped
-    ports:
-      - 8000:8000
-    depends_on:
-      graph-db:
-        condition: service_healthy
 
 volumes:
+  localstack_data:
   dgraph_data:
-  postgres_data:
+  crdb_data:
     driver: local

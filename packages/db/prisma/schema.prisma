@@ -11,14 +11,9 @@ generator dbml {
   provider            = "prisma-dbml-generator"
   output              = "../../../docs"
   outputName          = "schema.dbml"
-  projectName         = "Taske"
+  projectName         = "Noos"
   projectDatabaseType = "cockroachdb"
 }
-
-// generator zod {
-//   provider = "zod-prisma-types"
-//   output   = "../src/generated/zod"
-// }
 
 generator zod {
   // provider                         = "ts-node-dev ../generator/src/bin.ts"
@@ -51,6 +46,8 @@ model Task {
   id        BigInt   @id @default(autoincrement())
   name      String
   createdAt DateTime @default(now())
+
+  /// レコードの更新日時
   updatedAt DateTime @updatedAt
 
   @@index([name])
