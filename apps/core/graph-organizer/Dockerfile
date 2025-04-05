@@ -1,4 +1,4 @@
-ARG PNPM_VERSION=10.7.0
+ARG PNPM_VERSION=10.7.1
 ARG NODE_VERSION=22.14.0
 
 ARG APP_NAME=@noos/graph-organizer
@@ -14,6 +14,12 @@ FROM node:${NODE_VERSION}-slim AS base
 # ビルド引数を再宣言（RUN 命令で利用するため）
 ARG PNPM_VERSION
 ARG WORK_DIR
+
+RUN apt-get update && apt-get install -y \
+  openssl \
+  curl \
+  ca-certificates && \
+  rm -rf /var/lib/apt/lists/*
 
 # pnpm をグローバルにインストール
 RUN npm install -g pnpm@${PNPM_VERSION}
@@ -91,3 +97,5 @@ WORKDIR ${WORK_DIR}
 
 # 必要なポートを公開
 EXPOSE 3100
+
+CMD ["/bin/sh", "-c", "pnpm turbo --filter ${APP_NAME} start:dev"]

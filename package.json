@@ -5,26 +5,37 @@
   "license": "ISC",
   "author": "TakashiAihara",
   "scripts": {
-    "analyze": "pnpm analyze:check",
-    "analyze:check": "biome check --verbose --log-level=debug",
-    "analyze:check:ci": "pnpm analyze:check --log-level=debug --reporter=github",
-    "analyze:check:staged": "pnpm analyze:check --staged --no-errors-on-unmatched",
-    "analyze:check:unsafe": "pnpm analyze:check --unsafe",
-    "analyze:write": "biome check --write",
-    "build": "pnpm --filter '@packages/shared-*' build && pnpm --filter '@packages/env' build && pnpm --filter '@packages/db' build && pnpm --filter '@core/*' build && pnpm --filter '@user/*' build",
-    "clean": "git clean -dfx .turbo node_modules",
-    "db:format": "turbo db:format",
-    "db:generate": "turbo db:generate",
-    "db:migrate": "turbo db:migrate",
-    "db:migrate:deploy": "turbo db:migrate:deploy",
-    "db:migrate:status": "turbo db:migrate:status",
-    "db:pull": "turbo db:pull",
-    "db:push": "turbo db:push",
-    "db:rollback": "turbo db:rollback",
-    "db:seed": "turbo db:seed",
-    "db:studio": "turbo db:studio",
+    "build": "turbo build",
+    "check": "biome check --verbose --log-level=debug",
+    "check:ci": "pnpm check --reporter=github",
+    "check:staged": "pnpm check --staged --no-errors-on-unmatched",
+    "check:unsafe": "pnpm check --unsafe",
+    "check:unsafe:write": "pnpm check:unsafe --write",
+    "check:write": "biome check --write",
+    "clean": "pnpm -r --parallel clean && git clean -dfx .turbo node_modules",
+    "db:base": "pnpm --filter '@packages/db'",
+    "db:format": "pnpm db:base db:format",
+    "db:generate": "pnpm db:base db:generate",
+    "db:migrate": "pnpm db:base db:migrate",
+    "db:migrate:deploy": "pnpm db:base db:migrate:deploy",
+    "db:migrate:rollback": "pnpm db:base db:migrate:rollback",
+    "db:migrate:status": "pnpm db:base db:migrate:status",
+    "db:pull": "pnpm db:base db:pull",
+    "db:push": "pnpm db:base db:push",
+    "db:seed": "pnpm db:base db:seed",
+    "db:studio": "pnpm db:base db:studio",
     "doc:arch:generate": "d2 docs/architecture.d2 docs/architecture.svg",
     "doc:arch:watch": "pnpm doc:arch:generate --watch",
+    "docker-compose:all": "docker compose --profile all",
+    "docker-compose:all:dev:up": "pnpm docker-compose:all -f docker-compose.yml up",
+    "docker-compose:all:dev:up:build": "pnpm docker-compose:all:dev:up --build",
+    "docker-compose:all:prod:up": "pnpm docker-compose:all -f docker-compose.yml -f docker-compose.production.yml up --build",
+    "docker-compose:all:prod:up:build": "pnpm docker-compose:all:prod:up --build",
+    "docker-compose:db": "docker compose --profile db",
+    "docker-compose:db:dev:up": "pnpm docker-compose:db -f docker-compose.yml up",
+    "docker-compose:db:dev:up:build": "pnpm docker-compose:db:dev:up --build",
+    "docker-compose:db:prod:up": "pnpm docker-compose:db -f docker-compose.yml -f docker-compose.production.yml up",
+    "docker-compose:db:prod:up:build": "pnpm docker-compose:db:prod:up --build",
     "format": "pnpm format:write && pnpm format:packages && pnpm -r format",
     "format:check": "biome format",
     "format:docker-compose": "dclint . --fix",
@@ -45,7 +56,13 @@
     "test:snapshot:update": "turbo test:snapshot:update",
     "test:unit": "turbo test:unit",
     "test:watch": "turbo test:watch",
-    "turbo:init": "turbo login && turbo link",
+    "turbo:completion": "turbo completion",
+    "turbo:init": "pnpm turbo:login && pnpm turbo:link",
+    "turbo:link": "turbo link",
+    "turbo:login": "turbo login",
+    "turbo:ls": "turbo ls",
+    "turbo:prune": "turbo prune",
+    "turbo:scan": "turbo scan",
     "type:check": "turbo type:check"
   },
   "devDependencies": {
@@ -53,13 +70,13 @@
     "@tsconfig/strictest": "catalog:",
     "dclint": "^2.2.2",
     "sort-package-json": "catalog:",
-    "turbo": "^2.4.4"
+    "turbo": "^2.5.0"
   },
-  "packageManager": "pnpm@10.7.0",
+  "packageManager": "pnpm@10.7.1",
   "engines": {
     "node": ">=22.14.0",
     "npm": "DO NOT USE NPM",
-    "pnpm": "10.7.0",
+    "pnpm": "10.7.1",
     "yarn": "DO NOT USE YARN"
   },
   "pnpm": {
@@ -72,6 +89,8 @@
       "esbuild",
       "prisma"
     ],
-    "ignoredBuiltDependencies": ["@nestjs/core"]
+    "ignoredBuiltDependencies": [
+      "@nestjs/core"
+    ]
   }
 }

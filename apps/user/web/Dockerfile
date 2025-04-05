@@ -1,4 +1,4 @@
-ARG PNPM_VERSION=10.7.0
+ARG PNPM_VERSION=10.7.1
 ARG NODE_VERSION=22.14.0
 
 ARG APP_NAME=@noos/user-web
@@ -93,3 +93,5 @@ WORKDIR ${WORK_DIR}
 
 # 必要なポートを公開
 EXPOSE 3000
+
+CMD ["/bin/sh", "-c", "pnpm turbo --filter ${APP_NAME} start:dev"]

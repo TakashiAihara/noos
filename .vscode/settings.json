@@ -1,7 +1,12 @@
 {
   "biome.enabled": true,
+  "biome.requireConfigFile": true,
   "cSpell.words": [
     "biomejs",
+    "cockroachdb",
+    "dgraph",
+    "healthcheck",
+    "localstack",
     "nestjs",
     "nextjs",
     "noos",

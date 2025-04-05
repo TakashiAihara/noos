@@ -1,12 +1,12 @@
-import { type Config } from "tailwindcss";
-import defaultTheme from "tailwindcss/defaultTheme";
+import { Config } from 'tailwindcss';
+import defaultTheme from 'tailwindcss/defaultTheme';
 
 export default {
-  content: ["./src/**/*.tsx"],
+  content: ['./src/**/*.tsx'],
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", ...defaultTheme.fontFamily.sans],
+        sans: ['var(--font-geist-sans)', ...defaultTheme.fontFamily.sans],
       },
     },
   },

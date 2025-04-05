@@ -136,3 +136,5 @@ dist
 .turbo
 
 node-compile-cache/
+
+.trunk
