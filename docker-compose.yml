@@ -1,0 +1,303 @@
+x-common-volume: &common-volume
+  volumes:
+    - .:/app:delegated
+    - ${HOME}/.pnpm-store:/app/.pnpm-store:delegated
+
+name: noos-local
+
+services:
+
+  cockroach-node1:
+    image: cockroachdb/cockroach:latest-v25.1
+    volumes:
+      - cockroach-data1:/cockroach/cockroach-data
+    ports:
+      - 8090:8090
+      - 26258:26258
+    networks:
+      - cockroach-net
+    command: >
+      start --insecure --join=cockroach-node1,cockroach-node2,cockroach-node3
+      --advertise-addr=cockroach-node1 --listen-addr=0.0.0.0
+      --http-addr=0.0.0.0:8090 --sql-addr=0.0.0.0:26258
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          CMD-SHELL,
+          cockroach sql --insecure --host=localhost:26258 --execute='SELECT
+            1;' || exit 1
+        ]
+      interval: 2s
+      timeout: 3s
+      retries: 10
+    profiles:
+      - db
+      - all
+
+  cockroach-node2:
+    image: cockroachdb/cockroach:latest-v25.1
+    volumes:
+      - cockroach-data2:/cockroach/cockroach-data
+    networks:
+      - cockroach-net
+    command: >
+      start --insecure --join=cockroach-node1,cockroach-node2,cockroach-node3
+      --advertise-addr=cockroach-node2 --listen-addr=0.0.0.0
+      --http-addr=0.0.0.0:8090 --sql-addr=0.0.0.0:26258
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          CMD-SHELL,
+          cockroach sql --insecure --host=localhost:26258 --execute='SELECT
+            1;' || exit 1
+        ]
+      interval: 2s
+      timeout: 3s
+      retries: 10
+    profiles:
+      - db
+      - all
+
+  cockroach-node3:
+    image: cockroachdb/cockroach:latest-v25.1
+    volumes:
+      - cockroach-data3:/cockroach/cockroach-data
+    networks:
+      - cockroach-net
+    command: >
+      start --insecure --join=cockroach-node1,cockroach-node2,cockroach-node3
+      --advertise-addr=cockroach-node3 --listen-addr=0.0.0.0
+      --http-addr=0.0.0.0:8090 --sql-addr=0.0.0.0:26258
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          CMD-SHELL,
+          cockroach sql --insecure --host=localhost:26258 --execute='SELECT
+            1;' || exit 1
+        ]
+      interval: 2s
+      timeout: 3s
+      retries: 10
+    profiles:
+      - db
+      - all
+
+  graph-db:
+    image: dgraph/dgraph:${DB_DGRAPH_VERSION:-v24.1.2}
+    depends_on:
+      graph-db-cluster-manager:
+        condition: service_healthy
+    volumes:
+      - dgraph_data:/dgraph
+    ports:
+      - 8080:8080
+      - 9080:9080
+    command: dgraph alpha --my=graph-db:7080 --zero=graph-db-cluster-manager:5080
+    restart: unless-stopped
+    healthcheck:
+      test: [ CMD, curl, -f, http://localhost:8080/health ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    profiles:
+      - all
+      - dgraph
+
+  graph-db-cluster-manager:
+    image: dgraph/dgraph:${DB_DGRAPH_VERSION:-v24.1.2}
+    volumes:
+      - dgraph_data:/dgraph
+    ports:
+      - 5080:5080
+      - 6080:6080
+    command: dgraph zero --my=graph-db-cluster-manager:5080
+    restart: unless-stopped
+    healthcheck:
+      test: [ CMD, curl, -f, http://localhost:6080/health ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    profiles:
+      - all
+      - dgraph
+
+  graph-db-ui:
+    image: dgraph/ratel:${RATEL_VERSION:-v21.12.0}
+    depends_on:
+      graph-db:
+        condition: service_healthy
+    ports:
+      - 8000:8000
+    restart: unless-stopped
+    healthcheck:
+      test: [ CMD, curl, -f, http://localhost:8000/health ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    profiles:
+      - all
+      - dgraph
+
+  graph-organizer:
+    build:
+      context: .
+      dockerfile: ./apps/core/graph-organizer/Dockerfile
+      target: development
+    networks:
+      - cockroach-net
+    depends_on:
+      cockroach-node1:
+        condition: service_healthy
+      graph-db:
+        condition: service_healthy
+      init-db:
+        condition: service_completed_successfully
+      localstack:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgres://root@cockroach-node1:26258/noos_local
+    env_file:
+      - docker/.env.docker
+      - apps/core/graph-organizer/.env.docker
+    ports:
+      - 3100:3100
+    healthcheck:
+      test: [ CMD, curl, -f, http://127.0.0.1:3100/health ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    <<: *common-volume
+    profiles:
+      - all
+
+  init-cluster:
+    image: cockroachdb/cockroach:latest-v25.1
+    depends_on:
+      cockroach-node1:
+        condition: service_started
+      cockroach-node2:
+        condition: service_started
+      cockroach-node3:
+        condition: service_started
+    networks:
+      - cockroach-net
+    entrypoint: >
+      /bin/sh -c '
+        cockroach init --insecure --host=cockroach-node1:26257 2>&1 | tee /tmp/init.log;
+        if grep -q "initialized" /tmp/init.log; then
+          exit 0;
+        else
+          exit 1;
+        fi
+      '
+    restart: on-failure
+    profiles:
+      - db
+      - all
+
+  init-db:
+    image: cockroachdb/cockroach:latest-v25.1
+    depends_on:
+      cockroach-node1:
+        condition: service_healthy
+      cockroach-node2:
+        condition: service_healthy
+      cockroach-node3:
+        condition: service_healthy
+      init-cluster:
+        condition: service_completed_successfully
+    networks:
+      - cockroach-net
+    command: >
+      sql --insecure --host=cockroach-node1:26258 --execute="CREATE DATABASE IF
+      NOT EXISTS noos_local;"
+    profiles:
+      - all
+      - db
+
+  localstack:
+    image: localstack/localstack:${LOCALSTACK_VERSION:-4.3.0}
+    volumes:
+      - localstack_data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      DEBUG: ${LOCALSTACK_DEBUG:-0}
+      PERSISTENCE: ${LOCALSTACK_PERSISTENCE:-1}
+      SERVICES: >
+        s3, ssm, sqs, sns, logs, lambda, events, cloudwatch, iam, apigateway,
+        cloudformation, scheduler, serverless
+    ports:
+      - 4510-4559:4510-4559
+      - 4566:4566
+    restart: unless-stopped
+    healthcheck:
+      test: [ CMD, curl, -f, http://localhost:4566/_localstack/health ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    profiles:
+      - all
+
+  # localstack-init:
+  #   image: amazon/aws-cli:${AWS_CLI_VERSION:-2.25.8}
+  #   depends_on:
+  #     localstack:
+  #       condition: service_healthy
+  #   volumes:
+  #     - ./docker/localstack/init-aws.sh:/init/init-aws.sh:ro
+  #   environment:
+  #     AWS_ACCESS_KEY_ID: test
+  #     AWS_SECRET_ACCESS_KEY: test
+  #     AWS_REGION: ap-southeast-1
+  #     AWS_ENDPOINT_URL: http://localstack:4566
+  #     AWS_CONFIG_FILE: /root/.aws/config
+  #   env_file:
+  #     - docker/.env.docker
+  #   entrypoint: /init/init-aws.sh
+  #   profiles:
+  #     - all
+
+  user-web:
+    build:
+      context: .
+      dockerfile: ./apps/user/web/Dockerfile
+      target: development
+    depends_on:
+      graph-organizer:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=development
+      - BACKEND_URL=http://graph-organizer:3100
+    env_file:
+      - docker/.env.docker
+      - apps/user/web/.env.docker
+    ports:
+      - 3000:3000
+    healthcheck:
+      test: [ CMD, curl, -f, http://localhost:3000/api/health ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    <<: *common-volume
+    profiles:
+      - all
+networks:
+  cockroach-net:
+
+volumes:
+  localstack_data:
+  dgraph_data:
+
+  cockroach-data1:
+  cockroach-data2:
+  cockroach-data3:

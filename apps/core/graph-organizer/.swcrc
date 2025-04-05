@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/swcrc",
+  "module": {
+    "type": "es6",
+    "resolveFully": true
+  },
+  "sourceMaps": true,
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "decorators": true,
+      "dynamicImport": true
+    },
+    "baseUrl": "./"
+  },
+  "minify": false,
+  "exclude": [".*\\.(spec|test)\\.ts$", "node_modules", "dist", "build", "coverage"]
+}

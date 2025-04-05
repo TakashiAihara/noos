@@ -1,0 +1,30 @@
+{
+  "Task": {
+    "table": {
+      "tableName": "Task",
+      "comment": ""
+    },
+    "columns": [
+      {
+        "tableName": "Task",
+        "columnName": "id",
+        "comment": ""
+      },
+      {
+        "tableName": "Task",
+        "columnName": "name",
+        "comment": ""
+      },
+      {
+        "tableName": "Task",
+        "columnName": "createdAt",
+        "comment": ""
+      },
+      {
+        "tableName": "Task",
+        "columnName": "updatedAt",
+        "comment": "レコードの更新日時"
+      }
+    ]
+  }
+}

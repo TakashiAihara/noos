@@ -1,0 +1,10 @@
+{
+  "name": "@tooling/tsconfig",
+  "files": ["*.json"],
+  "scripts": {
+    "clean": "git clean -dfx dist .turbo node_modules .tsbuildinfo"
+  },
+  "devDependencies": {
+    "@tsconfig/strictest": "catalog:"
+  }
+}

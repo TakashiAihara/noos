@@ -1,0 +1,25 @@
+name: noos-test
+
+services:
+  graph-organizer:
+    build:
+      target: production
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - docker/.env.docker.test
+      - apps/core/graph-organizer/.env.docker.test
+    profiles:
+      - all
+
+  user-web:
+    build:
+      target: production
+    environment:
+      - NODE_ENV=production
+      - BACKEND_URL=http://graph-organizer:3100
+    env_file:
+      - docker/.env.docker.test
+      - apps/user/web/.env.docker.test
+    profiles:
+      - all
