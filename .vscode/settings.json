@@ -47,5 +47,18 @@
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "turbo.path": "./node_modules/.bin/turbo",
-  "turbo.useLocalTurbo": true
+  "turbo.useLocalTurbo": true,
+  "mcp": {
+    "inputs": [],
+    "servers": {
+      "fetch": {
+        "command": "uvx",
+        "args": ["mcp-server-fetch"]
+      },
+      "git": {
+        "command": "uvx",
+        "args": ["mcp-server-git"]
+      }
+    }
+  }
 }
