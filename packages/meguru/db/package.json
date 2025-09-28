@@ -1,0 +1,69 @@
+{
+  "name": "@meguru/db",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js"
+    },
+    "./node": {
+      "import": "./dist/node.js",
+      "types": "./dist/node.d.ts",
+      "require": "./dist/node.js"
+    },
+    "./nestjs": {
+      "import": "./dist/nestjs.js",
+      "types": "./dist/nestjs.d.ts",
+      "require": "./dist/nestjs.js"
+    },
+    "./nextjs": {
+      "import": "./dist/nextjs.js",
+      "types": "./dist/nextjs.d.ts",
+      "require": "./dist/nextjs.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist/**"],
+  "scripts": {
+    "build": "pnpm db:generate && pnpm build:tsc",
+    "build:debug": "tsc --project tsconfig.build.json --showConfig",
+    "build:tsc": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json && fix-esm-import-path dist",
+    "clean": "git clean -dfx dist .turbo node_modules",
+    "db:format": "prisma format",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:migrate:rollback": "prisma migrate reset --force",
+    "db:migrate:status": "prisma migrate status",
+    "db:pull": "prisma db pull",
+    "db:push": "prisma db push --skip-generate",
+    "db:seed": "prisma db seed",
+    "db:studio": "prisma studio",
+    "prepare": "if [ -d node_modules/prisma ]; then pnpm db:generate; fi",
+    "type:check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.0.13",
+    "@meguru/env": "workspace:",
+    "@meguru/shared-schemas": "workspace:",
+    "@prisma/client": "^6.5.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@onozaty/prisma-db-comments-generator": "^1.1.0",
+    "@tooling/tsconfig": "workspace:",
+    "@tsconfig/strictest": "catalog:",
+    "@types/node": "catalog:",
+    "fix-esm-import-path": "catalog:",
+    "prisma": "^6.5.0",
+    "prisma-dbml-generator": "^0.12.0",
+    "tsc-alias": "catalog:",
+    "tsup": "catalog:",
+    "typescript": "catalog:",
+    "zod-prisma-types": "^3.2.4"
+  }
+}

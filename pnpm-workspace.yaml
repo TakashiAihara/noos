@@ -1,7 +1,11 @@
 packages:
-  - apps/user/*
-  - apps/core/*
-  - packages/*
+  - apps/meguru/*
+  - apps/yomu/*
+  - apps/yomu/services/*
+  - apps/suru/*
+  - packages/common/*
+  - packages/meguru/*
+  - packages/yomu/*
   - tooling/*
 
 catalog:

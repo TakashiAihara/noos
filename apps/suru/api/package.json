@@ -1,0 +1,28 @@
+{
+  "name": "@suru/api",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "clean": "rm -rf dist .turbo node_modules",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "hono": "^4.6.14",
+    "@hono/node-server": "^1.13.6",
+    "@common/types": "workspace:*",
+    "@common/utils": "workspace:*",
+    "@common/config": "workspace:*",
+    "@common/auth": "workspace:*",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@tsconfig/strictest": "catalog:",
+    "@types/node": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:"
+  }
+}

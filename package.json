@@ -6,6 +6,11 @@
   "author": "TakashiAihara",
   "scripts": {
     "build": "turbo build",
+    "meguru:dev": "turbo run dev --filter=@meguru/*",
+    "yomu:dev": "turbo run dev --filter=@yomu/*",
+    "suru:dev": "turbo run dev --filter=@suru/*",
+    "all:dev": "turbo run dev",
+    "common:build": "turbo run build --filter=@common/*",
     "check": "biome check --verbose --log-level=debug",
     "check:ci": "pnpm check --reporter=github",
     "check:staged": "pnpm check --staged --no-errors-on-unmatched",
@@ -72,11 +77,11 @@
     "sort-package-json": "catalog:",
     "turbo": "^2.5.0"
   },
-  "packageManager": "pnpm@10.7.1",
+  "packageManager": "pnpm@10.15.0",
   "engines": {
     "node": ">=22.14.0",
     "npm": "DO NOT USE NPM",
-    "pnpm": "10.7.1",
+    "pnpm": "10.15.0",
     "yarn": "DO NOT USE YARN"
   },
   "pnpm": {
