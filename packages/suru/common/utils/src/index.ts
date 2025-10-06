@@ -3,6 +3,6 @@
  * @module @noos/suru-utils
  */
 
-export * from './validation';
-export * from './date';
-export * from './id';
+export * from './validation.js';
+export * from './date.js';
+export * from './id.js';

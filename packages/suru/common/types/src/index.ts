@@ -3,6 +3,6 @@
  * @module @noos/suru-types
  */
 
-export * from './domain';
-export * from './dto';
-export * from './errors';
+export * from './domain.js';
+export * from './dto.js';
+export * from './errors.js';

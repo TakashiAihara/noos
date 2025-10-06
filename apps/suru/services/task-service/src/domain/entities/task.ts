@@ -3,7 +3,7 @@
  */
 
 import { TaskId, TaskTitle, TaskStatus, Priority } from '../value-objects';
-import { ValidationError } from '@noos/suru-utils';
+import { ValidationError } from '@noos/suru-types';
 
 export interface TaskProps {
   id: TaskId;

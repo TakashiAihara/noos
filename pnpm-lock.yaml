@@ -930,7 +930,7 @@ importers:
   packages/suru/common/types:
     devDependencies:
       typescript:
-        specifier: ^5.3.3
+        specifier: 'catalog:'
         version: 5.8.3
 
   packages/suru/common/utils:

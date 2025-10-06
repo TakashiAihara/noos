@@ -2,8 +2,7 @@
  * Priority Value Object
  */
 
-import { Priority as PriorityEnum } from '@noos/suru-types';
-import { ValidationError } from '@noos/suru-utils';
+import { Priority as PriorityEnum, ValidationError } from '@noos/suru-types';
 
 export class Priority {
   private readonly value: PriorityEnum;
