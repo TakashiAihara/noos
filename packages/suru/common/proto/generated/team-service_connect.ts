@@ -5,8 +5,39 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { AddMemberRequest, AddMemberResponse, ArchiveProjectRequest, ArchiveProjectResponse, CreateProjectRequest, CreateProjectResponse, CreateTeamRequest, CreateTeamResponse, DeleteProjectRequest, DeleteProjectResponse, DeleteTeamRequest, DeleteTeamResponse, GetProjectRequest, GetProjectResponse, GetTeamRequest, GetTeamResponse, ListMembersRequest, ListMembersResponse, ListProjectsRequest, ListProjectsResponse, ListUserTeamsRequest, ListUserTeamsResponse, RemoveMemberRequest, RemoveMemberResponse, UpdateMemberRoleRequest, UpdateMemberRoleResponse, UpdateProjectRequest, UpdateProjectResponse, UpdateTeamRequest, UpdateTeamResponse } from "./team-service_pb.js";
-import { MethodKind } from "@bufbuild/protobuf";
+import {
+  AddMemberRequest,
+  AddMemberResponse,
+  ArchiveProjectRequest,
+  ArchiveProjectResponse,
+  CreateProjectRequest,
+  CreateProjectResponse,
+  CreateTeamRequest,
+  CreateTeamResponse,
+  DeleteProjectRequest,
+  DeleteProjectResponse,
+  DeleteTeamRequest,
+  DeleteTeamResponse,
+  GetProjectRequest,
+  GetProjectResponse,
+  GetTeamRequest,
+  GetTeamResponse,
+  ListMembersRequest,
+  ListMembersResponse,
+  ListProjectsRequest,
+  ListProjectsResponse,
+  ListUserTeamsRequest,
+  ListUserTeamsResponse,
+  RemoveMemberRequest,
+  RemoveMemberResponse,
+  UpdateMemberRoleRequest,
+  UpdateMemberRoleResponse,
+  UpdateProjectRequest,
+  UpdateProjectResponse,
+  UpdateTeamRequest,
+  UpdateTeamResponse,
+} from './team-service_pb.js';
+import { MethodKind } from '@bufbuild/protobuf';
 
 /**
  * Team Service - Manages teams, projects, and memberships
@@ -14,7 +45,7 @@ import { MethodKind } from "@bufbuild/protobuf";
  * @generated from service suru.team.v1.TeamService
  */
 export const TeamService = {
-  typeName: "suru.team.v1.TeamService",
+  typeName: 'suru.team.v1.TeamService',
   methods: {
     /**
      * Team management
@@ -22,7 +53,7 @@ export const TeamService = {
      * @generated from rpc suru.team.v1.TeamService.CreateTeam
      */
     createTeam: {
-      name: "CreateTeam",
+      name: 'CreateTeam',
       I: CreateTeamRequest,
       O: CreateTeamResponse,
       kind: MethodKind.Unary,
@@ -31,7 +62,7 @@ export const TeamService = {
      * @generated from rpc suru.team.v1.TeamService.GetTeam
      */
     getTeam: {
-      name: "GetTeam",
+      name: 'GetTeam',
       I: GetTeamRequest,
       O: GetTeamResponse,
       kind: MethodKind.Unary,
@@ -40,7 +71,7 @@ export const TeamService = {
      * @generated from rpc suru.team.v1.TeamService.ListUserTeams
      */
     listUserTeams: {
-      name: "ListUserTeams",
+      name: 'ListUserTeams',
       I: ListUserTeamsRequest,
       O: ListUserTeamsResponse,
       kind: MethodKind.Unary,
@@ -49,7 +80,7 @@ export const TeamService = {
      * @generated from rpc suru.team.v1.TeamService.UpdateTeam
      */
     updateTeam: {
-      name: "UpdateTeam",
+      name: 'UpdateTeam',
       I: UpdateTeamRequest,
       O: UpdateTeamResponse,
       kind: MethodKind.Unary,
@@ -58,7 +89,7 @@ export const TeamService = {
      * @generated from rpc suru.team.v1.TeamService.DeleteTeam
      */
     deleteTeam: {
-      name: "DeleteTeam",
+      name: 'DeleteTeam',
       I: DeleteTeamRequest,
       O: DeleteTeamResponse,
       kind: MethodKind.Unary,
@@ -69,7 +100,7 @@ export const TeamService = {
      * @generated from rpc suru.team.v1.TeamService.AddMember
      */
     addMember: {
-      name: "AddMember",
+      name: 'AddMember',
       I: AddMemberRequest,
       O: AddMemberResponse,
       kind: MethodKind.Unary,
@@ -78,7 +109,7 @@ export const TeamService = {
      * @generated from rpc suru.team.v1.TeamService.RemoveMember
      */
     removeMember: {
-      name: "RemoveMember",
+      name: 'RemoveMember',
       I: RemoveMemberRequest,
       O: RemoveMemberResponse,
       kind: MethodKind.Unary,
@@ -87,7 +118,7 @@ export const TeamService = {
      * @generated from rpc suru.team.v1.TeamService.UpdateMemberRole
      */
     updateMemberRole: {
-      name: "UpdateMemberRole",
+      name: 'UpdateMemberRole',
       I: UpdateMemberRoleRequest,
       O: UpdateMemberRoleResponse,
       kind: MethodKind.Unary,
@@ -96,7 +127,7 @@ export const TeamService = {
      * @generated from rpc suru.team.v1.TeamService.ListMembers
      */
     listMembers: {
-      name: "ListMembers",
+      name: 'ListMembers',
       I: ListMembersRequest,
       O: ListMembersResponse,
       kind: MethodKind.Unary,
@@ -107,7 +138,7 @@ export const TeamService = {
      * @generated from rpc suru.team.v1.TeamService.CreateProject
      */
     createProject: {
-      name: "CreateProject",
+      name: 'CreateProject',
       I: CreateProjectRequest,
       O: CreateProjectResponse,
       kind: MethodKind.Unary,
@@ -116,7 +147,7 @@ export const TeamService = {
      * @generated from rpc suru.team.v1.TeamService.GetProject
      */
     getProject: {
-      name: "GetProject",
+      name: 'GetProject',
       I: GetProjectRequest,
       O: GetProjectResponse,
       kind: MethodKind.Unary,
@@ -125,7 +156,7 @@ export const TeamService = {
      * @generated from rpc suru.team.v1.TeamService.ListProjects
      */
     listProjects: {
-      name: "ListProjects",
+      name: 'ListProjects',
       I: ListProjectsRequest,
       O: ListProjectsResponse,
       kind: MethodKind.Unary,
@@ -134,7 +165,7 @@ export const TeamService = {
      * @generated from rpc suru.team.v1.TeamService.UpdateProject
      */
     updateProject: {
-      name: "UpdateProject",
+      name: 'UpdateProject',
       I: UpdateProjectRequest,
       O: UpdateProjectResponse,
       kind: MethodKind.Unary,
@@ -143,7 +174,7 @@ export const TeamService = {
      * @generated from rpc suru.team.v1.TeamService.ArchiveProject
      */
     archiveProject: {
-      name: "ArchiveProject",
+      name: 'ArchiveProject',
       I: ArchiveProjectRequest,
       O: ArchiveProjectResponse,
       kind: MethodKind.Unary,
@@ -152,11 +183,10 @@ export const TeamService = {
      * @generated from rpc suru.team.v1.TeamService.DeleteProject
      */
     deleteProject: {
-      name: "DeleteProject",
+      name: 'DeleteProject',
       I: DeleteProjectRequest,
       O: DeleteProjectResponse,
       kind: MethodKind.Unary,
     },
-  }
+  },
 } as const;
-

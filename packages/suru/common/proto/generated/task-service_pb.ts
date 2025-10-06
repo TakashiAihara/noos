@@ -4,22 +4,25 @@
 // @generated from file task-service.proto (package suru.task.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { Message } from "@bufbuild/protobuf";
+import type { GenEnum, GenFile, GenMessage, GenService } from '@bufbuild/protobuf/codegenv2';
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from '@bufbuild/protobuf/codegenv2';
+import type { Message } from '@bufbuild/protobuf';
 
 /**
  * Describes the file task-service.proto.
  */
-export const file_task_service: GenFile = /*@__PURE__*/
-  fileDesc("ChJ0YXNrLXNlcnZpY2UucHJvdG8SDHN1cnUudGFzay52MSKyAwoEVGFzaxIKCgJpZBgBIAEoCRINCgV0aXRsZRgCIAEoCRIYCgtkZXNjcmlwdGlvbhgDIAEoCUgAiAEBEigKBnN0YXR1cxgEIAEoDjIYLnN1cnUudGFzay52MS5UYXNrU3RhdHVzEigKCHByaW9yaXR5GAUgASgOMhYuc3VydS50YXNrLnYxLlByaW9yaXR5EhUKCGR1ZV9kYXRlGAYgASgJSAGIAQESEgoKcHJvamVjdF9pZBgHIAEoCRIYCgthc3NpZ25lZV9pZBgIIAEoCUgCiAEBEgwKBHRhZ3MYCSADKAkSGwoOcGFyZW50X3Rhc2tfaWQYCiABKAlIA4gBARIkCghzdWJ0YXNrcxgLIAMoCzISLnN1cnUudGFzay52MS5UYXNrEhIKCmNyZWF0ZWRfYnkYDCABKAkSEgoKY3JlYXRlZF9hdBgNIAEoCRISCgp1cGRhdGVkX2F0GA4gASgJEg8KB3ZlcnNpb24YDyABKAVCDgoMX2Rlc2NyaXB0aW9uQgsKCV9kdWVfZGF0ZUIOCgxfYXNzaWduZWVfaWRCEQoPX3BhcmVudF90YXNrX2lkIqgCChFDcmVhdGVUYXNrUmVxdWVzdBISCgpwcm9qZWN0X2lkGAEgASgJEg0KBXRpdGxlGAIgASgJEhgKC2Rlc2NyaXB0aW9uGAMgASgJSACIAQESLQoIcHJpb3JpdHkYBCABKA4yFi5zdXJ1LnRhc2sudjEuUHJpb3JpdHlIAYgBARIVCghkdWVfZGF0ZRgFIAEoCUgCiAEBEgwKBHRhZ3MYBiADKAkSGAoLYXNzaWduZWVfaWQYByABKAlIA4gBARIbCg5wYXJlbnRfdGFza19pZBgIIAEoCUgEiAEBQg4KDF9kZXNjcmlwdGlvbkILCglfcHJpb3JpdHlCCwoJX2R1ZV9kYXRlQg4KDF9hc3NpZ25lZV9pZEIRCg9fcGFyZW50X3Rhc2tfaWQiNgoSQ3JlYXRlVGFza1Jlc3BvbnNlEiAKBHRhc2sYASABKAsyEi5zdXJ1LnRhc2sudjEuVGFzayI2Cg5HZXRUYXNrUmVxdWVzdBIKCgJpZBgBIAEoCRIYChBpbmNsdWRlX3N1YnRhc2tzGAIgASgIIjMKD0dldFRhc2tSZXNwb25zZRIgCgR0YXNrGAEgASgLMhIuc3VydS50YXNrLnYxLlRhc2sigwIKEExpc3RUYXNrc1JlcXVlc3QSEgoKcHJvamVjdF9pZBgBIAEoCRItCgZzdGF0dXMYAiABKA4yGC5zdXJ1LnRhc2sudjEuVGFza1N0YXR1c0gAiAEBEhgKC2Fzc2lnbmVlX2lkGAMgASgJSAGIAQESDAoEdGFncxgEIAMoCRIUCgdzb3J0X2J5GAUgASgJSAKIAQESFwoKc29ydF9vcmRlchgGIAEoCUgDiAEBEgwKBHBhZ2UYByABKAUSEQoJcGFnZV9zaXplGAggASgFQgkKB19zdGF0dXNCDgoMX2Fzc2lnbmVlX2lkQgoKCF9zb3J0X2J5Qg0KC19zb3J0X29yZGVyImwKEUxpc3RUYXNrc1Jlc3BvbnNlEiEKBXRhc2tzGAEgAygLMhIuc3VydS50YXNrLnYxLlRhc2sSEwoLdG90YWxfY291bnQYAiABKAUSDAoEcGFnZRgDIAEoBRIRCglwYWdlX3NpemUYBCABKAUioAIKEVVwZGF0ZVRhc2tSZXF1ZXN0EgoKAmlkGAEgASgJEhIKBXRpdGxlGAIgASgJSACIAQESGAoLZGVzY3JpcHRpb24YAyABKAlIAYgBARItCgZzdGF0dXMYBCABKA4yGC5zdXJ1LnRhc2sudjEuVGFza1N0YXR1c0gCiAEBEi0KCHByaW9yaXR5GAUgASgOMhYuc3VydS50YXNrLnYxLlByaW9yaXR5SAOIAQESFQoIZHVlX2RhdGUYBiABKAlIBIgBARIMCgR0YWdzGAcgAygJEg8KB3ZlcnNpb24YCCABKAVCCAoGX3RpdGxlQg4KDF9kZXNjcmlwdGlvbkIJCgdfc3RhdHVzQgsKCV9wcmlvcml0eUILCglfZHVlX2RhdGUiNgoSVXBkYXRlVGFza1Jlc3BvbnNlEiAKBHRhc2sYASABKAsyEi5zdXJ1LnRhc2sudjEuVGFzayIfChFEZWxldGVUYXNrUmVxdWVzdBIKCgJpZBgBIAEoCSIlChJEZWxldGVUYXNrUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCJOChFBc3NpZ25UYXNrUmVxdWVzdBIPCgd0YXNrX2lkGAEgASgJEhgKC2Fzc2lnbmVlX2lkGAIgASgJSACIAQFCDgoMX2Fzc2lnbmVlX2lkIjYKEkFzc2lnblRhc2tSZXNwb25zZRIgCgR0YXNrGAEgASgLMhIuc3VydS50YXNrLnYxLlRhc2siZAoRQWRkU3VidGFza1JlcXVlc3QSFgoOcGFyZW50X3Rhc2tfaWQYASABKAkSDQoFdGl0bGUYAiABKAkSGAoLZGVzY3JpcHRpb24YAyABKAlIAIgBAUIOCgxfZGVzY3JpcHRpb24iOQoSQWRkU3VidGFza1Jlc3BvbnNlEiMKB3N1YnRhc2sYASABKAsyEi5zdXJ1LnRhc2sudjEuVGFzayInChFXYXRjaFRhc2tzUmVxdWVzdBISCgpwcm9qZWN0X2lkGAEgASgJIrMBCglUYXNrRXZlbnQSLwoEdHlwZRgBIAEoDjIhLnN1cnUudGFzay52MS5UYXNrRXZlbnQuRXZlbnRUeXBlEiAKBHRhc2sYAiABKAsyEi5zdXJ1LnRhc2sudjEuVGFzaxIRCgl0aW1lc3RhbXAYAyABKAkiQAoJRXZlbnRUeXBlEgsKB0NSRUFURUQQABILCgdVUERBVEVEEAESCwoHREVMRVRFRBACEgwKCEFTU0lHTkVEEAMqMQoKVGFza1N0YXR1cxIICgRUT0RPEAASDwoLSU5fUFJPR1JFU1MQARIICgRET05FEAIqKQoIUHJpb3JpdHkSBwoDTE9XEAASCgoGTUVESVVNEAESCAoESElHSBACMoIFCgtUYXNrU2VydmljZRJPCgpDcmVhdGVUYXNrEh8uc3VydS50YXNrLnYxLkNyZWF0ZVRhc2tSZXF1ZXN0GiAuc3VydS50YXNrLnYxLkNyZWF0ZVRhc2tSZXNwb25zZRJGCgdHZXRUYXNrEhwuc3VydS50YXNrLnYxLkdldFRhc2tSZXF1ZXN0Gh0uc3VydS50YXNrLnYxLkdldFRhc2tSZXNwb25zZRJMCglMaXN0VGFza3MSHi5zdXJ1LnRhc2sudjEuTGlzdFRhc2tzUmVxdWVzdBofLnN1cnUudGFzay52MS5MaXN0VGFza3NSZXNwb25zZRJPCgpVcGRhdGVUYXNrEh8uc3VydS50YXNrLnYxLlVwZGF0ZVRhc2tSZXF1ZXN0GiAuc3VydS50YXNrLnYxLlVwZGF0ZVRhc2tSZXNwb25zZRJPCgpEZWxldGVUYXNrEh8uc3VydS50YXNrLnYxLkRlbGV0ZVRhc2tSZXF1ZXN0GiAuc3VydS50YXNrLnYxLkRlbGV0ZVRhc2tSZXNwb25zZRJPCgpBc3NpZ25UYXNrEh8uc3VydS50YXNrLnYxLkFzc2lnblRhc2tSZXF1ZXN0GiAuc3VydS50YXNrLnYxLkFzc2lnblRhc2tSZXNwb25zZRJPCgpBZGRTdWJ0YXNrEh8uc3VydS50YXNrLnYxLkFkZFN1YnRhc2tSZXF1ZXN0GiAuc3VydS50YXNrLnYxLkFkZFN1YnRhc2tSZXNwb25zZRJICgpXYXRjaFRhc2tzEh8uc3VydS50YXNrLnYxLldhdGNoVGFza3NSZXF1ZXN0Ghcuc3VydS50YXNrLnYxLlRhc2tFdmVudDABYgZwcm90bzM");
+export const file_task_service: GenFile =
+  /*@__PURE__*/
+  fileDesc(
+    'ChJ0YXNrLXNlcnZpY2UucHJvdG8SDHN1cnUudGFzay52MSKyAwoEVGFzaxIKCgJpZBgBIAEoCRINCgV0aXRsZRgCIAEoCRIYCgtkZXNjcmlwdGlvbhgDIAEoCUgAiAEBEigKBnN0YXR1cxgEIAEoDjIYLnN1cnUudGFzay52MS5UYXNrU3RhdHVzEigKCHByaW9yaXR5GAUgASgOMhYuc3VydS50YXNrLnYxLlByaW9yaXR5EhUKCGR1ZV9kYXRlGAYgASgJSAGIAQESEgoKcHJvamVjdF9pZBgHIAEoCRIYCgthc3NpZ25lZV9pZBgIIAEoCUgCiAEBEgwKBHRhZ3MYCSADKAkSGwoOcGFyZW50X3Rhc2tfaWQYCiABKAlIA4gBARIkCghzdWJ0YXNrcxgLIAMoCzISLnN1cnUudGFzay52MS5UYXNrEhIKCmNyZWF0ZWRfYnkYDCABKAkSEgoKY3JlYXRlZF9hdBgNIAEoCRISCgp1cGRhdGVkX2F0GA4gASgJEg8KB3ZlcnNpb24YDyABKAVCDgoMX2Rlc2NyaXB0aW9uQgsKCV9kdWVfZGF0ZUIOCgxfYXNzaWduZWVfaWRCEQoPX3BhcmVudF90YXNrX2lkIqgCChFDcmVhdGVUYXNrUmVxdWVzdBISCgpwcm9qZWN0X2lkGAEgASgJEg0KBXRpdGxlGAIgASgJEhgKC2Rlc2NyaXB0aW9uGAMgASgJSACIAQESLQoIcHJpb3JpdHkYBCABKA4yFi5zdXJ1LnRhc2sudjEuUHJpb3JpdHlIAYgBARIVCghkdWVfZGF0ZRgFIAEoCUgCiAEBEgwKBHRhZ3MYBiADKAkSGAoLYXNzaWduZWVfaWQYByABKAlIA4gBARIbCg5wYXJlbnRfdGFza19pZBgIIAEoCUgEiAEBQg4KDF9kZXNjcmlwdGlvbkILCglfcHJpb3JpdHlCCwoJX2R1ZV9kYXRlQg4KDF9hc3NpZ25lZV9pZEIRCg9fcGFyZW50X3Rhc2tfaWQiNgoSQ3JlYXRlVGFza1Jlc3BvbnNlEiAKBHRhc2sYASABKAsyEi5zdXJ1LnRhc2sudjEuVGFzayI2Cg5HZXRUYXNrUmVxdWVzdBIKCgJpZBgBIAEoCRIYChBpbmNsdWRlX3N1YnRhc2tzGAIgASgIIjMKD0dldFRhc2tSZXNwb25zZRIgCgR0YXNrGAEgASgLMhIuc3VydS50YXNrLnYxLlRhc2sigwIKEExpc3RUYXNrc1JlcXVlc3QSEgoKcHJvamVjdF9pZBgBIAEoCRItCgZzdGF0dXMYAiABKA4yGC5zdXJ1LnRhc2sudjEuVGFza1N0YXR1c0gAiAEBEhgKC2Fzc2lnbmVlX2lkGAMgASgJSAGIAQESDAoEdGFncxgEIAMoCRIUCgdzb3J0X2J5GAUgASgJSAKIAQESFwoKc29ydF9vcmRlchgGIAEoCUgDiAEBEgwKBHBhZ2UYByABKAUSEQoJcGFnZV9zaXplGAggASgFQgkKB19zdGF0dXNCDgoMX2Fzc2lnbmVlX2lkQgoKCF9zb3J0X2J5Qg0KC19zb3J0X29yZGVyImwKEUxpc3RUYXNrc1Jlc3BvbnNlEiEKBXRhc2tzGAEgAygLMhIuc3VydS50YXNrLnYxLlRhc2sSEwoLdG90YWxfY291bnQYAiABKAUSDAoEcGFnZRgDIAEoBRIRCglwYWdlX3NpemUYBCABKAUioAIKEVVwZGF0ZVRhc2tSZXF1ZXN0EgoKAmlkGAEgASgJEhIKBXRpdGxlGAIgASgJSACIAQESGAoLZGVzY3JpcHRpb24YAyABKAlIAYgBARItCgZzdGF0dXMYBCABKA4yGC5zdXJ1LnRhc2sudjEuVGFza1N0YXR1c0gCiAEBEi0KCHByaW9yaXR5GAUgASgOMhYuc3VydS50YXNrLnYxLlByaW9yaXR5SAOIAQESFQoIZHVlX2RhdGUYBiABKAlIBIgBARIMCgR0YWdzGAcgAygJEg8KB3ZlcnNpb24YCCABKAVCCAoGX3RpdGxlQg4KDF9kZXNjcmlwdGlvbkIJCgdfc3RhdHVzQgsKCV9wcmlvcml0eUILCglfZHVlX2RhdGUiNgoSVXBkYXRlVGFza1Jlc3BvbnNlEiAKBHRhc2sYASABKAsyEi5zdXJ1LnRhc2sudjEuVGFzayIfChFEZWxldGVUYXNrUmVxdWVzdBIKCgJpZBgBIAEoCSIlChJEZWxldGVUYXNrUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCJOChFBc3NpZ25UYXNrUmVxdWVzdBIPCgd0YXNrX2lkGAEgASgJEhgKC2Fzc2lnbmVlX2lkGAIgASgJSACIAQFCDgoMX2Fzc2lnbmVlX2lkIjYKEkFzc2lnblRhc2tSZXNwb25zZRIgCgR0YXNrGAEgASgLMhIuc3VydS50YXNrLnYxLlRhc2siZAoRQWRkU3VidGFza1JlcXVlc3QSFgoOcGFyZW50X3Rhc2tfaWQYASABKAkSDQoFdGl0bGUYAiABKAkSGAoLZGVzY3JpcHRpb24YAyABKAlIAIgBAUIOCgxfZGVzY3JpcHRpb24iOQoSQWRkU3VidGFza1Jlc3BvbnNlEiMKB3N1YnRhc2sYASABKAsyEi5zdXJ1LnRhc2sudjEuVGFzayInChFXYXRjaFRhc2tzUmVxdWVzdBISCgpwcm9qZWN0X2lkGAEgASgJIrMBCglUYXNrRXZlbnQSLwoEdHlwZRgBIAEoDjIhLnN1cnUudGFzay52MS5UYXNrRXZlbnQuRXZlbnRUeXBlEiAKBHRhc2sYAiABKAsyEi5zdXJ1LnRhc2sudjEuVGFzaxIRCgl0aW1lc3RhbXAYAyABKAkiQAoJRXZlbnRUeXBlEgsKB0NSRUFURUQQABILCgdVUERBVEVEEAESCwoHREVMRVRFRBACEgwKCEFTU0lHTkVEEAMqMQoKVGFza1N0YXR1cxIICgRUT0RPEAASDwoLSU5fUFJPR1JFU1MQARIICgRET05FEAIqKQoIUHJpb3JpdHkSBwoDTE9XEAASCgoGTUVESVVNEAESCAoESElHSBACMoIFCgtUYXNrU2VydmljZRJPCgpDcmVhdGVUYXNrEh8uc3VydS50YXNrLnYxLkNyZWF0ZVRhc2tSZXF1ZXN0GiAuc3VydS50YXNrLnYxLkNyZWF0ZVRhc2tSZXNwb25zZRJGCgdHZXRUYXNrEhwuc3VydS50YXNrLnYxLkdldFRhc2tSZXF1ZXN0Gh0uc3VydS50YXNrLnYxLkdldFRhc2tSZXNwb25zZRJMCglMaXN0VGFza3MSHi5zdXJ1LnRhc2sudjEuTGlzdFRhc2tzUmVxdWVzdBofLnN1cnUudGFzay52MS5MaXN0VGFza3NSZXNwb25zZRJPCgpVcGRhdGVUYXNrEh8uc3VydS50YXNrLnYxLlVwZGF0ZVRhc2tSZXF1ZXN0GiAuc3VydS50YXNrLnYxLlVwZGF0ZVRhc2tSZXNwb25zZRJPCgpEZWxldGVUYXNrEh8uc3VydS50YXNrLnYxLkRlbGV0ZVRhc2tSZXF1ZXN0GiAuc3VydS50YXNrLnYxLkRlbGV0ZVRhc2tSZXNwb25zZRJPCgpBc3NpZ25UYXNrEh8uc3VydS50YXNrLnYxLkFzc2lnblRhc2tSZXF1ZXN0GiAuc3VydS50YXNrLnYxLkFzc2lnblRhc2tSZXNwb25zZRJPCgpBZGRTdWJ0YXNrEh8uc3VydS50YXNrLnYxLkFkZFN1YnRhc2tSZXF1ZXN0GiAuc3VydS50YXNrLnYxLkFkZFN1YnRhc2tSZXNwb25zZRJICgpXYXRjaFRhc2tzEh8uc3VydS50YXNrLnYxLldhdGNoVGFza3NSZXF1ZXN0Ghcuc3VydS50YXNrLnYxLlRhc2tFdmVudDABYgZwcm90bzM',
+  );
 
 /**
  * Messages
  *
  * @generated from message suru.task.v1.Task
  */
-export type Task = Message<"suru.task.v1.Task"> & {
+export type Task = Message<'suru.task.v1.Task'> & {
   /**
    * @generated from field: string id = 1;
    */
@@ -104,15 +107,14 @@ export type Task = Message<"suru.task.v1.Task"> & {
  * Describes the message suru.task.v1.Task.
  * Use `create(TaskSchema)` to create a new message.
  */
-export const TaskSchema: GenMessage<Task> = /*@__PURE__*/
-  messageDesc(file_task_service, 0);
+export const TaskSchema: GenMessage<Task> = /*@__PURE__*/ messageDesc(file_task_service, 0);
 
 /**
  * Create Task
  *
  * @generated from message suru.task.v1.CreateTaskRequest
  */
-export type CreateTaskRequest = Message<"suru.task.v1.CreateTaskRequest"> & {
+export type CreateTaskRequest = Message<'suru.task.v1.CreateTaskRequest'> & {
   /**
    * @generated from field: string project_id = 1;
    */
@@ -158,13 +160,14 @@ export type CreateTaskRequest = Message<"suru.task.v1.CreateTaskRequest"> & {
  * Describes the message suru.task.v1.CreateTaskRequest.
  * Use `create(CreateTaskRequestSchema)` to create a new message.
  */
-export const CreateTaskRequestSchema: GenMessage<CreateTaskRequest> = /*@__PURE__*/
+export const CreateTaskRequestSchema: GenMessage<CreateTaskRequest> =
+  /*@__PURE__*/
   messageDesc(file_task_service, 1);
 
 /**
  * @generated from message suru.task.v1.CreateTaskResponse
  */
-export type CreateTaskResponse = Message<"suru.task.v1.CreateTaskResponse"> & {
+export type CreateTaskResponse = Message<'suru.task.v1.CreateTaskResponse'> & {
   /**
    * @generated from field: suru.task.v1.Task task = 1;
    */
@@ -175,7 +178,8 @@ export type CreateTaskResponse = Message<"suru.task.v1.CreateTaskResponse"> & {
  * Describes the message suru.task.v1.CreateTaskResponse.
  * Use `create(CreateTaskResponseSchema)` to create a new message.
  */
-export const CreateTaskResponseSchema: GenMessage<CreateTaskResponse> = /*@__PURE__*/
+export const CreateTaskResponseSchema: GenMessage<CreateTaskResponse> =
+  /*@__PURE__*/
   messageDesc(file_task_service, 2);
 
 /**
@@ -183,7 +187,7 @@ export const CreateTaskResponseSchema: GenMessage<CreateTaskResponse> = /*@__PUR
  *
  * @generated from message suru.task.v1.GetTaskRequest
  */
-export type GetTaskRequest = Message<"suru.task.v1.GetTaskRequest"> & {
+export type GetTaskRequest = Message<'suru.task.v1.GetTaskRequest'> & {
   /**
    * @generated from field: string id = 1;
    */
@@ -199,13 +203,14 @@ export type GetTaskRequest = Message<"suru.task.v1.GetTaskRequest"> & {
  * Describes the message suru.task.v1.GetTaskRequest.
  * Use `create(GetTaskRequestSchema)` to create a new message.
  */
-export const GetTaskRequestSchema: GenMessage<GetTaskRequest> = /*@__PURE__*/
+export const GetTaskRequestSchema: GenMessage<GetTaskRequest> =
+  /*@__PURE__*/
   messageDesc(file_task_service, 3);
 
 /**
  * @generated from message suru.task.v1.GetTaskResponse
  */
-export type GetTaskResponse = Message<"suru.task.v1.GetTaskResponse"> & {
+export type GetTaskResponse = Message<'suru.task.v1.GetTaskResponse'> & {
   /**
    * @generated from field: suru.task.v1.Task task = 1;
    */
@@ -216,7 +221,8 @@ export type GetTaskResponse = Message<"suru.task.v1.GetTaskResponse"> & {
  * Describes the message suru.task.v1.GetTaskResponse.
  * Use `create(GetTaskResponseSchema)` to create a new message.
  */
-export const GetTaskResponseSchema: GenMessage<GetTaskResponse> = /*@__PURE__*/
+export const GetTaskResponseSchema: GenMessage<GetTaskResponse> =
+  /*@__PURE__*/
   messageDesc(file_task_service, 4);
 
 /**
@@ -224,7 +230,7 @@ export const GetTaskResponseSchema: GenMessage<GetTaskResponse> = /*@__PURE__*/
  *
  * @generated from message suru.task.v1.ListTasksRequest
  */
-export type ListTasksRequest = Message<"suru.task.v1.ListTasksRequest"> & {
+export type ListTasksRequest = Message<'suru.task.v1.ListTasksRequest'> & {
   /**
    * @generated from field: string project_id = 1;
    */
@@ -274,13 +280,14 @@ export type ListTasksRequest = Message<"suru.task.v1.ListTasksRequest"> & {
  * Describes the message suru.task.v1.ListTasksRequest.
  * Use `create(ListTasksRequestSchema)` to create a new message.
  */
-export const ListTasksRequestSchema: GenMessage<ListTasksRequest> = /*@__PURE__*/
+export const ListTasksRequestSchema: GenMessage<ListTasksRequest> =
+  /*@__PURE__*/
   messageDesc(file_task_service, 5);
 
 /**
  * @generated from message suru.task.v1.ListTasksResponse
  */
-export type ListTasksResponse = Message<"suru.task.v1.ListTasksResponse"> & {
+export type ListTasksResponse = Message<'suru.task.v1.ListTasksResponse'> & {
   /**
    * @generated from field: repeated suru.task.v1.Task tasks = 1;
    */
@@ -306,7 +313,8 @@ export type ListTasksResponse = Message<"suru.task.v1.ListTasksResponse"> & {
  * Describes the message suru.task.v1.ListTasksResponse.
  * Use `create(ListTasksResponseSchema)` to create a new message.
  */
-export const ListTasksResponseSchema: GenMessage<ListTasksResponse> = /*@__PURE__*/
+export const ListTasksResponseSchema: GenMessage<ListTasksResponse> =
+  /*@__PURE__*/
   messageDesc(file_task_service, 6);
 
 /**
@@ -314,7 +322,7 @@ export const ListTasksResponseSchema: GenMessage<ListTasksResponse> = /*@__PURE_
  *
  * @generated from message suru.task.v1.UpdateTaskRequest
  */
-export type UpdateTaskRequest = Message<"suru.task.v1.UpdateTaskRequest"> & {
+export type UpdateTaskRequest = Message<'suru.task.v1.UpdateTaskRequest'> & {
   /**
    * @generated from field: string id = 1;
    */
@@ -362,13 +370,14 @@ export type UpdateTaskRequest = Message<"suru.task.v1.UpdateTaskRequest"> & {
  * Describes the message suru.task.v1.UpdateTaskRequest.
  * Use `create(UpdateTaskRequestSchema)` to create a new message.
  */
-export const UpdateTaskRequestSchema: GenMessage<UpdateTaskRequest> = /*@__PURE__*/
+export const UpdateTaskRequestSchema: GenMessage<UpdateTaskRequest> =
+  /*@__PURE__*/
   messageDesc(file_task_service, 7);
 
 /**
  * @generated from message suru.task.v1.UpdateTaskResponse
  */
-export type UpdateTaskResponse = Message<"suru.task.v1.UpdateTaskResponse"> & {
+export type UpdateTaskResponse = Message<'suru.task.v1.UpdateTaskResponse'> & {
   /**
    * @generated from field: suru.task.v1.Task task = 1;
    */
@@ -379,7 +388,8 @@ export type UpdateTaskResponse = Message<"suru.task.v1.UpdateTaskResponse"> & {
  * Describes the message suru.task.v1.UpdateTaskResponse.
  * Use `create(UpdateTaskResponseSchema)` to create a new message.
  */
-export const UpdateTaskResponseSchema: GenMessage<UpdateTaskResponse> = /*@__PURE__*/
+export const UpdateTaskResponseSchema: GenMessage<UpdateTaskResponse> =
+  /*@__PURE__*/
   messageDesc(file_task_service, 8);
 
 /**
@@ -387,7 +397,7 @@ export const UpdateTaskResponseSchema: GenMessage<UpdateTaskResponse> = /*@__PUR
  *
  * @generated from message suru.task.v1.DeleteTaskRequest
  */
-export type DeleteTaskRequest = Message<"suru.task.v1.DeleteTaskRequest"> & {
+export type DeleteTaskRequest = Message<'suru.task.v1.DeleteTaskRequest'> & {
   /**
    * @generated from field: string id = 1;
    */
@@ -398,13 +408,14 @@ export type DeleteTaskRequest = Message<"suru.task.v1.DeleteTaskRequest"> & {
  * Describes the message suru.task.v1.DeleteTaskRequest.
  * Use `create(DeleteTaskRequestSchema)` to create a new message.
  */
-export const DeleteTaskRequestSchema: GenMessage<DeleteTaskRequest> = /*@__PURE__*/
+export const DeleteTaskRequestSchema: GenMessage<DeleteTaskRequest> =
+  /*@__PURE__*/
   messageDesc(file_task_service, 9);
 
 /**
  * @generated from message suru.task.v1.DeleteTaskResponse
  */
-export type DeleteTaskResponse = Message<"suru.task.v1.DeleteTaskResponse"> & {
+export type DeleteTaskResponse = Message<'suru.task.v1.DeleteTaskResponse'> & {
   /**
    * @generated from field: bool success = 1;
    */
@@ -415,7 +426,8 @@ export type DeleteTaskResponse = Message<"suru.task.v1.DeleteTaskResponse"> & {
  * Describes the message suru.task.v1.DeleteTaskResponse.
  * Use `create(DeleteTaskResponseSchema)` to create a new message.
  */
-export const DeleteTaskResponseSchema: GenMessage<DeleteTaskResponse> = /*@__PURE__*/
+export const DeleteTaskResponseSchema: GenMessage<DeleteTaskResponse> =
+  /*@__PURE__*/
   messageDesc(file_task_service, 10);
 
 /**
@@ -423,7 +435,7 @@ export const DeleteTaskResponseSchema: GenMessage<DeleteTaskResponse> = /*@__PUR
  *
  * @generated from message suru.task.v1.AssignTaskRequest
  */
-export type AssignTaskRequest = Message<"suru.task.v1.AssignTaskRequest"> & {
+export type AssignTaskRequest = Message<'suru.task.v1.AssignTaskRequest'> & {
   /**
    * @generated from field: string task_id = 1;
    */
@@ -441,13 +453,14 @@ export type AssignTaskRequest = Message<"suru.task.v1.AssignTaskRequest"> & {
  * Describes the message suru.task.v1.AssignTaskRequest.
  * Use `create(AssignTaskRequestSchema)` to create a new message.
  */
-export const AssignTaskRequestSchema: GenMessage<AssignTaskRequest> = /*@__PURE__*/
+export const AssignTaskRequestSchema: GenMessage<AssignTaskRequest> =
+  /*@__PURE__*/
   messageDesc(file_task_service, 11);
 
 /**
  * @generated from message suru.task.v1.AssignTaskResponse
  */
-export type AssignTaskResponse = Message<"suru.task.v1.AssignTaskResponse"> & {
+export type AssignTaskResponse = Message<'suru.task.v1.AssignTaskResponse'> & {
   /**
    * @generated from field: suru.task.v1.Task task = 1;
    */
@@ -458,7 +471,8 @@ export type AssignTaskResponse = Message<"suru.task.v1.AssignTaskResponse"> & {
  * Describes the message suru.task.v1.AssignTaskResponse.
  * Use `create(AssignTaskResponseSchema)` to create a new message.
  */
-export const AssignTaskResponseSchema: GenMessage<AssignTaskResponse> = /*@__PURE__*/
+export const AssignTaskResponseSchema: GenMessage<AssignTaskResponse> =
+  /*@__PURE__*/
   messageDesc(file_task_service, 12);
 
 /**
@@ -466,7 +480,7 @@ export const AssignTaskResponseSchema: GenMessage<AssignTaskResponse> = /*@__PUR
  *
  * @generated from message suru.task.v1.AddSubtaskRequest
  */
-export type AddSubtaskRequest = Message<"suru.task.v1.AddSubtaskRequest"> & {
+export type AddSubtaskRequest = Message<'suru.task.v1.AddSubtaskRequest'> & {
   /**
    * @generated from field: string parent_task_id = 1;
    */
@@ -487,13 +501,14 @@ export type AddSubtaskRequest = Message<"suru.task.v1.AddSubtaskRequest"> & {
  * Describes the message suru.task.v1.AddSubtaskRequest.
  * Use `create(AddSubtaskRequestSchema)` to create a new message.
  */
-export const AddSubtaskRequestSchema: GenMessage<AddSubtaskRequest> = /*@__PURE__*/
+export const AddSubtaskRequestSchema: GenMessage<AddSubtaskRequest> =
+  /*@__PURE__*/
   messageDesc(file_task_service, 13);
 
 /**
  * @generated from message suru.task.v1.AddSubtaskResponse
  */
-export type AddSubtaskResponse = Message<"suru.task.v1.AddSubtaskResponse"> & {
+export type AddSubtaskResponse = Message<'suru.task.v1.AddSubtaskResponse'> & {
   /**
    * @generated from field: suru.task.v1.Task subtask = 1;
    */
@@ -504,7 +519,8 @@ export type AddSubtaskResponse = Message<"suru.task.v1.AddSubtaskResponse"> & {
  * Describes the message suru.task.v1.AddSubtaskResponse.
  * Use `create(AddSubtaskResponseSchema)` to create a new message.
  */
-export const AddSubtaskResponseSchema: GenMessage<AddSubtaskResponse> = /*@__PURE__*/
+export const AddSubtaskResponseSchema: GenMessage<AddSubtaskResponse> =
+  /*@__PURE__*/
   messageDesc(file_task_service, 14);
 
 /**
@@ -512,7 +528,7 @@ export const AddSubtaskResponseSchema: GenMessage<AddSubtaskResponse> = /*@__PUR
  *
  * @generated from message suru.task.v1.WatchTasksRequest
  */
-export type WatchTasksRequest = Message<"suru.task.v1.WatchTasksRequest"> & {
+export type WatchTasksRequest = Message<'suru.task.v1.WatchTasksRequest'> & {
   /**
    * @generated from field: string project_id = 1;
    */
@@ -523,13 +539,14 @@ export type WatchTasksRequest = Message<"suru.task.v1.WatchTasksRequest"> & {
  * Describes the message suru.task.v1.WatchTasksRequest.
  * Use `create(WatchTasksRequestSchema)` to create a new message.
  */
-export const WatchTasksRequestSchema: GenMessage<WatchTasksRequest> = /*@__PURE__*/
+export const WatchTasksRequestSchema: GenMessage<WatchTasksRequest> =
+  /*@__PURE__*/
   messageDesc(file_task_service, 15);
 
 /**
  * @generated from message suru.task.v1.TaskEvent
  */
-export type TaskEvent = Message<"suru.task.v1.TaskEvent"> & {
+export type TaskEvent = Message<'suru.task.v1.TaskEvent'> & {
   /**
    * @generated from field: suru.task.v1.TaskEvent.EventType type = 1;
    */
@@ -550,7 +567,8 @@ export type TaskEvent = Message<"suru.task.v1.TaskEvent"> & {
  * Describes the message suru.task.v1.TaskEvent.
  * Use `create(TaskEventSchema)` to create a new message.
  */
-export const TaskEventSchema: GenMessage<TaskEvent> = /*@__PURE__*/
+export const TaskEventSchema: GenMessage<TaskEvent> =
+  /*@__PURE__*/
   messageDesc(file_task_service, 16);
 
 /**
@@ -581,7 +599,8 @@ export enum TaskEvent_EventType {
 /**
  * Describes the enum suru.task.v1.TaskEvent.EventType.
  */
-export const TaskEvent_EventTypeSchema: GenEnum<TaskEvent_EventType> = /*@__PURE__*/
+export const TaskEvent_EventTypeSchema: GenEnum<TaskEvent_EventType> =
+  /*@__PURE__*/
   enumDesc(file_task_service, 16, 0);
 
 /**
@@ -607,8 +626,7 @@ export enum TaskStatus {
 /**
  * Describes the enum suru.task.v1.TaskStatus.
  */
-export const TaskStatusSchema: GenEnum<TaskStatus> = /*@__PURE__*/
-  enumDesc(file_task_service, 0);
+export const TaskStatusSchema: GenEnum<TaskStatus> = /*@__PURE__*/ enumDesc(file_task_service, 0);
 
 /**
  * @generated from enum suru.task.v1.Priority
@@ -633,8 +651,7 @@ export enum Priority {
 /**
  * Describes the enum suru.task.v1.Priority.
  */
-export const PrioritySchema: GenEnum<Priority> = /*@__PURE__*/
-  enumDesc(file_task_service, 1);
+export const PrioritySchema: GenEnum<Priority> = /*@__PURE__*/ enumDesc(file_task_service, 1);
 
 /**
  * Task Service - Manages tasks and subtasks
@@ -648,80 +665,78 @@ export const TaskService: GenService<{
    * @generated from rpc suru.task.v1.TaskService.CreateTask
    */
   createTask: {
-    methodKind: "unary";
+    methodKind: 'unary';
     input: typeof CreateTaskRequestSchema;
     output: typeof CreateTaskResponseSchema;
-  },
+  };
   /**
    * Get task by ID
    *
    * @generated from rpc suru.task.v1.TaskService.GetTask
    */
   getTask: {
-    methodKind: "unary";
+    methodKind: 'unary';
     input: typeof GetTaskRequestSchema;
     output: typeof GetTaskResponseSchema;
-  },
+  };
   /**
    * List tasks with filtering
    *
    * @generated from rpc suru.task.v1.TaskService.ListTasks
    */
   listTasks: {
-    methodKind: "unary";
+    methodKind: 'unary';
     input: typeof ListTasksRequestSchema;
     output: typeof ListTasksResponseSchema;
-  },
+  };
   /**
    * Update task
    *
    * @generated from rpc suru.task.v1.TaskService.UpdateTask
    */
   updateTask: {
-    methodKind: "unary";
+    methodKind: 'unary';
     input: typeof UpdateTaskRequestSchema;
     output: typeof UpdateTaskResponseSchema;
-  },
+  };
   /**
    * Delete task
    *
    * @generated from rpc suru.task.v1.TaskService.DeleteTask
    */
   deleteTask: {
-    methodKind: "unary";
+    methodKind: 'unary';
     input: typeof DeleteTaskRequestSchema;
     output: typeof DeleteTaskResponseSchema;
-  },
+  };
   /**
    * Assign task to user
    *
    * @generated from rpc suru.task.v1.TaskService.AssignTask
    */
   assignTask: {
-    methodKind: "unary";
+    methodKind: 'unary';
     input: typeof AssignTaskRequestSchema;
     output: typeof AssignTaskResponseSchema;
-  },
+  };
   /**
    * Add subtask
    *
    * @generated from rpc suru.task.v1.TaskService.AddSubtask
    */
   addSubtask: {
-    methodKind: "unary";
+    methodKind: 'unary';
     input: typeof AddSubtaskRequestSchema;
     output: typeof AddSubtaskResponseSchema;
-  },
+  };
   /**
    * Stream task updates (real-time)
    *
    * @generated from rpc suru.task.v1.TaskService.WatchTasks
    */
   watchTasks: {
-    methodKind: "server_streaming";
+    methodKind: 'server_streaming';
     input: typeof WatchTasksRequestSchema;
     output: typeof TaskEventSchema;
-  },
-}> = /*@__PURE__*/
-  serviceDesc(file_task_service, 0);
-
+  };
+}> = /*@__PURE__*/ serviceDesc(file_task_service, 0);

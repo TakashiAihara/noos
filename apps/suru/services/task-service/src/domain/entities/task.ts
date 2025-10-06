@@ -47,9 +47,7 @@ export class Task {
     const taskId = TaskId.generate();
     const taskTitle = TaskTitle.create(params.title);
     const taskStatus = TaskStatus.TODO();
-    const taskPriority = params.priority
-      ? Priority.create(params.priority)
-      : Priority.MEDIUM();
+    const taskPriority = params.priority ? Priority.create(params.priority) : Priority.MEDIUM();
 
     const now = new Date();
 
@@ -120,9 +118,7 @@ export class Task {
     const status = TaskStatus.create(newStatus);
 
     if (!this.props.status.canTransitionTo(status)) {
-      throw new ValidationError(
-        `Cannot transition from ${this.props.status} to ${status}`
-      );
+      throw new ValidationError(`Cannot transition from ${this.props.status} to ${status}`);
     }
 
     this.props.status = status;

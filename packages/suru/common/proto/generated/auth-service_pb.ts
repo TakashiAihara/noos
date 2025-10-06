@@ -4,22 +4,25 @@
 // @generated from file auth-service.proto (package suru.auth.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { Message } from "@bufbuild/protobuf";
+import type { GenEnum, GenFile, GenMessage, GenService } from '@bufbuild/protobuf/codegenv2';
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from '@bufbuild/protobuf/codegenv2';
+import type { Message } from '@bufbuild/protobuf';
 
 /**
  * Describes the file auth-service.proto.
  */
-export const file_auth_service: GenFile = /*@__PURE__*/
-  fileDesc("ChJhdXRoLXNlcnZpY2UucHJvdG8SDHN1cnUuYXV0aC52MSKKAQoEVXNlchIKCgJpZBgBIAEoCRINCgVlbWFpbBgCIAEoCRIUCgxkaXNwbGF5X25hbWUYAyABKAkSFwoKYXZhdGFyX3VybBgEIAEoCUgAiAEBEhIKCmNyZWF0ZWRfYXQYBSABKAkSFQoNbGFzdF9sb2dpbl9hdBgGIAEoCUINCgtfYXZhdGFyX3VybCJiCgtPQXV0aFRva2VucxIUCgxhY2Nlc3NfdG9rZW4YASABKAkSFQoNcmVmcmVzaF90b2tlbhgCIAEoCRISCgpleHBpcmVzX2luGAMgASgDEhIKCnRva2VuX3R5cGUYBCABKAkiWwoUSW5pdGlhdGVPQXV0aFJlcXVlc3QSLQoIcHJvdmlkZXIYASABKA4yGy5zdXJ1LmF1dGgudjEuT0F1dGhQcm92aWRlchIUCgxyZWRpcmVjdF91cmkYAiABKAkiQQoVSW5pdGlhdGVPQXV0aFJlc3BvbnNlEhkKEWF1dGhvcml6YXRpb25fdXJsGAEgASgJEg0KBXN0YXRlGAIgASgJImgKGkhhbmRsZU9BdXRoQ2FsbGJhY2tSZXF1ZXN0Ei0KCHByb3ZpZGVyGAEgASgOMhsuc3VydS5hdXRoLnYxLk9BdXRoUHJvdmlkZXISDAoEY29kZRgCIAEoCRINCgVzdGF0ZRgDIAEoCSJ/ChtIYW5kbGVPQXV0aENhbGxiYWNrUmVzcG9uc2USKQoGdG9rZW5zGAEgASgLMhkuc3VydS5hdXRoLnYxLk9BdXRoVG9rZW5zEiAKBHVzZXIYAiABKAsyEi5zdXJ1LmF1dGgudjEuVXNlchITCgtpc19uZXdfdXNlchgDIAEoCCIsChNSZWZyZXNoVG9rZW5SZXF1ZXN0EhUKDXJlZnJlc2hfdG9rZW4YASABKAkiQQoUUmVmcmVzaFRva2VuUmVzcG9uc2USKQoGdG9rZW5zGAEgASgLMhkuc3VydS5hdXRoLnYxLk9BdXRoVG9rZW5zIiwKFFZhbGlkYXRlVG9rZW5SZXF1ZXN0EhQKDGFjY2Vzc190b2tlbhgBIAEoCSJgChVWYWxpZGF0ZVRva2VuUmVzcG9uc2USDQoFdmFsaWQYASABKAgSLQoGY2xhaW1zGAIgASgLMhguc3VydS5hdXRoLnYxLlVzZXJDbGFpbXNIAIgBAUIJCgdfY2xhaW1zIksKClVzZXJDbGFpbXMSDwoHdXNlcl9pZBgBIAEoCRINCgVlbWFpbBgCIAEoCRIQCgh0ZWFtX2lkcxgDIAMoCRILCgNleHAYBCABKAMiPAoNTG9nb3V0UmVxdWVzdBIUCgxhY2Nlc3NfdG9rZW4YASABKAkSFQoNcmVmcmVzaF90b2tlbhgCIAEoCSIhCg5Mb2dvdXRSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIIiEKDkdldFVzZXJSZXF1ZXN0Eg8KB3VzZXJfaWQYASABKAkiMwoPR2V0VXNlclJlc3BvbnNlEiAKBHVzZXIYASABKAsyEi5zdXJ1LmF1dGgudjEuVXNlciJ4ChFVcGRhdGVVc2VyUmVxdWVzdBIPCgd1c2VyX2lkGAEgASgJEhkKDGRpc3BsYXlfbmFtZRgCIAEoCUgAiAEBEhcKCmF2YXRhcl91cmwYAyABKAlIAYgBAUIPCg1fZGlzcGxheV9uYW1lQg0KC19hdmF0YXJfdXJsIjYKElVwZGF0ZVVzZXJSZXNwb25zZRIgCgR1c2VyGAEgASgLMhIuc3VydS5hdXRoLnYxLlVzZXIiLQoVR2V0Q3VycmVudFVzZXJSZXF1ZXN0EhQKDGFjY2Vzc190b2tlbhgBIAEoCSJkChZHZXRDdXJyZW50VXNlclJlc3BvbnNlEiAKBHVzZXIYASABKAsyEi5zdXJ1LmF1dGgudjEuVXNlchIoCgZjbGFpbXMYAiABKAsyGC5zdXJ1LmF1dGgudjEuVXNlckNsYWltcyonCg1PQXV0aFByb3ZpZGVyEgoKBkdPT0dMRRAAEgoKBkdJVEhVQhABMr8FCgtBdXRoU2VydmljZRJYCg1Jbml0aWF0ZU9BdXRoEiIuc3VydS5hdXRoLnYxLkluaXRpYXRlT0F1dGhSZXF1ZXN0GiMuc3VydS5hdXRoLnYxLkluaXRpYXRlT0F1dGhSZXNwb25zZRJqChNIYW5kbGVPQXV0aENhbGxiYWNrEiguc3VydS5hdXRoLnYxLkhhbmRsZU9BdXRoQ2FsbGJhY2tSZXF1ZXN0Gikuc3VydS5hdXRoLnYxLkhhbmRsZU9BdXRoQ2FsbGJhY2tSZXNwb25zZRJVCgxSZWZyZXNoVG9rZW4SIS5zdXJ1LmF1dGgudjEuUmVmcmVzaFRva2VuUmVxdWVzdBoiLnN1cnUuYXV0aC52MS5SZWZyZXNoVG9rZW5SZXNwb25zZRJYCg1WYWxpZGF0ZVRva2VuEiIuc3VydS5hdXRoLnYxLlZhbGlkYXRlVG9rZW5SZXF1ZXN0GiMuc3VydS5hdXRoLnYxLlZhbGlkYXRlVG9rZW5SZXNwb25zZRJDCgZMb2dvdXQSGy5zdXJ1LmF1dGgudjEuTG9nb3V0UmVxdWVzdBocLnN1cnUuYXV0aC52MS5Mb2dvdXRSZXNwb25zZRJGCgdHZXRVc2VyEhwuc3VydS5hdXRoLnYxLkdldFVzZXJSZXF1ZXN0Gh0uc3VydS5hdXRoLnYxLkdldFVzZXJSZXNwb25zZRJPCgpVcGRhdGVVc2VyEh8uc3VydS5hdXRoLnYxLlVwZGF0ZVVzZXJSZXF1ZXN0GiAuc3VydS5hdXRoLnYxLlVwZGF0ZVVzZXJSZXNwb25zZRJbCg5HZXRDdXJyZW50VXNlchIjLnN1cnUuYXV0aC52MS5HZXRDdXJyZW50VXNlclJlcXVlc3QaJC5zdXJ1LmF1dGgudjEuR2V0Q3VycmVudFVzZXJSZXNwb25zZWIGcHJvdG8z");
+export const file_auth_service: GenFile =
+  /*@__PURE__*/
+  fileDesc(
+    'ChJhdXRoLXNlcnZpY2UucHJvdG8SDHN1cnUuYXV0aC52MSKKAQoEVXNlchIKCgJpZBgBIAEoCRINCgVlbWFpbBgCIAEoCRIUCgxkaXNwbGF5X25hbWUYAyABKAkSFwoKYXZhdGFyX3VybBgEIAEoCUgAiAEBEhIKCmNyZWF0ZWRfYXQYBSABKAkSFQoNbGFzdF9sb2dpbl9hdBgGIAEoCUINCgtfYXZhdGFyX3VybCJiCgtPQXV0aFRva2VucxIUCgxhY2Nlc3NfdG9rZW4YASABKAkSFQoNcmVmcmVzaF90b2tlbhgCIAEoCRISCgpleHBpcmVzX2luGAMgASgDEhIKCnRva2VuX3R5cGUYBCABKAkiWwoUSW5pdGlhdGVPQXV0aFJlcXVlc3QSLQoIcHJvdmlkZXIYASABKA4yGy5zdXJ1LmF1dGgudjEuT0F1dGhQcm92aWRlchIUCgxyZWRpcmVjdF91cmkYAiABKAkiQQoVSW5pdGlhdGVPQXV0aFJlc3BvbnNlEhkKEWF1dGhvcml6YXRpb25fdXJsGAEgASgJEg0KBXN0YXRlGAIgASgJImgKGkhhbmRsZU9BdXRoQ2FsbGJhY2tSZXF1ZXN0Ei0KCHByb3ZpZGVyGAEgASgOMhsuc3VydS5hdXRoLnYxLk9BdXRoUHJvdmlkZXISDAoEY29kZRgCIAEoCRINCgVzdGF0ZRgDIAEoCSJ/ChtIYW5kbGVPQXV0aENhbGxiYWNrUmVzcG9uc2USKQoGdG9rZW5zGAEgASgLMhkuc3VydS5hdXRoLnYxLk9BdXRoVG9rZW5zEiAKBHVzZXIYAiABKAsyEi5zdXJ1LmF1dGgudjEuVXNlchITCgtpc19uZXdfdXNlchgDIAEoCCIsChNSZWZyZXNoVG9rZW5SZXF1ZXN0EhUKDXJlZnJlc2hfdG9rZW4YASABKAkiQQoUUmVmcmVzaFRva2VuUmVzcG9uc2USKQoGdG9rZW5zGAEgASgLMhkuc3VydS5hdXRoLnYxLk9BdXRoVG9rZW5zIiwKFFZhbGlkYXRlVG9rZW5SZXF1ZXN0EhQKDGFjY2Vzc190b2tlbhgBIAEoCSJgChVWYWxpZGF0ZVRva2VuUmVzcG9uc2USDQoFdmFsaWQYASABKAgSLQoGY2xhaW1zGAIgASgLMhguc3VydS5hdXRoLnYxLlVzZXJDbGFpbXNIAIgBAUIJCgdfY2xhaW1zIksKClVzZXJDbGFpbXMSDwoHdXNlcl9pZBgBIAEoCRINCgVlbWFpbBgCIAEoCRIQCgh0ZWFtX2lkcxgDIAMoCRILCgNleHAYBCABKAMiPAoNTG9nb3V0UmVxdWVzdBIUCgxhY2Nlc3NfdG9rZW4YASABKAkSFQoNcmVmcmVzaF90b2tlbhgCIAEoCSIhCg5Mb2dvdXRSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIIiEKDkdldFVzZXJSZXF1ZXN0Eg8KB3VzZXJfaWQYASABKAkiMwoPR2V0VXNlclJlc3BvbnNlEiAKBHVzZXIYASABKAsyEi5zdXJ1LmF1dGgudjEuVXNlciJ4ChFVcGRhdGVVc2VyUmVxdWVzdBIPCgd1c2VyX2lkGAEgASgJEhkKDGRpc3BsYXlfbmFtZRgCIAEoCUgAiAEBEhcKCmF2YXRhcl91cmwYAyABKAlIAYgBAUIPCg1fZGlzcGxheV9uYW1lQg0KC19hdmF0YXJfdXJsIjYKElVwZGF0ZVVzZXJSZXNwb25zZRIgCgR1c2VyGAEgASgLMhIuc3VydS5hdXRoLnYxLlVzZXIiLQoVR2V0Q3VycmVudFVzZXJSZXF1ZXN0EhQKDGFjY2Vzc190b2tlbhgBIAEoCSJkChZHZXRDdXJyZW50VXNlclJlc3BvbnNlEiAKBHVzZXIYASABKAsyEi5zdXJ1LmF1dGgudjEuVXNlchIoCgZjbGFpbXMYAiABKAsyGC5zdXJ1LmF1dGgudjEuVXNlckNsYWltcyonCg1PQXV0aFByb3ZpZGVyEgoKBkdPT0dMRRAAEgoKBkdJVEhVQhABMr8FCgtBdXRoU2VydmljZRJYCg1Jbml0aWF0ZU9BdXRoEiIuc3VydS5hdXRoLnYxLkluaXRpYXRlT0F1dGhSZXF1ZXN0GiMuc3VydS5hdXRoLnYxLkluaXRpYXRlT0F1dGhSZXNwb25zZRJqChNIYW5kbGVPQXV0aENhbGxiYWNrEiguc3VydS5hdXRoLnYxLkhhbmRsZU9BdXRoQ2FsbGJhY2tSZXF1ZXN0Gikuc3VydS5hdXRoLnYxLkhhbmRsZU9BdXRoQ2FsbGJhY2tSZXNwb25zZRJVCgxSZWZyZXNoVG9rZW4SIS5zdXJ1LmF1dGgudjEuUmVmcmVzaFRva2VuUmVxdWVzdBoiLnN1cnUuYXV0aC52MS5SZWZyZXNoVG9rZW5SZXNwb25zZRJYCg1WYWxpZGF0ZVRva2VuEiIuc3VydS5hdXRoLnYxLlZhbGlkYXRlVG9rZW5SZXF1ZXN0GiMuc3VydS5hdXRoLnYxLlZhbGlkYXRlVG9rZW5SZXNwb25zZRJDCgZMb2dvdXQSGy5zdXJ1LmF1dGgudjEuTG9nb3V0UmVxdWVzdBocLnN1cnUuYXV0aC52MS5Mb2dvdXRSZXNwb25zZRJGCgdHZXRVc2VyEhwuc3VydS5hdXRoLnYxLkdldFVzZXJSZXF1ZXN0Gh0uc3VydS5hdXRoLnYxLkdldFVzZXJSZXNwb25zZRJPCgpVcGRhdGVVc2VyEh8uc3VydS5hdXRoLnYxLlVwZGF0ZVVzZXJSZXF1ZXN0GiAuc3VydS5hdXRoLnYxLlVwZGF0ZVVzZXJSZXNwb25zZRJbCg5HZXRDdXJyZW50VXNlchIjLnN1cnUuYXV0aC52MS5HZXRDdXJyZW50VXNlclJlcXVlc3QaJC5zdXJ1LmF1dGgudjEuR2V0Q3VycmVudFVzZXJSZXNwb25zZWIGcHJvdG8z',
+  );
 
 /**
  * Messages
  *
  * @generated from message suru.auth.v1.User
  */
-export type User = Message<"suru.auth.v1.User"> & {
+export type User = Message<'suru.auth.v1.User'> & {
   /**
    * @generated from field: string id = 1;
    */
@@ -55,13 +58,12 @@ export type User = Message<"suru.auth.v1.User"> & {
  * Describes the message suru.auth.v1.User.
  * Use `create(UserSchema)` to create a new message.
  */
-export const UserSchema: GenMessage<User> = /*@__PURE__*/
-  messageDesc(file_auth_service, 0);
+export const UserSchema: GenMessage<User> = /*@__PURE__*/ messageDesc(file_auth_service, 0);
 
 /**
  * @generated from message suru.auth.v1.OAuthTokens
  */
-export type OAuthTokens = Message<"suru.auth.v1.OAuthTokens"> & {
+export type OAuthTokens = Message<'suru.auth.v1.OAuthTokens'> & {
   /**
    * JWT
    *
@@ -93,7 +95,8 @@ export type OAuthTokens = Message<"suru.auth.v1.OAuthTokens"> & {
  * Describes the message suru.auth.v1.OAuthTokens.
  * Use `create(OAuthTokensSchema)` to create a new message.
  */
-export const OAuthTokensSchema: GenMessage<OAuthTokens> = /*@__PURE__*/
+export const OAuthTokensSchema: GenMessage<OAuthTokens> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 1);
 
 /**
@@ -101,7 +104,7 @@ export const OAuthTokensSchema: GenMessage<OAuthTokens> = /*@__PURE__*/
  *
  * @generated from message suru.auth.v1.InitiateOAuthRequest
  */
-export type InitiateOAuthRequest = Message<"suru.auth.v1.InitiateOAuthRequest"> & {
+export type InitiateOAuthRequest = Message<'suru.auth.v1.InitiateOAuthRequest'> & {
   /**
    * @generated from field: suru.auth.v1.OAuthProvider provider = 1;
    */
@@ -119,13 +122,14 @@ export type InitiateOAuthRequest = Message<"suru.auth.v1.InitiateOAuthRequest"> 
  * Describes the message suru.auth.v1.InitiateOAuthRequest.
  * Use `create(InitiateOAuthRequestSchema)` to create a new message.
  */
-export const InitiateOAuthRequestSchema: GenMessage<InitiateOAuthRequest> = /*@__PURE__*/
+export const InitiateOAuthRequestSchema: GenMessage<InitiateOAuthRequest> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 2);
 
 /**
  * @generated from message suru.auth.v1.InitiateOAuthResponse
  */
-export type InitiateOAuthResponse = Message<"suru.auth.v1.InitiateOAuthResponse"> & {
+export type InitiateOAuthResponse = Message<'suru.auth.v1.InitiateOAuthResponse'> & {
   /**
    * URL to redirect user to
    *
@@ -145,7 +149,8 @@ export type InitiateOAuthResponse = Message<"suru.auth.v1.InitiateOAuthResponse"
  * Describes the message suru.auth.v1.InitiateOAuthResponse.
  * Use `create(InitiateOAuthResponseSchema)` to create a new message.
  */
-export const InitiateOAuthResponseSchema: GenMessage<InitiateOAuthResponse> = /*@__PURE__*/
+export const InitiateOAuthResponseSchema: GenMessage<InitiateOAuthResponse> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 3);
 
 /**
@@ -153,7 +158,7 @@ export const InitiateOAuthResponseSchema: GenMessage<InitiateOAuthResponse> = /*
  *
  * @generated from message suru.auth.v1.HandleOAuthCallbackRequest
  */
-export type HandleOAuthCallbackRequest = Message<"suru.auth.v1.HandleOAuthCallbackRequest"> & {
+export type HandleOAuthCallbackRequest = Message<'suru.auth.v1.HandleOAuthCallbackRequest'> & {
   /**
    * @generated from field: suru.auth.v1.OAuthProvider provider = 1;
    */
@@ -178,13 +183,14 @@ export type HandleOAuthCallbackRequest = Message<"suru.auth.v1.HandleOAuthCallba
  * Describes the message suru.auth.v1.HandleOAuthCallbackRequest.
  * Use `create(HandleOAuthCallbackRequestSchema)` to create a new message.
  */
-export const HandleOAuthCallbackRequestSchema: GenMessage<HandleOAuthCallbackRequest> = /*@__PURE__*/
+export const HandleOAuthCallbackRequestSchema: GenMessage<HandleOAuthCallbackRequest> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 4);
 
 /**
  * @generated from message suru.auth.v1.HandleOAuthCallbackResponse
  */
-export type HandleOAuthCallbackResponse = Message<"suru.auth.v1.HandleOAuthCallbackResponse"> & {
+export type HandleOAuthCallbackResponse = Message<'suru.auth.v1.HandleOAuthCallbackResponse'> & {
   /**
    * @generated from field: suru.auth.v1.OAuthTokens tokens = 1;
    */
@@ -205,7 +211,8 @@ export type HandleOAuthCallbackResponse = Message<"suru.auth.v1.HandleOAuthCallb
  * Describes the message suru.auth.v1.HandleOAuthCallbackResponse.
  * Use `create(HandleOAuthCallbackResponseSchema)` to create a new message.
  */
-export const HandleOAuthCallbackResponseSchema: GenMessage<HandleOAuthCallbackResponse> = /*@__PURE__*/
+export const HandleOAuthCallbackResponseSchema: GenMessage<HandleOAuthCallbackResponse> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 5);
 
 /**
@@ -213,7 +220,7 @@ export const HandleOAuthCallbackResponseSchema: GenMessage<HandleOAuthCallbackRe
  *
  * @generated from message suru.auth.v1.RefreshTokenRequest
  */
-export type RefreshTokenRequest = Message<"suru.auth.v1.RefreshTokenRequest"> & {
+export type RefreshTokenRequest = Message<'suru.auth.v1.RefreshTokenRequest'> & {
   /**
    * @generated from field: string refresh_token = 1;
    */
@@ -224,13 +231,14 @@ export type RefreshTokenRequest = Message<"suru.auth.v1.RefreshTokenRequest"> & 
  * Describes the message suru.auth.v1.RefreshTokenRequest.
  * Use `create(RefreshTokenRequestSchema)` to create a new message.
  */
-export const RefreshTokenRequestSchema: GenMessage<RefreshTokenRequest> = /*@__PURE__*/
+export const RefreshTokenRequestSchema: GenMessage<RefreshTokenRequest> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 6);
 
 /**
  * @generated from message suru.auth.v1.RefreshTokenResponse
  */
-export type RefreshTokenResponse = Message<"suru.auth.v1.RefreshTokenResponse"> & {
+export type RefreshTokenResponse = Message<'suru.auth.v1.RefreshTokenResponse'> & {
   /**
    * @generated from field: suru.auth.v1.OAuthTokens tokens = 1;
    */
@@ -241,7 +249,8 @@ export type RefreshTokenResponse = Message<"suru.auth.v1.RefreshTokenResponse"> 
  * Describes the message suru.auth.v1.RefreshTokenResponse.
  * Use `create(RefreshTokenResponseSchema)` to create a new message.
  */
-export const RefreshTokenResponseSchema: GenMessage<RefreshTokenResponse> = /*@__PURE__*/
+export const RefreshTokenResponseSchema: GenMessage<RefreshTokenResponse> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 7);
 
 /**
@@ -249,7 +258,7 @@ export const RefreshTokenResponseSchema: GenMessage<RefreshTokenResponse> = /*@_
  *
  * @generated from message suru.auth.v1.ValidateTokenRequest
  */
-export type ValidateTokenRequest = Message<"suru.auth.v1.ValidateTokenRequest"> & {
+export type ValidateTokenRequest = Message<'suru.auth.v1.ValidateTokenRequest'> & {
   /**
    * @generated from field: string access_token = 1;
    */
@@ -260,13 +269,14 @@ export type ValidateTokenRequest = Message<"suru.auth.v1.ValidateTokenRequest"> 
  * Describes the message suru.auth.v1.ValidateTokenRequest.
  * Use `create(ValidateTokenRequestSchema)` to create a new message.
  */
-export const ValidateTokenRequestSchema: GenMessage<ValidateTokenRequest> = /*@__PURE__*/
+export const ValidateTokenRequestSchema: GenMessage<ValidateTokenRequest> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 8);
 
 /**
  * @generated from message suru.auth.v1.ValidateTokenResponse
  */
-export type ValidateTokenResponse = Message<"suru.auth.v1.ValidateTokenResponse"> & {
+export type ValidateTokenResponse = Message<'suru.auth.v1.ValidateTokenResponse'> & {
   /**
    * @generated from field: bool valid = 1;
    */
@@ -282,13 +292,14 @@ export type ValidateTokenResponse = Message<"suru.auth.v1.ValidateTokenResponse"
  * Describes the message suru.auth.v1.ValidateTokenResponse.
  * Use `create(ValidateTokenResponseSchema)` to create a new message.
  */
-export const ValidateTokenResponseSchema: GenMessage<ValidateTokenResponse> = /*@__PURE__*/
+export const ValidateTokenResponseSchema: GenMessage<ValidateTokenResponse> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 9);
 
 /**
  * @generated from message suru.auth.v1.UserClaims
  */
-export type UserClaims = Message<"suru.auth.v1.UserClaims"> & {
+export type UserClaims = Message<'suru.auth.v1.UserClaims'> & {
   /**
    * @generated from field: string user_id = 1;
    */
@@ -318,7 +329,8 @@ export type UserClaims = Message<"suru.auth.v1.UserClaims"> & {
  * Describes the message suru.auth.v1.UserClaims.
  * Use `create(UserClaimsSchema)` to create a new message.
  */
-export const UserClaimsSchema: GenMessage<UserClaims> = /*@__PURE__*/
+export const UserClaimsSchema: GenMessage<UserClaims> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 10);
 
 /**
@@ -326,7 +338,7 @@ export const UserClaimsSchema: GenMessage<UserClaims> = /*@__PURE__*/
  *
  * @generated from message suru.auth.v1.LogoutRequest
  */
-export type LogoutRequest = Message<"suru.auth.v1.LogoutRequest"> & {
+export type LogoutRequest = Message<'suru.auth.v1.LogoutRequest'> & {
   /**
    * @generated from field: string access_token = 1;
    */
@@ -342,13 +354,14 @@ export type LogoutRequest = Message<"suru.auth.v1.LogoutRequest"> & {
  * Describes the message suru.auth.v1.LogoutRequest.
  * Use `create(LogoutRequestSchema)` to create a new message.
  */
-export const LogoutRequestSchema: GenMessage<LogoutRequest> = /*@__PURE__*/
+export const LogoutRequestSchema: GenMessage<LogoutRequest> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 11);
 
 /**
  * @generated from message suru.auth.v1.LogoutResponse
  */
-export type LogoutResponse = Message<"suru.auth.v1.LogoutResponse"> & {
+export type LogoutResponse = Message<'suru.auth.v1.LogoutResponse'> & {
   /**
    * @generated from field: bool success = 1;
    */
@@ -359,7 +372,8 @@ export type LogoutResponse = Message<"suru.auth.v1.LogoutResponse"> & {
  * Describes the message suru.auth.v1.LogoutResponse.
  * Use `create(LogoutResponseSchema)` to create a new message.
  */
-export const LogoutResponseSchema: GenMessage<LogoutResponse> = /*@__PURE__*/
+export const LogoutResponseSchema: GenMessage<LogoutResponse> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 12);
 
 /**
@@ -367,7 +381,7 @@ export const LogoutResponseSchema: GenMessage<LogoutResponse> = /*@__PURE__*/
  *
  * @generated from message suru.auth.v1.GetUserRequest
  */
-export type GetUserRequest = Message<"suru.auth.v1.GetUserRequest"> & {
+export type GetUserRequest = Message<'suru.auth.v1.GetUserRequest'> & {
   /**
    * @generated from field: string user_id = 1;
    */
@@ -378,13 +392,14 @@ export type GetUserRequest = Message<"suru.auth.v1.GetUserRequest"> & {
  * Describes the message suru.auth.v1.GetUserRequest.
  * Use `create(GetUserRequestSchema)` to create a new message.
  */
-export const GetUserRequestSchema: GenMessage<GetUserRequest> = /*@__PURE__*/
+export const GetUserRequestSchema: GenMessage<GetUserRequest> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 13);
 
 /**
  * @generated from message suru.auth.v1.GetUserResponse
  */
-export type GetUserResponse = Message<"suru.auth.v1.GetUserResponse"> & {
+export type GetUserResponse = Message<'suru.auth.v1.GetUserResponse'> & {
   /**
    * @generated from field: suru.auth.v1.User user = 1;
    */
@@ -395,7 +410,8 @@ export type GetUserResponse = Message<"suru.auth.v1.GetUserResponse"> & {
  * Describes the message suru.auth.v1.GetUserResponse.
  * Use `create(GetUserResponseSchema)` to create a new message.
  */
-export const GetUserResponseSchema: GenMessage<GetUserResponse> = /*@__PURE__*/
+export const GetUserResponseSchema: GenMessage<GetUserResponse> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 14);
 
 /**
@@ -403,7 +419,7 @@ export const GetUserResponseSchema: GenMessage<GetUserResponse> = /*@__PURE__*/
  *
  * @generated from message suru.auth.v1.UpdateUserRequest
  */
-export type UpdateUserRequest = Message<"suru.auth.v1.UpdateUserRequest"> & {
+export type UpdateUserRequest = Message<'suru.auth.v1.UpdateUserRequest'> & {
   /**
    * @generated from field: string user_id = 1;
    */
@@ -424,13 +440,14 @@ export type UpdateUserRequest = Message<"suru.auth.v1.UpdateUserRequest"> & {
  * Describes the message suru.auth.v1.UpdateUserRequest.
  * Use `create(UpdateUserRequestSchema)` to create a new message.
  */
-export const UpdateUserRequestSchema: GenMessage<UpdateUserRequest> = /*@__PURE__*/
+export const UpdateUserRequestSchema: GenMessage<UpdateUserRequest> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 15);
 
 /**
  * @generated from message suru.auth.v1.UpdateUserResponse
  */
-export type UpdateUserResponse = Message<"suru.auth.v1.UpdateUserResponse"> & {
+export type UpdateUserResponse = Message<'suru.auth.v1.UpdateUserResponse'> & {
   /**
    * @generated from field: suru.auth.v1.User user = 1;
    */
@@ -441,7 +458,8 @@ export type UpdateUserResponse = Message<"suru.auth.v1.UpdateUserResponse"> & {
  * Describes the message suru.auth.v1.UpdateUserResponse.
  * Use `create(UpdateUserResponseSchema)` to create a new message.
  */
-export const UpdateUserResponseSchema: GenMessage<UpdateUserResponse> = /*@__PURE__*/
+export const UpdateUserResponseSchema: GenMessage<UpdateUserResponse> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 16);
 
 /**
@@ -449,7 +467,7 @@ export const UpdateUserResponseSchema: GenMessage<UpdateUserResponse> = /*@__PUR
  *
  * @generated from message suru.auth.v1.GetCurrentUserRequest
  */
-export type GetCurrentUserRequest = Message<"suru.auth.v1.GetCurrentUserRequest"> & {
+export type GetCurrentUserRequest = Message<'suru.auth.v1.GetCurrentUserRequest'> & {
   /**
    * @generated from field: string access_token = 1;
    */
@@ -460,13 +478,14 @@ export type GetCurrentUserRequest = Message<"suru.auth.v1.GetCurrentUserRequest"
  * Describes the message suru.auth.v1.GetCurrentUserRequest.
  * Use `create(GetCurrentUserRequestSchema)` to create a new message.
  */
-export const GetCurrentUserRequestSchema: GenMessage<GetCurrentUserRequest> = /*@__PURE__*/
+export const GetCurrentUserRequestSchema: GenMessage<GetCurrentUserRequest> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 17);
 
 /**
  * @generated from message suru.auth.v1.GetCurrentUserResponse
  */
-export type GetCurrentUserResponse = Message<"suru.auth.v1.GetCurrentUserResponse"> & {
+export type GetCurrentUserResponse = Message<'suru.auth.v1.GetCurrentUserResponse'> & {
   /**
    * @generated from field: suru.auth.v1.User user = 1;
    */
@@ -482,7 +501,8 @@ export type GetCurrentUserResponse = Message<"suru.auth.v1.GetCurrentUserRespons
  * Describes the message suru.auth.v1.GetCurrentUserResponse.
  * Use `create(GetCurrentUserResponseSchema)` to create a new message.
  */
-export const GetCurrentUserResponseSchema: GenMessage<GetCurrentUserResponse> = /*@__PURE__*/
+export const GetCurrentUserResponseSchema: GenMessage<GetCurrentUserResponse> =
+  /*@__PURE__*/
   messageDesc(file_auth_service, 18);
 
 /**
@@ -503,7 +523,8 @@ export enum OAuthProvider {
 /**
  * Describes the enum suru.auth.v1.OAuthProvider.
  */
-export const OAuthProviderSchema: GenEnum<OAuthProvider> = /*@__PURE__*/
+export const OAuthProviderSchema: GenEnum<OAuthProvider> =
+  /*@__PURE__*/
   enumDesc(file_auth_service, 0);
 
 /**
@@ -518,80 +539,78 @@ export const AuthService: GenService<{
    * @generated from rpc suru.auth.v1.AuthService.InitiateOAuth
    */
   initiateOAuth: {
-    methodKind: "unary";
+    methodKind: 'unary';
     input: typeof InitiateOAuthRequestSchema;
     output: typeof InitiateOAuthResponseSchema;
-  },
+  };
   /**
    * OAuth callback (exchanges code for tokens)
    *
    * @generated from rpc suru.auth.v1.AuthService.HandleOAuthCallback
    */
   handleOAuthCallback: {
-    methodKind: "unary";
+    methodKind: 'unary';
     input: typeof HandleOAuthCallbackRequestSchema;
     output: typeof HandleOAuthCallbackResponseSchema;
-  },
+  };
   /**
    * Refresh access token
    *
    * @generated from rpc suru.auth.v1.AuthService.RefreshToken
    */
   refreshToken: {
-    methodKind: "unary";
+    methodKind: 'unary';
     input: typeof RefreshTokenRequestSchema;
     output: typeof RefreshTokenResponseSchema;
-  },
+  };
   /**
    * Validate JWT token
    *
    * @generated from rpc suru.auth.v1.AuthService.ValidateToken
    */
   validateToken: {
-    methodKind: "unary";
+    methodKind: 'unary';
     input: typeof ValidateTokenRequestSchema;
     output: typeof ValidateTokenResponseSchema;
-  },
+  };
   /**
    * Logout (revoke tokens)
    *
    * @generated from rpc suru.auth.v1.AuthService.Logout
    */
   logout: {
-    methodKind: "unary";
+    methodKind: 'unary';
     input: typeof LogoutRequestSchema;
     output: typeof LogoutResponseSchema;
-  },
+  };
   /**
    * Get user profile
    *
    * @generated from rpc suru.auth.v1.AuthService.GetUser
    */
   getUser: {
-    methodKind: "unary";
+    methodKind: 'unary';
     input: typeof GetUserRequestSchema;
     output: typeof GetUserResponseSchema;
-  },
+  };
   /**
    * Update user profile
    *
    * @generated from rpc suru.auth.v1.AuthService.UpdateUser
    */
   updateUser: {
-    methodKind: "unary";
+    methodKind: 'unary';
     input: typeof UpdateUserRequestSchema;
     output: typeof UpdateUserResponseSchema;
-  },
+  };
   /**
    * Get current user from JWT
    *
    * @generated from rpc suru.auth.v1.AuthService.GetCurrentUser
    */
   getCurrentUser: {
-    methodKind: "unary";
+    methodKind: 'unary';
     input: typeof GetCurrentUserRequestSchema;
     output: typeof GetCurrentUserResponseSchema;
-  },
-}> = /*@__PURE__*/
-  serviceDesc(file_auth_service, 0);
-
+  };
+}> = /*@__PURE__*/ serviceDesc(file_auth_service, 0);

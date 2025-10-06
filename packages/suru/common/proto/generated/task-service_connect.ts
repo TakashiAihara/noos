@@ -5,8 +5,25 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { AddSubtaskRequest, AddSubtaskResponse, AssignTaskRequest, AssignTaskResponse, CreateTaskRequest, CreateTaskResponse, DeleteTaskRequest, DeleteTaskResponse, GetTaskRequest, GetTaskResponse, ListTasksRequest, ListTasksResponse, TaskEvent, UpdateTaskRequest, UpdateTaskResponse, WatchTasksRequest } from "./task-service_pb.js";
-import { MethodKind } from "@bufbuild/protobuf";
+import {
+  AddSubtaskRequest,
+  AddSubtaskResponse,
+  AssignTaskRequest,
+  AssignTaskResponse,
+  CreateTaskRequest,
+  CreateTaskResponse,
+  DeleteTaskRequest,
+  DeleteTaskResponse,
+  GetTaskRequest,
+  GetTaskResponse,
+  ListTasksRequest,
+  ListTasksResponse,
+  TaskEvent,
+  UpdateTaskRequest,
+  UpdateTaskResponse,
+  WatchTasksRequest,
+} from './task-service_pb.js';
+import { MethodKind } from '@bufbuild/protobuf';
 
 /**
  * Task Service - Manages tasks and subtasks
@@ -14,7 +31,7 @@ import { MethodKind } from "@bufbuild/protobuf";
  * @generated from service suru.task.v1.TaskService
  */
 export const TaskService = {
-  typeName: "suru.task.v1.TaskService",
+  typeName: 'suru.task.v1.TaskService',
   methods: {
     /**
      * Create a new task
@@ -22,7 +39,7 @@ export const TaskService = {
      * @generated from rpc suru.task.v1.TaskService.CreateTask
      */
     createTask: {
-      name: "CreateTask",
+      name: 'CreateTask',
       I: CreateTaskRequest,
       O: CreateTaskResponse,
       kind: MethodKind.Unary,
@@ -33,7 +50,7 @@ export const TaskService = {
      * @generated from rpc suru.task.v1.TaskService.GetTask
      */
     getTask: {
-      name: "GetTask",
+      name: 'GetTask',
       I: GetTaskRequest,
       O: GetTaskResponse,
       kind: MethodKind.Unary,
@@ -44,7 +61,7 @@ export const TaskService = {
      * @generated from rpc suru.task.v1.TaskService.ListTasks
      */
     listTasks: {
-      name: "ListTasks",
+      name: 'ListTasks',
       I: ListTasksRequest,
       O: ListTasksResponse,
       kind: MethodKind.Unary,
@@ -55,7 +72,7 @@ export const TaskService = {
      * @generated from rpc suru.task.v1.TaskService.UpdateTask
      */
     updateTask: {
-      name: "UpdateTask",
+      name: 'UpdateTask',
       I: UpdateTaskRequest,
       O: UpdateTaskResponse,
       kind: MethodKind.Unary,
@@ -66,7 +83,7 @@ export const TaskService = {
      * @generated from rpc suru.task.v1.TaskService.DeleteTask
      */
     deleteTask: {
-      name: "DeleteTask",
+      name: 'DeleteTask',
       I: DeleteTaskRequest,
       O: DeleteTaskResponse,
       kind: MethodKind.Unary,
@@ -77,7 +94,7 @@ export const TaskService = {
      * @generated from rpc suru.task.v1.TaskService.AssignTask
      */
     assignTask: {
-      name: "AssignTask",
+      name: 'AssignTask',
       I: AssignTaskRequest,
       O: AssignTaskResponse,
       kind: MethodKind.Unary,
@@ -88,7 +105,7 @@ export const TaskService = {
      * @generated from rpc suru.task.v1.TaskService.AddSubtask
      */
     addSubtask: {
-      name: "AddSubtask",
+      name: 'AddSubtask',
       I: AddSubtaskRequest,
       O: AddSubtaskResponse,
       kind: MethodKind.Unary,
@@ -99,11 +116,10 @@ export const TaskService = {
      * @generated from rpc suru.task.v1.TaskService.WatchTasks
      */
     watchTasks: {
-      name: "WatchTasks",
+      name: 'WatchTasks',
       I: WatchTasksRequest,
       O: TaskEvent,
       kind: MethodKind.ServerStreaming,
     },
-  }
+  },
 } as const;
-

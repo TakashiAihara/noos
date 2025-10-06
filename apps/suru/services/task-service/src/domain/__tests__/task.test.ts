@@ -49,7 +49,7 @@ describe('Task Entity', () => {
           projectId: '123e4567-e89b-12d3-a456-426614174000',
           title: '',
           createdBy: '123e4567-e89b-12d3-a456-426614174001',
-        })
+        }),
       ).toThrow('Task title is required');
     });
 
@@ -59,7 +59,7 @@ describe('Task Entity', () => {
           projectId: '123e4567-e89b-12d3-a456-426614174000',
           title: 'a'.repeat(201),
           createdBy: '123e4567-e89b-12d3-a456-426614174001',
-        })
+        }),
       ).toThrow('Task title must be between 1 and 200 characters');
     });
 
@@ -70,7 +70,7 @@ describe('Task Entity', () => {
           title: 'Test',
           priority: 'INVALID',
           createdBy: '123e4567-e89b-12d3-a456-426614174001',
-        })
+        }),
       ).toThrow('Invalid priority: INVALID');
     });
   });
@@ -224,9 +224,7 @@ describe('Task Entity', () => {
         createdBy: '123e4567-e89b-12d3-a456-426614174001',
       });
 
-      expect(() => subtask.addSubtask(nestedSubtask)).toThrow(
-        'Cannot add subtask to a subtask'
-      );
+      expect(() => subtask.addSubtask(nestedSubtask)).toThrow('Cannot add subtask to a subtask');
     });
   });
 

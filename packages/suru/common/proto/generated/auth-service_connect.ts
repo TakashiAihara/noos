@@ -5,8 +5,25 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { GetCurrentUserRequest, GetCurrentUserResponse, GetUserRequest, GetUserResponse, HandleOAuthCallbackRequest, HandleOAuthCallbackResponse, InitiateOAuthRequest, InitiateOAuthResponse, LogoutRequest, LogoutResponse, RefreshTokenRequest, RefreshTokenResponse, UpdateUserRequest, UpdateUserResponse, ValidateTokenRequest, ValidateTokenResponse } from "./auth-service_pb.js";
-import { MethodKind } from "@bufbuild/protobuf";
+import {
+  GetCurrentUserRequest,
+  GetCurrentUserResponse,
+  GetUserRequest,
+  GetUserResponse,
+  HandleOAuthCallbackRequest,
+  HandleOAuthCallbackResponse,
+  InitiateOAuthRequest,
+  InitiateOAuthResponse,
+  LogoutRequest,
+  LogoutResponse,
+  RefreshTokenRequest,
+  RefreshTokenResponse,
+  UpdateUserRequest,
+  UpdateUserResponse,
+  ValidateTokenRequest,
+  ValidateTokenResponse,
+} from './auth-service_pb.js';
+import { MethodKind } from '@bufbuild/protobuf';
 
 /**
  * Auth Service - Handles OAuth authentication and user management
@@ -14,7 +31,7 @@ import { MethodKind } from "@bufbuild/protobuf";
  * @generated from service suru.auth.v1.AuthService
  */
 export const AuthService = {
-  typeName: "suru.auth.v1.AuthService",
+  typeName: 'suru.auth.v1.AuthService',
   methods: {
     /**
      * OAuth flow initiation (returns redirect URL)
@@ -22,7 +39,7 @@ export const AuthService = {
      * @generated from rpc suru.auth.v1.AuthService.InitiateOAuth
      */
     initiateOAuth: {
-      name: "InitiateOAuth",
+      name: 'InitiateOAuth',
       I: InitiateOAuthRequest,
       O: InitiateOAuthResponse,
       kind: MethodKind.Unary,
@@ -33,7 +50,7 @@ export const AuthService = {
      * @generated from rpc suru.auth.v1.AuthService.HandleOAuthCallback
      */
     handleOAuthCallback: {
-      name: "HandleOAuthCallback",
+      name: 'HandleOAuthCallback',
       I: HandleOAuthCallbackRequest,
       O: HandleOAuthCallbackResponse,
       kind: MethodKind.Unary,
@@ -44,7 +61,7 @@ export const AuthService = {
      * @generated from rpc suru.auth.v1.AuthService.RefreshToken
      */
     refreshToken: {
-      name: "RefreshToken",
+      name: 'RefreshToken',
       I: RefreshTokenRequest,
       O: RefreshTokenResponse,
       kind: MethodKind.Unary,
@@ -55,7 +72,7 @@ export const AuthService = {
      * @generated from rpc suru.auth.v1.AuthService.ValidateToken
      */
     validateToken: {
-      name: "ValidateToken",
+      name: 'ValidateToken',
       I: ValidateTokenRequest,
       O: ValidateTokenResponse,
       kind: MethodKind.Unary,
@@ -66,7 +83,7 @@ export const AuthService = {
      * @generated from rpc suru.auth.v1.AuthService.Logout
      */
     logout: {
-      name: "Logout",
+      name: 'Logout',
       I: LogoutRequest,
       O: LogoutResponse,
       kind: MethodKind.Unary,
@@ -77,7 +94,7 @@ export const AuthService = {
      * @generated from rpc suru.auth.v1.AuthService.GetUser
      */
     getUser: {
-      name: "GetUser",
+      name: 'GetUser',
       I: GetUserRequest,
       O: GetUserResponse,
       kind: MethodKind.Unary,
@@ -88,7 +105,7 @@ export const AuthService = {
      * @generated from rpc suru.auth.v1.AuthService.UpdateUser
      */
     updateUser: {
-      name: "UpdateUser",
+      name: 'UpdateUser',
       I: UpdateUserRequest,
       O: UpdateUserResponse,
       kind: MethodKind.Unary,
@@ -99,11 +116,10 @@ export const AuthService = {
      * @generated from rpc suru.auth.v1.AuthService.GetCurrentUser
      */
     getCurrentUser: {
-      name: "GetCurrentUser",
+      name: 'GetCurrentUser',
       I: GetCurrentUserRequest,
       O: GetCurrentUserResponse,
       kind: MethodKind.Unary,
     },
-  }
+  },
 } as const;
-

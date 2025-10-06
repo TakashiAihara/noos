@@ -17,16 +17,9 @@ export function validateEmail(email: string): void {
 /**
  * Validates string length
  */
-export function validateLength(
-  value: string,
-  min: number,
-  max: number,
-  fieldName: string,
-): void {
+export function validateLength(value: string, min: number, max: number, fieldName: string): void {
   if (value.length < min || value.length > max) {
-    throw new ValidationError(
-      `${fieldName} must be between ${min} and ${max} characters`,
-    );
+    throw new ValidationError(`${fieldName} must be between ${min} and ${max} characters`);
   }
 }
 
@@ -34,8 +27,7 @@ export function validateLength(
  * Validates UUID format
  */
 export function validateUUID(id: string): void {
-  const uuidRegex =
-    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
   if (!uuidRegex.test(id)) {
     throw new ValidationError(`Invalid UUID format: ${id}`);
   }

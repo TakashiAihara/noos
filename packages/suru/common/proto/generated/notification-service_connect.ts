@@ -5,8 +5,25 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { CreateNotificationRequest, CreateNotificationResponse, DeleteNotificationRequest, DeleteNotificationResponse, ListNotificationsRequest, ListNotificationsResponse, MarkAllAsReadRequest, MarkAllAsReadResponse, MarkAsReadRequest, MarkAsReadResponse, Notification, SubscribePushRequest, SubscribePushResponse, UnsubscribePushRequest, UnsubscribePushResponse, WatchNotificationsRequest } from "./notification-service_pb.js";
-import { MethodKind } from "@bufbuild/protobuf";
+import {
+  CreateNotificationRequest,
+  CreateNotificationResponse,
+  DeleteNotificationRequest,
+  DeleteNotificationResponse,
+  ListNotificationsRequest,
+  ListNotificationsResponse,
+  MarkAllAsReadRequest,
+  MarkAllAsReadResponse,
+  MarkAsReadRequest,
+  MarkAsReadResponse,
+  Notification,
+  SubscribePushRequest,
+  SubscribePushResponse,
+  UnsubscribePushRequest,
+  UnsubscribePushResponse,
+  WatchNotificationsRequest,
+} from './notification-service_pb.js';
+import { MethodKind } from '@bufbuild/protobuf';
 
 /**
  * Notification Service - Manages push notifications and reminders
@@ -14,7 +31,7 @@ import { MethodKind } from "@bufbuild/protobuf";
  * @generated from service suru.notification.v1.NotificationService
  */
 export const NotificationService = {
-  typeName: "suru.notification.v1.NotificationService",
+  typeName: 'suru.notification.v1.NotificationService',
   methods: {
     /**
      * Get notifications for user
@@ -22,7 +39,7 @@ export const NotificationService = {
      * @generated from rpc suru.notification.v1.NotificationService.ListNotifications
      */
     listNotifications: {
-      name: "ListNotifications",
+      name: 'ListNotifications',
       I: ListNotificationsRequest,
       O: ListNotificationsResponse,
       kind: MethodKind.Unary,
@@ -33,7 +50,7 @@ export const NotificationService = {
      * @generated from rpc suru.notification.v1.NotificationService.MarkAsRead
      */
     markAsRead: {
-      name: "MarkAsRead",
+      name: 'MarkAsRead',
       I: MarkAsReadRequest,
       O: MarkAsReadResponse,
       kind: MethodKind.Unary,
@@ -44,7 +61,7 @@ export const NotificationService = {
      * @generated from rpc suru.notification.v1.NotificationService.MarkAllAsRead
      */
     markAllAsRead: {
-      name: "MarkAllAsRead",
+      name: 'MarkAllAsRead',
       I: MarkAllAsReadRequest,
       O: MarkAllAsReadResponse,
       kind: MethodKind.Unary,
@@ -55,7 +72,7 @@ export const NotificationService = {
      * @generated from rpc suru.notification.v1.NotificationService.DeleteNotification
      */
     deleteNotification: {
-      name: "DeleteNotification",
+      name: 'DeleteNotification',
       I: DeleteNotificationRequest,
       O: DeleteNotificationResponse,
       kind: MethodKind.Unary,
@@ -66,7 +83,7 @@ export const NotificationService = {
      * @generated from rpc suru.notification.v1.NotificationService.SubscribePush
      */
     subscribePush: {
-      name: "SubscribePush",
+      name: 'SubscribePush',
       I: SubscribePushRequest,
       O: SubscribePushResponse,
       kind: MethodKind.Unary,
@@ -77,7 +94,7 @@ export const NotificationService = {
      * @generated from rpc suru.notification.v1.NotificationService.UnsubscribePush
      */
     unsubscribePush: {
-      name: "UnsubscribePush",
+      name: 'UnsubscribePush',
       I: UnsubscribePushRequest,
       O: UnsubscribePushResponse,
       kind: MethodKind.Unary,
@@ -88,7 +105,7 @@ export const NotificationService = {
      * @generated from rpc suru.notification.v1.NotificationService.WatchNotifications
      */
     watchNotifications: {
-      name: "WatchNotifications",
+      name: 'WatchNotifications',
       I: WatchNotificationsRequest,
       O: Notification,
       kind: MethodKind.ServerStreaming,
@@ -99,11 +116,10 @@ export const NotificationService = {
      * @generated from rpc suru.notification.v1.NotificationService.CreateNotification
      */
     createNotification: {
-      name: "CreateNotification",
+      name: 'CreateNotification',
       I: CreateNotificationRequest,
       O: CreateNotificationResponse,
       kind: MethodKind.Unary,
     },
-  }
+  },
 } as const;
-
