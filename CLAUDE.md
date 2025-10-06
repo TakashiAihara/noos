@@ -39,6 +39,19 @@ Example comment structure:
 
 This ensures all work is tracked and documented, even for unplanned tasks.
 
+### Pull Request Requirements
+**IMPORTANT**: When creating a pull request, you MUST:
+1. Verify all CI checks pass before marking PR as ready
+2. Check the following on GitHub Actions:
+   - ✅ Lint check (biome lint)
+   - ✅ Format check (biome format)
+   - ✅ Type check (TypeScript compilation)
+3. If CI fails, fix the issues and push again
+4. Never merge a PR with failing CI checks
+5. Document any CI-related fixes in the PR description
+
+This ensures code quality and prevents breaking changes from being merged.
+
 ## Build and Test Commands
 - Install dependencies: `pnpm install`
 - Run tests: `pnpm test`
