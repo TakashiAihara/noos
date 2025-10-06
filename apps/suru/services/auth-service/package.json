@@ -1,0 +1,28 @@
+{
+  "name": "@noos/suru-auth-service",
+  "version": "0.1.0",
+  "description": "Authentication and authorization service for Suru",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage"
+  },
+  "dependencies": {
+    "@noos/suru-db": "workspace:*",
+    "@noos/suru-proto": "workspace:*",
+    "@noos/suru-types": "workspace:*",
+    "@noos/suru-utils": "workspace:*",
+    "@connectrpc/connect": "^1.2.0",
+    "@connectrpc/connect-node": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}
