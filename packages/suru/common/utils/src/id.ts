@@ -2,11 +2,11 @@
  * ID generation utilities
  */
 
-import { randomUUID } from 'node:crypto';
+import crypto from 'crypto';
 
 /**
  * Generates a new UUID v4
  */
 export function generateId(): string {
-  return randomUUID();
+  return crypto.randomUUID();
 }

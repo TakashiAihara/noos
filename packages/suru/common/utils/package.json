@@ -2,15 +2,26 @@
   "name": "@noos/suru-utils",
   "version": "0.1.0",
   "description": "Shared utilities for Suru services",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "test": "vitest"
   },
+  "dependencies": {
+    "@noos/suru-types": "workspace:*"
+  },
   "devDependencies": {
-    "typescript": "^5.3.3",
-    "vitest": "^1.1.0"
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   }
 }
