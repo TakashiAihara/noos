@@ -2,8 +2,8 @@
  * Email Value Object
  */
 
-import { validateRequired } from '@noos/suru-utils';
 import { ValidationError } from '@noos/suru-types';
+import { validateRequired } from '@noos/suru-utils';
 
 export class Email {
   private readonly value: string;

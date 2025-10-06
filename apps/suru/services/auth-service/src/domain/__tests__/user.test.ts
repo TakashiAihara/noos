@@ -2,7 +2,7 @@
  * User Entity Tests
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { User } from '../entities/user';
 
 const VALID_EMAIL = 'test@example.com';
@@ -58,8 +58,7 @@ describe('User Entity', () => {
         passwordHash: VALID_PASSWORD_HASH,
       });
 
-      const newPasswordHash =
-        '$2b$10$K8YdF2mQ3pLnR4sT6uV7wOxYz1AbCdEfGhIjKlMnOpQrStUvWxYz0';
+      const newPasswordHash = '$2b$10$K8YdF2mQ3pLnR4sT6uV7wOxYz1AbCdEfGhIjKlMnOpQrStUvWxYz0';
       const oldVersion = user.version;
 
       user.changePassword(newPasswordHash);
@@ -77,9 +76,7 @@ describe('User Entity', () => {
       user.deactivate();
 
       expect(() =>
-        user.changePassword(
-          '$2b$10$K8YdF2mQ3pLnR4sT6uV7wOxYz1AbCdEfGhIjKlMnOpQrStUvWxYz0',
-        ),
+        user.changePassword('$2b$10$K8YdF2mQ3pLnR4sT6uV7wOxYz1AbCdEfGhIjKlMnOpQrStUvWxYz0'),
       ).toThrow('Cannot change password for inactive user');
     });
   });
@@ -200,9 +197,7 @@ describe('User Entity', () => {
         passwordHash: VALID_PASSWORD_HASH,
       });
 
-      expect(() => user.changeEmail('invalid-email')).toThrow(
-        'Invalid email format',
-      );
+      expect(() => user.changeEmail('invalid-email')).toThrow('Invalid email format');
     });
   });
 

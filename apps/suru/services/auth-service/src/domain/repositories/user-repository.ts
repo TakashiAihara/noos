@@ -3,8 +3,8 @@
  */
 
 import { User } from '../entities/user';
-import { UserId } from '../value-objects/user-id';
 import { Email } from '../value-objects/email';
+import { UserId } from '../value-objects/user-id';
 
 export interface UserFilters {
   isActive?: boolean;

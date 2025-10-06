@@ -3,9 +3,9 @@
  */
 
 import { Session } from '../entities/session';
+import { RefreshToken } from '../value-objects/refresh-token';
 import { SessionId } from '../value-objects/session-id';
 import { UserId } from '../value-objects/user-id';
-import { RefreshToken } from '../value-objects/refresh-token';
 
 export interface SessionFilters {
   userId?: string;

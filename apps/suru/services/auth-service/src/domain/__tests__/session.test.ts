@@ -2,7 +2,7 @@
  * Session Entity Tests
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Session } from '../entities/session';
 
 const VALID_USER_ID = '123e4567-e89b-42d3-a456-426614174000';
@@ -37,9 +37,7 @@ describe('Session Entity', () => {
       expectedExpiry.setDate(expectedExpiry.getDate() + 30);
 
       // Allow 1 second difference for test execution time
-      const diff = Math.abs(
-        session.expiresAt.getTime() - expectedExpiry.getTime(),
-      );
+      const diff = Math.abs(session.expiresAt.getTime() - expectedExpiry.getTime());
       expect(diff).toBeLessThan(1000);
     });
 
@@ -53,9 +51,7 @@ describe('Session Entity', () => {
       const expectedExpiry = new Date(now);
       expectedExpiry.setDate(expectedExpiry.getDate() + 7);
 
-      const diff = Math.abs(
-        session.expiresAt.getTime() - expectedExpiry.getTime(),
-      );
+      const diff = Math.abs(session.expiresAt.getTime() - expectedExpiry.getTime());
       expect(diff).toBeLessThan(1000);
     });
 

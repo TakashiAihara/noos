@@ -2,8 +2,8 @@
  * PasswordHash Value Object
  */
 
-import { validateRequired } from '@noos/suru-utils';
 import { ValidationError } from '@noos/suru-types';
+import { validateRequired } from '@noos/suru-utils';
 
 export class PasswordHash {
   private readonly value: string;

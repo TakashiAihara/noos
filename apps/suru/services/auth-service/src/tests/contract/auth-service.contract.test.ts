@@ -2,16 +2,16 @@
  * Contract tests for Auth Service gRPC interface
  */
 
-import { describe, it, expect } from 'vitest';
 import { createPromiseClient } from '@connectrpc/connect';
 import { createGrpcTransport } from '@connectrpc/connect-node';
 import { AuthService } from '@noos/suru-proto';
 import type {
-  InitiateOAuthRequest,
   HandleOAuthCallbackRequest,
-  ValidateTokenRequest,
+  InitiateOAuthRequest,
   RefreshTokenRequest,
+  ValidateTokenRequest,
 } from '@noos/suru-proto';
+import { describe, expect, it } from 'vitest';
 
 const TEST_PORT = 50053;
 const transport = createGrpcTransport({

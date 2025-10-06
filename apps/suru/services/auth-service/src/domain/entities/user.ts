@@ -3,9 +3,9 @@
  */
 
 import { ValidationError } from '@noos/suru-types';
-import { UserId } from '../value-objects/user-id';
 import { Email } from '../value-objects/email';
 import { PasswordHash } from '../value-objects/password-hash';
+import { UserId } from '../value-objects/user-id';
 
 export interface UserProps {
   id: UserId;
