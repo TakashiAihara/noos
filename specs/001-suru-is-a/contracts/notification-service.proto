@@ -1,0 +1,145 @@
+// Notification Service gRPC Contract
+syntax = "proto3";
+
+package suru.notification.v1;
+
+// Notification Service - Manages push notifications and reminders
+service NotificationService {
+  // Get notifications for user
+  rpc ListNotifications(ListNotificationsRequest) returns (ListNotificationsResponse);
+
+  // Mark notification as read
+  rpc MarkAsRead(MarkAsReadRequest) returns (MarkAsReadResponse);
+
+  // Mark all as read
+  rpc MarkAllAsRead(MarkAllAsReadRequest) returns (MarkAllAsReadResponse);
+
+  // Delete notification
+  rpc DeleteNotification(DeleteNotificationRequest) returns (DeleteNotificationResponse);
+
+  // Subscribe to push notifications
+  rpc SubscribePush(SubscribePushRequest) returns (SubscribePushResponse);
+
+  // Unsubscribe from push notifications
+  rpc UnsubscribePush(UnsubscribePushRequest) returns (UnsubscribePushResponse);
+
+  // Stream new notifications (real-time)
+  rpc WatchNotifications(WatchNotificationsRequest) returns (stream Notification);
+
+  // Internal: Create notification (called by other services)
+  rpc CreateNotification(CreateNotificationRequest) returns (CreateNotificationResponse);
+}
+
+// Messages
+message Notification {
+  string id = 1;
+  string user_id = 2;
+  NotificationType type = 3;
+  string message = 4;
+
+  optional string task_id = 5;
+  optional Task task_summary = 6;  // Brief task info for display
+
+  optional string read_at = 7;
+  optional string delivered_at = 8;
+  string created_at = 9;
+}
+
+message Task {
+  string id = 1;
+  string title = 2;
+  string status = 3;
+}
+
+enum NotificationType {
+  TASK_ASSIGNED = 0;
+  TASK_MENTIONED = 1;
+  DUE_DATE_REMINDER = 2;
+  TASK_UPDATED = 3;
+}
+
+// List Notifications
+message ListNotificationsRequest {
+  string user_id = 1;
+  bool unread_only = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+message ListNotificationsResponse {
+  repeated Notification notifications = 1;
+  int32 total_count = 2;
+  int32 unread_count = 3;
+}
+
+// Mark as Read
+message MarkAsReadRequest {
+  string notification_id = 1;
+}
+
+message MarkAsReadResponse {
+  Notification notification = 1;
+}
+
+// Mark All as Read
+message MarkAllAsReadRequest {
+  string user_id = 1;
+}
+
+message MarkAllAsReadResponse {
+  int32 count = 1;
+}
+
+// Delete Notification
+message DeleteNotificationRequest {
+  string notification_id = 1;
+}
+
+message DeleteNotificationResponse {
+  bool success = 1;
+}
+
+// Subscribe Push
+message SubscribePushRequest {
+  string user_id = 1;
+  string device_token = 2;  // FCM token or Web Push subscription
+  DevicePlatform platform = 3;
+}
+
+enum DevicePlatform {
+  WEB = 0;
+  IOS = 1;
+  ANDROID = 2;
+}
+
+message SubscribePushResponse {
+  bool success = 1;
+}
+
+// Unsubscribe Push
+message UnsubscribePushRequest {
+  string user_id = 1;
+  string device_token = 2;
+}
+
+message UnsubscribePushResponse {
+  bool success = 1;
+}
+
+// Watch Notifications (streaming)
+message WatchNotificationsRequest {
+  string user_id = 1;
+}
+
+// Create Notification (internal)
+message CreateNotificationRequest {
+  string user_id = 1;
+  NotificationType type = 2;
+  string message = 3;
+  optional string task_id = 4;
+  optional string scheduled_for = 5;  // ISO 8601 for reminders
+}
+
+message CreateNotificationResponse {
+  Notification notification = 1;
+}

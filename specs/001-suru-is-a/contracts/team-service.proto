@@ -1,0 +1,210 @@
+// Team Service gRPC Contract
+syntax = "proto3";
+
+package suru.team.v1;
+
+// Team Service - Manages teams, projects, and memberships
+service TeamService {
+  // Team management
+  rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse);
+  rpc GetTeam(GetTeamRequest) returns (GetTeamResponse);
+  rpc ListUserTeams(ListUserTeamsRequest) returns (ListUserTeamsResponse);
+  rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse);
+  rpc DeleteTeam(DeleteTeamRequest) returns (DeleteTeamResponse);
+
+  // Member management
+  rpc AddMember(AddMemberRequest) returns (AddMemberResponse);
+  rpc RemoveMember(RemoveMemberRequest) returns (RemoveMemberResponse);
+  rpc UpdateMemberRole(UpdateMemberRoleRequest) returns (UpdateMemberRoleResponse);
+  rpc ListMembers(ListMembersRequest) returns (ListMembersResponse);
+
+  // Project management
+  rpc CreateProject(CreateProjectRequest) returns (CreateProjectResponse);
+  rpc GetProject(GetProjectRequest) returns (GetProjectResponse);
+  rpc ListProjects(ListProjectsRequest) returns (ListProjectsResponse);
+  rpc UpdateProject(UpdateProjectRequest) returns (UpdateProjectResponse);
+  rpc ArchiveProject(ArchiveProjectRequest) returns (ArchiveProjectResponse);
+  rpc DeleteProject(DeleteProjectRequest) returns (DeleteProjectResponse);
+}
+
+// Messages
+message Team {
+  string id = 1;
+  string name = 2;
+  repeated TeamMember members = 3;
+  string created_by = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+message TeamMember {
+  string user_id = 1;
+  string email = 2;
+  string display_name = 3;
+  optional string avatar_url = 4;
+  TeamRole role = 5;
+  string joined_at = 6;
+}
+
+enum TeamRole {
+  MEMBER = 0;
+  ADMIN = 1;
+  OWNER = 2;
+}
+
+message Project {
+  string id = 1;
+  string team_id = 2;
+  string name = 3;
+  optional string description = 4;
+  bool archived = 5;
+  string created_by = 6;
+  string created_at = 7;
+  string updated_at = 8;
+}
+
+// Create Team
+message CreateTeamRequest {
+  string name = 1;
+}
+
+message CreateTeamResponse {
+  Team team = 1;
+}
+
+// Get Team
+message GetTeamRequest {
+  string id = 1;
+}
+
+message GetTeamResponse {
+  Team team = 1;
+}
+
+// List User Teams
+message ListUserTeamsRequest {
+  string user_id = 1;
+}
+
+message ListUserTeamsResponse {
+  repeated Team teams = 1;
+}
+
+// Update Team
+message UpdateTeamRequest {
+  string id = 1;
+  string name = 2;
+}
+
+message UpdateTeamResponse {
+  Team team = 1;
+}
+
+// Delete Team
+message DeleteTeamRequest {
+  string id = 1;
+}
+
+message DeleteTeamResponse {
+  bool success = 1;
+}
+
+// Add Member
+message AddMemberRequest {
+  string team_id = 1;
+  string user_id = 2;
+  TeamRole role = 3;
+}
+
+message AddMemberResponse {
+  TeamMember member = 1;
+}
+
+// Remove Member
+message RemoveMemberRequest {
+  string team_id = 1;
+  string user_id = 2;
+}
+
+message RemoveMemberResponse {
+  bool success = 1;
+}
+
+// Update Member Role
+message UpdateMemberRoleRequest {
+  string team_id = 1;
+  string user_id = 2;
+  TeamRole role = 3;
+}
+
+message UpdateMemberRoleResponse {
+  TeamMember member = 1;
+}
+
+// List Members
+message ListMembersRequest {
+  string team_id = 1;
+}
+
+message ListMembersResponse {
+  repeated TeamMember members = 1;
+}
+
+// Create Project
+message CreateProjectRequest {
+  string team_id = 1;
+  string name = 2;
+  optional string description = 3;
+}
+
+message CreateProjectResponse {
+  Project project = 1;
+}
+
+// Get Project
+message GetProjectRequest {
+  string id = 1;
+}
+
+message GetProjectResponse {
+  Project project = 1;
+}
+
+// List Projects
+message ListProjectsRequest {
+  string team_id = 1;
+  bool include_archived = 2;
+}
+
+message ListProjectsResponse {
+  repeated Project projects = 1;
+}
+
+// Update Project
+message UpdateProjectRequest {
+  string id = 1;
+  optional string name = 2;
+  optional string description = 3;
+}
+
+message UpdateProjectResponse {
+  Project project = 1;
+}
+
+// Archive Project
+message ArchiveProjectRequest {
+  string id = 1;
+}
+
+message ArchiveProjectResponse {
+  Project project = 1;
+}
+
+// Delete Project
+message DeleteProjectRequest {
+  string id = 1;
+}
+
+message DeleteProjectResponse {
+  bool success = 1;
+}
