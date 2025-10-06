@@ -28,6 +28,17 @@ Example comment structure:
 [Next phase]
 ```
 
+### Ad-hoc Improvements and Bug Fixes
+**IMPORTANT**: When user requests improvements or fixes outside of planned Phase requirements:
+1. Create a new GitHub Issue for the requested work
+2. Include: clear description, acceptance criteria, affected components
+3. Add appropriate labels (e.g., `enhancement`, `bug`, `refactor`)
+4. Link to related Phase Epic if applicable
+5. Implement the changes and reference the issue number in commit messages
+6. Close the issue when work is completed
+
+This ensures all work is tracked and documented, even for unplanned tasks.
+
 ## Build and Test Commands
 - Install dependencies: `pnpm install`
 - Run tests: `pnpm test`
