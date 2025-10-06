@@ -1,5 +1,33 @@
 # CLAUDE.md - Project Guidelines
 
+## Workflow Guidelines
+
+### Phase Completion Protocol
+**IMPORTANT**: After completing each implementation phase, you MUST:
+1. Document technical insights and learnings in the corresponding GitHub Issue
+2. Include: implementation details, technical challenges, solutions, test results
+3. Format: Add as a comment to the Epic issue for that phase
+4. Commit the completed work with a descriptive commit message
+
+Example comment structure:
+```markdown
+## Phase X.X 実装完了 - [Phase Name]
+
+### 実装内容
+- ✅ [What was implemented]
+
+### 技術的知見
+#### [Problem/Challenge encountered]
+**問題**: [Description]
+**解決策**: [Solution with code examples]
+
+### テスト結果
+[Test summary]
+
+### 次のステップ
+[Next phase]
+```
+
 ## Build and Test Commands
 - Install dependencies: `pnpm install`
 - Run tests: `pnpm test`
