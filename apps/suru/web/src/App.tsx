@@ -63,7 +63,7 @@ export function App() {
           onKeyDown={(e) => e.key === 'Enter' && addTask()}
           placeholder="Enter a new task..."
         />
-        <button onClick={addTask}>Add Task</button>
+        <button type="button" onClick={addTask}>Add Task</button>
       </div>
 
       {loading ? (

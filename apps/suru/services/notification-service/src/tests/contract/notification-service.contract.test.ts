@@ -48,9 +48,9 @@ describe('Notification Service Contract', () => {
 
       const response = await client.listNotifications(request);
 
-      response.notifications.forEach(notification => {
+      for (const notification of response.notifications) {
         expect(notification.readAt).toBeUndefined();
-      });
+      }
     });
   });
 

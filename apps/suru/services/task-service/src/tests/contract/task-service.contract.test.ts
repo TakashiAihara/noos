@@ -132,9 +132,9 @@ describe('Task Service Contract', () => {
 
       const response = await client.listTasks(request);
 
-      response.tasks.forEach(task => {
+      for (const task of response.tasks) {
         expect(task.status).toBe('IN_PROGRESS');
-      });
+      }
     });
 
     it('should sort tasks by due date', async () => {

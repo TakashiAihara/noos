@@ -101,9 +101,9 @@ describe('Team Service Contract', () => {
       const response = await client.listProjects(request);
 
       expect(response.projects).toBeDefined();
-      response.projects.forEach(project => {
+      for (const project of response.projects) {
         expect(project.archived).toBe(false);
-      });
+      }
     });
 
     it('should include archived projects when requested', async () => {

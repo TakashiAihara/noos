@@ -2,7 +2,7 @@
  * ID generation utilities
  */
 
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
 /**
  * Generates a new UUID v4
