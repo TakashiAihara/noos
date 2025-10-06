@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  quality-checks:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.14.0'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Suru packages
+        run: pnpm --filter '@noos/suru-types' --filter '@noos/suru-utils' build
+
+      - name: Run lint check (Suru only)
+        run: pnpm biome lint apps/suru packages/suru
+
+      - name: Run format check (Suru only)
+        run: pnpm biome format apps/suru packages/suru
+
+      - name: Run type check (Suru packages only)
+        run: pnpm --filter '@noos/suru-*' typecheck

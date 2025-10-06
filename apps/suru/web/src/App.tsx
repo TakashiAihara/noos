@@ -39,7 +39,7 @@ export function App() {
       const response = await fetch('/api/tasks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: newTask, completed: false })
+        body: JSON.stringify({ title: newTask, completed: false }),
       });
       const data: ApiResponse<Task> = await response.json();
       if (data.data) {
@@ -63,7 +63,9 @@ export function App() {
           onKeyDown={(e) => e.key === 'Enter' && addTask()}
           placeholder="Enter a new task..."
         />
-        <button onClick={addTask}>Add Task</button>
+        <button type="button" onClick={addTask}>
+          Add Task
+        </button>
       </div>
 
       {loading ? (
@@ -73,7 +75,7 @@ export function App() {
           {tasks.length === 0 ? (
             <li>No tasks yet. Add your first task!</li>
           ) : (
-            tasks.map(task => (
+            tasks.map((task) => (
               <li key={task.id} className={task.completed ? 'completed' : ''}>
                 {task.title}
               </li>

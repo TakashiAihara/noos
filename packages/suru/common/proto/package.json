@@ -1,0 +1,22 @@
+{
+  "name": "@noos/suru-proto",
+  "version": "0.1.0",
+  "description": "Shared Protocol Buffer definitions for Suru services",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "pnpm run proto:generate && tsc",
+    "proto:generate": "buf generate",
+    "clean": "rm -rf dist generated"
+  },
+  "devDependencies": {
+    "@bufbuild/buf": "^1.28.1",
+    "@bufbuild/protoc-gen-es": "^1.6.0",
+    "@connectrpc/protoc-gen-connect-es": "^1.2.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^1.6.0",
+    "@connectrpc/connect": "^1.2.0"
+  }
+}

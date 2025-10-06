@@ -23,35 +23,42 @@ app.get('/health', (c) => {
 
 // Root endpoint
 app.get('/', (c) => {
-  return c.json(createApiResponse({
-    service: 'suru',
-    version: '0.0.1',
-    description: 'Task management service'
-  }));
+  return c.json(
+    createApiResponse({
+      service: 'suru',
+      version: '0.0.1',
+      description: 'Task management service',
+    }),
+  );
 });
 
 // Tasks endpoints (placeholder)
 app.get('/api/tasks', (c) => {
-  return c.json(createApiResponse({
-    tasks: [],
-    total: 0
-  }));
+  return c.json(
+    createApiResponse({
+      tasks: [],
+      total: 0,
+    }),
+  );
 });
 
 app.post('/api/tasks', async (c) => {
   const body = await c.req.json();
-  return c.json(createApiResponse({
-    id: '1',
-    ...body,
-    createdAt: new Date().toISOString()
-  }), 201);
+  return c.json(
+    createApiResponse({
+      id: '1',
+      ...body,
+      createdAt: new Date().toISOString(),
+    }),
+    201,
+  );
 });
 
 // 404 handler
 app.notFound((c) => {
   const response: ApiResponse<null> = {
     error: 'Not Found',
-    status: 'error'
+    status: 'error',
   };
   return c.json(response, 404);
 });
@@ -61,7 +68,7 @@ app.onError((err, c) => {
   console.error(err);
   const response: ApiResponse<null> = {
     error: err.message || 'Internal Server Error',
-    status: 'error'
+    status: 'error',
   };
   return c.json(response, 500);
 });
@@ -70,7 +77,7 @@ app.onError((err, c) => {
 const port = 3003;
 serve({
   fetch: app.fetch,
-  port
+  port,
 });
 
 console.log(`🚀 Suru API running on http://localhost:${port}`);
