@@ -1,0 +1,174 @@
+// Task Service gRPC Contract
+syntax = "proto3";
+
+package suru.task.v1;
+
+// Task Service - Manages tasks and subtasks
+service TaskService {
+  // Create a new task
+  rpc CreateTask(CreateTaskRequest) returns (CreateTaskResponse);
+
+  // Get task by ID
+  rpc GetTask(GetTaskRequest) returns (GetTaskResponse);
+
+  // List tasks with filtering
+  rpc ListTasks(ListTasksRequest) returns (ListTasksResponse);
+
+  // Update task
+  rpc UpdateTask(UpdateTaskRequest) returns (UpdateTaskResponse);
+
+  // Delete task
+  rpc DeleteTask(DeleteTaskRequest) returns (DeleteTaskResponse);
+
+  // Assign task to user
+  rpc AssignTask(AssignTaskRequest) returns (AssignTaskResponse);
+
+  // Add subtask
+  rpc AddSubtask(AddSubtaskRequest) returns (AddSubtaskResponse);
+
+  // Stream task updates (real-time)
+  rpc WatchTasks(WatchTasksRequest) returns (stream TaskEvent);
+}
+
+// Messages
+message Task {
+  string id = 1;
+  string title = 2;
+  optional string description = 3;
+  TaskStatus status = 4;
+  Priority priority = 5;
+  optional string due_date = 6;  // ISO 8601 date string
+
+  string project_id = 7;
+  optional string assignee_id = 8;
+  repeated string tags = 9;
+
+  optional string parent_task_id = 10;
+  repeated Task subtasks = 11;
+
+  string created_by = 12;
+  string created_at = 13;  // ISO 8601 timestamp
+  string updated_at = 14;
+  int32 version = 15;
+}
+
+enum TaskStatus {
+  TODO = 0;
+  IN_PROGRESS = 1;
+  DONE = 2;
+}
+
+enum Priority {
+  LOW = 0;
+  MEDIUM = 1;
+  HIGH = 2;
+}
+
+// Create Task
+message CreateTaskRequest {
+  string project_id = 1;
+  string title = 2;
+  optional string description = 3;
+  optional Priority priority = 4;
+  optional string due_date = 5;
+  repeated string tags = 6;
+  optional string assignee_id = 7;
+  optional string parent_task_id = 8;
+}
+
+message CreateTaskResponse {
+  Task task = 1;
+}
+
+// Get Task
+message GetTaskRequest {
+  string id = 1;
+  bool include_subtasks = 2;
+}
+
+message GetTaskResponse {
+  Task task = 1;
+}
+
+// List Tasks
+message ListTasksRequest {
+  string project_id = 1;
+  optional TaskStatus status = 2;
+  optional string assignee_id = 3;
+  repeated string tags = 4;
+  optional string sort_by = 5;  // e.g., "due_date", "priority", "created_at"
+  optional string sort_order = 6;  // "asc" or "desc"
+  int32 page = 7;
+  int32 page_size = 8;
+}
+
+message ListTasksResponse {
+  repeated Task tasks = 1;
+  int32 total_count = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+// Update Task
+message UpdateTaskRequest {
+  string id = 1;
+  optional string title = 2;
+  optional string description = 3;
+  optional TaskStatus status = 4;
+  optional Priority priority = 5;
+  optional string due_date = 6;
+  repeated string tags = 7;
+  int32 version = 8;  // Optimistic locking
+}
+
+message UpdateTaskResponse {
+  Task task = 1;
+}
+
+// Delete Task
+message DeleteTaskRequest {
+  string id = 1;
+}
+
+message DeleteTaskResponse {
+  bool success = 1;
+}
+
+// Assign Task
+message AssignTaskRequest {
+  string task_id = 1;
+  optional string assignee_id = 2;  // null to unassign
+}
+
+message AssignTaskResponse {
+  Task task = 1;
+}
+
+// Add Subtask
+message AddSubtaskRequest {
+  string parent_task_id = 1;
+  string title = 2;
+  optional string description = 3;
+}
+
+message AddSubtaskResponse {
+  Task subtask = 1;
+}
+
+// Watch Tasks (streaming)
+message WatchTasksRequest {
+  string project_id = 1;
+}
+
+message TaskEvent {
+  enum EventType {
+    CREATED = 0;
+    UPDATED = 1;
+    DELETED = 2;
+    ASSIGNED = 3;
+  }
+
+  EventType type = 1;
+  Task task = 2;
+  string timestamp = 3;
+}

@@ -1,0 +1,143 @@
+// Auth Service gRPC Contract
+syntax = "proto3";
+
+package suru.auth.v1;
+
+// Auth Service - Handles OAuth authentication and user management
+service AuthService {
+  // OAuth flow initiation (returns redirect URL)
+  rpc InitiateOAuth(InitiateOAuthRequest) returns (InitiateOAuthResponse);
+
+  // OAuth callback (exchanges code for tokens)
+  rpc HandleOAuthCallback(HandleOAuthCallbackRequest) returns (HandleOAuthCallbackResponse);
+
+  // Refresh access token
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
+
+  // Validate JWT token
+  rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+
+  // Logout (revoke tokens)
+  rpc Logout(LogoutRequest) returns (LogoutResponse);
+
+  // Get user profile
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+
+  // Update user profile
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+
+  // Get current user from JWT
+  rpc GetCurrentUser(GetCurrentUserRequest) returns (GetCurrentUserResponse);
+}
+
+// Messages
+message User {
+  string id = 1;
+  string email = 2;
+  string display_name = 3;
+  optional string avatar_url = 4;
+  string created_at = 5;
+  string last_login_at = 6;
+}
+
+message OAuthTokens {
+  string access_token = 1;   // JWT
+  string refresh_token = 2;
+  int64 expires_in = 3;      // Seconds until expiration
+  string token_type = 4;     // "Bearer"
+}
+
+enum OAuthProvider {
+  GOOGLE = 0;
+  GITHUB = 1;
+}
+
+// Initiate OAuth
+message InitiateOAuthRequest {
+  OAuthProvider provider = 1;
+  string redirect_uri = 2;  // Where to redirect after auth
+}
+
+message InitiateOAuthResponse {
+  string authorization_url = 1;  // URL to redirect user to
+  string state = 2;              // CSRF token
+}
+
+// Handle OAuth Callback
+message HandleOAuthCallbackRequest {
+  OAuthProvider provider = 1;
+  string code = 2;           // Authorization code from provider
+  string state = 3;          // CSRF token to validate
+}
+
+message HandleOAuthCallbackResponse {
+  OAuthTokens tokens = 1;
+  User user = 2;
+  bool is_new_user = 3;
+}
+
+// Refresh Token
+message RefreshTokenRequest {
+  string refresh_token = 1;
+}
+
+message RefreshTokenResponse {
+  OAuthTokens tokens = 1;
+}
+
+// Validate Token
+message ValidateTokenRequest {
+  string access_token = 1;
+}
+
+message ValidateTokenResponse {
+  bool valid = 1;
+  optional UserClaims claims = 2;
+}
+
+message UserClaims {
+  string user_id = 1;
+  string email = 2;
+  repeated string team_ids = 3;  // Teams user belongs to
+  int64 exp = 4;                 // Expiration timestamp
+}
+
+// Logout
+message LogoutRequest {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message LogoutResponse {
+  bool success = 1;
+}
+
+// Get User
+message GetUserRequest {
+  string user_id = 1;
+}
+
+message GetUserResponse {
+  User user = 1;
+}
+
+// Update User
+message UpdateUserRequest {
+  string user_id = 1;
+  optional string display_name = 2;
+  optional string avatar_url = 3;
+}
+
+message UpdateUserResponse {
+  User user = 1;
+}
+
+// Get Current User
+message GetCurrentUserRequest {
+  string access_token = 1;
+}
+
+message GetCurrentUserResponse {
+  User user = 1;
+  UserClaims claims = 2;
+}
