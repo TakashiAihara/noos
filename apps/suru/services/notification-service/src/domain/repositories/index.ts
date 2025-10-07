@@ -3,6 +3,6 @@
  */
 
 export type {
-	NotificationRepository,
-	NotificationFilters,
+  NotificationRepository,
+  NotificationFilters,
 } from './notification-repository';

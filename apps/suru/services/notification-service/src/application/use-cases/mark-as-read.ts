@@ -7,32 +7,32 @@ import type { NotificationRepository } from '../../domain/repositories';
 import { ValidationError } from '@noos/suru-types';
 
 export interface MarkAsReadInput {
-	notificationId: string;
+  notificationId: string;
 }
 
 export interface MarkAsReadOutput {
-	success: boolean;
+  success: boolean;
 }
 
 export class MarkAsReadUseCase {
-	constructor(private notificationRepository: NotificationRepository) {}
+  constructor(private notificationRepository: NotificationRepository) {}
 
-	async execute(input: MarkAsReadInput): Promise<MarkAsReadOutput> {
-		const notificationId = NotificationId.create(input.notificationId);
+  async execute(input: MarkAsReadInput): Promise<MarkAsReadOutput> {
+    const notificationId = NotificationId.create(input.notificationId);
 
-		const notification =
-			await this.notificationRepository.findById(notificationId);
+    const notification =
+      await this.notificationRepository.findById(notificationId);
 
-		if (!notification) {
-			throw new ValidationError('Notification not found');
-		}
+    if (!notification) {
+      throw new ValidationError('Notification not found');
+    }
 
-		notification.markAsRead();
+    notification.markAsRead();
 
-		await this.notificationRepository.save(notification);
+    await this.notificationRepository.save(notification);
 
-		return {
-			success: true,
-		};
-	}
+    return {
+      success: true,
+    };
+  }
 }
