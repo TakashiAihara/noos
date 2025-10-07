@@ -47,15 +47,11 @@ export class Notification {
     }
 
     if (params.title.length > 200) {
-      throw new ValidationError(
-        'Notification title must be less than 200 characters',
-      );
+      throw new ValidationError('Notification title must be less than 200 characters');
     }
 
     if (params.message.length > 1000) {
-      throw new ValidationError(
-        'Notification message must be less than 1000 characters',
-      );
+      throw new ValidationError('Notification message must be less than 1000 characters');
     }
 
     return new Notification({

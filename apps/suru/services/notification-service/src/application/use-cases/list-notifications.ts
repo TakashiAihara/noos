@@ -2,10 +2,7 @@
  * List Notifications Use Case
  */
 
-import type {
-  NotificationRepository,
-  NotificationFilters,
-} from '../../domain/repositories';
+import type { NotificationRepository, NotificationFilters } from '../../domain/repositories';
 
 export interface ListNotificationsInput {
   userId: string;
@@ -36,9 +33,7 @@ export interface ListNotificationsOutput {
 export class ListNotificationsUseCase {
   constructor(private notificationRepository: NotificationRepository) {}
 
-  async execute(
-    input: ListNotificationsInput,
-  ): Promise<ListNotificationsOutput> {
+  async execute(input: ListNotificationsInput): Promise<ListNotificationsOutput> {
     const filters: NotificationFilters = {
       userId: input.userId,
       type: input.type,

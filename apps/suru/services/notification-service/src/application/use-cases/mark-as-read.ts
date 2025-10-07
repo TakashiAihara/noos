@@ -20,8 +20,7 @@ export class MarkAsReadUseCase {
   async execute(input: MarkAsReadInput): Promise<MarkAsReadOutput> {
     const notificationId = NotificationId.create(input.notificationId);
 
-    const notification =
-      await this.notificationRepository.findById(notificationId);
+    const notification = await this.notificationRepository.findById(notificationId);
 
     if (!notification) {
       throw new ValidationError('Notification not found');

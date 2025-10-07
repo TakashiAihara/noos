@@ -137,9 +137,7 @@ describe('Notification Entity', () => {
 
       notification.markAsRead();
 
-      expect(() => notification.markAsRead()).toThrow(
-        'Notification is already marked as read',
-      );
+      expect(() => notification.markAsRead()).toThrow('Notification is already marked as read');
     });
   });
 
@@ -170,9 +168,7 @@ describe('Notification Entity', () => {
         message: 'Test message',
       });
 
-      expect(() => notification.markAsUnread()).toThrow(
-        'Notification is already marked as unread',
-      );
+      expect(() => notification.markAsUnread()).toThrow('Notification is already marked as unread');
     });
   });
 

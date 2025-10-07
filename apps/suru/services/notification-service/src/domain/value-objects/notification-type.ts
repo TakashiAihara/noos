@@ -48,16 +48,14 @@ export class NotificationType {
   }
 
   isTeamRelated(): boolean {
-    return [
-      NotificationTypeEnum.TEAM_INVITATION,
-      NotificationTypeEnum.TEAM_REMOVED,
-    ].includes(this.value);
+    return [NotificationTypeEnum.TEAM_INVITATION, NotificationTypeEnum.TEAM_REMOVED].includes(
+      this.value,
+    );
   }
 
   isProjectRelated(): boolean {
-    return [
-      NotificationTypeEnum.PROJECT_CREATED,
-      NotificationTypeEnum.PROJECT_ARCHIVED,
-    ].includes(this.value);
+    return [NotificationTypeEnum.PROJECT_CREATED, NotificationTypeEnum.PROJECT_ARCHIVED].includes(
+      this.value,
+    );
   }
 }

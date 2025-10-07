@@ -21,9 +21,7 @@ export interface CreateNotificationOutput {
 export class CreateNotificationUseCase {
   constructor(private notificationRepository: NotificationRepository) {}
 
-  async execute(
-    input: CreateNotificationInput,
-  ): Promise<CreateNotificationOutput> {
+  async execute(input: CreateNotificationInput): Promise<CreateNotificationOutput> {
     const notification = Notification.create({
       userId: input.userId,
       type: input.type,
