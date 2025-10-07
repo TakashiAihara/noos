@@ -26,15 +26,11 @@ class MockNotificationRepository implements NotificationRepository {
   }
 
   async findByUserId(userId: string): Promise<Notification[]> {
-    return Array.from(this.notifications.values()).filter(
-      (n) => n.userId === userId,
-    );
+    return Array.from(this.notifications.values()).filter((n) => n.userId === userId);
   }
 
   async findUnreadByUserId(userId: string): Promise<Notification[]> {
-    return Array.from(this.notifications.values()).filter(
-      (n) => n.userId === userId && !n.isRead,
-    );
+    return Array.from(this.notifications.values()).filter((n) => n.userId === userId && !n.isRead);
   }
 
   async findMany(filters: NotificationFilters): Promise<{
@@ -111,9 +107,7 @@ describe('Use Cases', () => {
 
       expect(result.notificationId).toBeDefined();
 
-      const notification = await repository.findById(
-        NotificationId.create(result.notificationId),
-      );
+      const notification = await repository.findById(NotificationId.create(result.notificationId));
       expect(notification).toBeDefined();
       expect(notification?.userId).toBe(VALID_USER_ID);
       expect(notification?.title).toBe('New task assigned');
@@ -238,9 +232,7 @@ describe('Use Cases', () => {
 
       expect(result.success).toBe(true);
 
-      const updated = await repository.findById(
-        NotificationId.create(notification.id),
-      );
+      const updated = await repository.findById(NotificationId.create(notification.id));
       expect(updated?.isRead).toBe(true);
     });
 
