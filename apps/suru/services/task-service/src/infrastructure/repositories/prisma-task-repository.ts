@@ -118,12 +118,9 @@ export class PrismaTaskRepository implements TaskRepository {
         }),
     };
 
-    const orderBy = {};
-    if (filters.sortBy) {
-      orderBy[filters.sortBy] = filters.sortOrder ?? 'asc';
-    } else {
-      orderBy.createdAt = 'desc';
-    }
+    const orderBy = filters.sortBy
+      ? { [filters.sortBy]: filters.sortOrder ?? 'asc' }
+      : { createdAt: 'desc' };
 
     const [tasks, totalCount] = await Promise.all([
       this.prisma.task.findMany({
