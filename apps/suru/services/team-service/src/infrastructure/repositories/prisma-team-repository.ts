@@ -123,7 +123,13 @@ export class PrismaTeamRepository implements TeamRepository {
 
     // Add members if included
     if (includeMembers && teamData.members) {
-      const membersArray: any[] = [];
+      const membersArray: Array<{
+        id: string;
+        userId: string;
+        teamId: string;
+        role: string;
+        joinedAt: Date;
+      }> = [];
       for (const memberData of teamData.members) {
         // Reconstruct team member
         membersArray.push({
@@ -144,19 +150,16 @@ export class PrismaTeamRepository implements TeamRepository {
     teams: Team[];
     totalCount: number;
   }> {
-    const where: any = {};
-
-    if (filters.createdBy) {
-      where.createdBy = filters.createdBy;
-    }
-
-    if (filters.memberUserId) {
-      where.members = {
-        some: {
-          userId: filters.memberUserId,
+    const where = {
+      ...(filters.createdBy && { createdBy: filters.createdBy }),
+      ...(filters.memberUserId && {
+        members: {
+          some: {
+            userId: filters.memberUserId,
+          },
         },
-      };
-    }
+      }),
+    };
 
     const [teams, totalCount] = await Promise.all([
       this.prisma.team.findMany({
@@ -193,7 +196,13 @@ export class PrismaTeamRepository implements TeamRepository {
           },
         });
 
-        const membersArray: any[] = teamData.members.map((m) => ({
+        const membersArray: Array<{
+          id: string;
+          userId: string;
+          teamId: string;
+          role: string;
+          joinedAt: Date;
+        }> = teamData.members.map((m) => ({
           id: m.id,
           userId: m.userId,
           teamId: m.teamId,

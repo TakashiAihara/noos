@@ -119,19 +119,13 @@ export class PrismaNotificationRepository implements NotificationRepository {
     notifications: Notification[];
     totalCount: number;
   }> {
-    const where: any = {};
-
-    if (filters.userId) {
-      where.userId = filters.userId;
-    }
-
-    if (filters.type) {
-      where.type = filters.type;
-    }
-
-    if (filters.isRead !== undefined) {
-      where.readAt = filters.isRead ? { not: null } : null;
-    }
+    const where = {
+      ...(filters.userId && { userId: filters.userId }),
+      ...(filters.type && { type: filters.type }),
+      ...(filters.isRead !== undefined && {
+        readAt: filters.isRead ? { not: null } : null,
+      }),
+    };
 
     const [notifications, totalCount] = await Promise.all([
       this.prisma.notification.findMany({

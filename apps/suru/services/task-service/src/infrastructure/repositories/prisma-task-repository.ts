@@ -100,31 +100,25 @@ export class PrismaTaskRepository implements TaskRepository {
     const pageSize = filters.pageSize ?? 20;
     const skip = (page - 1) * pageSize;
 
-    const where: any = {
+    const where = {
       projectId: filters.projectId,
-    };
-
-    if (filters.status) {
-      where.status = filters.status;
-    }
-
-    if (filters.assigneeId) {
-      where.assigneeId = filters.assigneeId;
-    }
-
-    if (filters.tags && filters.tags.length > 0) {
-      where.tags = {
-        some: {
-          tag: {
-            name: {
-              in: filters.tags,
+      ...(filters.status && { status: filters.status }),
+      ...(filters.assigneeId && { assigneeId: filters.assigneeId }),
+      ...(filters.tags &&
+        filters.tags.length > 0 && {
+          tags: {
+            some: {
+              tag: {
+                name: {
+                  in: filters.tags,
+                },
+              },
             },
           },
-        },
-      };
-    }
+        }),
+    };
 
-    const orderBy: any = {};
+    const orderBy = {};
     if (filters.sortBy) {
       orderBy[filters.sortBy] = filters.sortOrder ?? 'asc';
     } else {

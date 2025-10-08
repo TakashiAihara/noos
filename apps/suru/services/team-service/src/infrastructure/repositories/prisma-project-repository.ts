@@ -81,13 +81,10 @@ export class PrismaProjectRepository implements ProjectRepository {
     projects: Project[];
     totalCount: number;
   }> {
-    const where: any = {
+    const where = {
       teamId: filters.teamId,
+      ...(filters.archived !== undefined && { archived: filters.archived }),
     };
-
-    if (filters.archived !== undefined) {
-      where.archived = filters.archived;
-    }
 
     const [projects, totalCount] = await Promise.all([
       this.prisma.project.findMany({

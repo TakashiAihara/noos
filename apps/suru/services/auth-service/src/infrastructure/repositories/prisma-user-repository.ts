@@ -98,7 +98,7 @@ export class PrismaUserRepository implements UserRepository {
     users: User[];
     totalCount: number;
   }> {
-    const where: any = {};
+    const where = {};
 
     const [users, totalCount] = await Promise.all([
       this.prisma.user.findMany({
