@@ -3,10 +3,10 @@
  */
 
 import { PrismaClient } from '@noos/suru-db';
-import type { TeamRepository, TeamFilters } from '../../domain/repositories/team-repository';
-import { Team } from '../../domain/entities/team';
-import { TeamId } from '../../domain/value-objects/team-id';
 import { ValidationError } from '@noos/suru-types';
+import { Team } from '../../domain/entities/team';
+import type { TeamFilters, TeamRepository } from '../../domain/repositories/team-repository';
+import { TeamId } from '../../domain/value-objects/team-id';
 
 export class PrismaTeamRepository implements TeamRepository {
   constructor(private prisma: PrismaClient) {}

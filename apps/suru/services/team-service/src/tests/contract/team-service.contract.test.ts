@@ -2,17 +2,17 @@
  * Contract tests for Team Service gRPC interface
  */
 
-import { describe, it, expect } from 'vitest';
 import { createPromiseClient } from '@connectrpc/connect';
 import { createGrpcTransport } from '@connectrpc/connect-node';
 import { TeamService } from '@noos/suru-proto';
 import type {
-  CreateTeamRequest,
-  GetTeamRequest,
   AddMemberRequest,
   CreateProjectRequest,
+  CreateTeamRequest,
+  GetTeamRequest,
   ListProjectsRequest,
 } from '@noos/suru-proto';
+import { describe, expect, it } from 'vitest';
 
 const TEST_PORT = 50052;
 const transport = createGrpcTransport({

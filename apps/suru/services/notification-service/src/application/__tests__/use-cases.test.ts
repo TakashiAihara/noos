@@ -2,14 +2,14 @@
  * Use Cases Tests
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { Notification } from '../../domain/entities/notification';
+import type { NotificationFilters, NotificationRepository } from '../../domain/repositories';
+import { NotificationId } from '../../domain/value-objects/notification-id';
+import { NotificationTypeEnum } from '../../domain/value-objects/notification-type';
 import { CreateNotificationUseCase } from '../use-cases/create-notification';
 import { ListNotificationsUseCase } from '../use-cases/list-notifications';
 import { MarkAsReadUseCase } from '../use-cases/mark-as-read';
-import { Notification } from '../../domain/entities/notification';
-import { NotificationId } from '../../domain/value-objects/notification-id';
-import { NotificationTypeEnum } from '../../domain/value-objects/notification-type';
-import type { NotificationRepository, NotificationFilters } from '../../domain/repositories';
 
 const VALID_USER_ID = '123e4567-e89b-42d3-a456-426614174000';
 

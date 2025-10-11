@@ -1,23 +1,24 @@
 /**
- * Mark As Read Use Case
+ * Get Notification Use Case
  */
 
 import { ValidationError } from '@noos/suru-types';
 import type { NotificationRepository } from '../../domain/repositories';
 import { NotificationId } from '../../domain/value-objects/notification-id';
+import { type NotificationDTO, notificationToDTO } from '../mappers/notification-mapper';
 
-export interface MarkAsReadInput {
+export interface GetNotificationInput {
   notificationId: string;
 }
 
-export interface MarkAsReadOutput {
-  success: boolean;
+export interface GetNotificationOutput {
+  notification: NotificationDTO;
 }
 
-export class MarkAsReadUseCase {
+export class GetNotificationUseCase {
   constructor(private notificationRepository: NotificationRepository) {}
 
-  async execute(input: MarkAsReadInput): Promise<MarkAsReadOutput> {
+  async execute(input: GetNotificationInput): Promise<GetNotificationOutput> {
     const notificationId = NotificationId.create(input.notificationId);
 
     const notification = await this.notificationRepository.findById(notificationId);
@@ -26,12 +27,8 @@ export class MarkAsReadUseCase {
       throw new ValidationError('Notification not found');
     }
 
-    notification.markAsRead();
-
-    await this.notificationRepository.save(notification);
-
     return {
-      success: true,
+      notification: notificationToDTO(notification),
     };
   }
 }

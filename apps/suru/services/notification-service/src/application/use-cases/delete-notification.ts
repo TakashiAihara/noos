@@ -1,34 +1,32 @@
 /**
- * Mark As Read Use Case
+ * Delete Notification Use Case
  */
 
 import { ValidationError } from '@noos/suru-types';
 import type { NotificationRepository } from '../../domain/repositories';
 import { NotificationId } from '../../domain/value-objects/notification-id';
 
-export interface MarkAsReadInput {
+export interface DeleteNotificationInput {
   notificationId: string;
 }
 
-export interface MarkAsReadOutput {
+export interface DeleteNotificationOutput {
   success: boolean;
 }
 
-export class MarkAsReadUseCase {
+export class DeleteNotificationUseCase {
   constructor(private notificationRepository: NotificationRepository) {}
 
-  async execute(input: MarkAsReadInput): Promise<MarkAsReadOutput> {
+  async execute(input: DeleteNotificationInput): Promise<DeleteNotificationOutput> {
     const notificationId = NotificationId.create(input.notificationId);
 
-    const notification = await this.notificationRepository.findById(notificationId);
+    const exists = await this.notificationRepository.exists(notificationId);
 
-    if (!notification) {
+    if (!exists) {
       throw new ValidationError('Notification not found');
     }
 
-    notification.markAsRead();
-
-    await this.notificationRepository.save(notification);
+    await this.notificationRepository.delete(notificationId);
 
     return {
       success: true,
