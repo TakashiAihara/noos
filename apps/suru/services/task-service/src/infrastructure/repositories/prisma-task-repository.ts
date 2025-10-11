@@ -3,10 +3,10 @@
  */
 
 import { PrismaClient } from '@noos/suru-db';
-import type { TaskRepository, TaskFilters } from '../../domain/repositories/task-repository';
-import { Task } from '../../domain/entities/task';
-import { TaskId } from '../../domain/value-objects/task-id';
 import { ValidationError } from '@noos/suru-types';
+import { Task } from '../../domain/entities/task';
+import type { TaskFilters, TaskRepository } from '../../domain/repositories/task-repository';
+import { TaskId } from '../../domain/value-objects/task-id';
 
 export class PrismaTaskRepository implements TaskRepository {
   constructor(private prisma: PrismaClient) {}
