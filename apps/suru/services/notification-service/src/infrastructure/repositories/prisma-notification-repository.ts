@@ -3,11 +3,11 @@
  */
 
 import { PrismaClient } from '@noos/suru-db';
-import type {
-  NotificationRepository,
-  NotificationFilters,
-} from '../../domain/repositories/notification-repository';
 import { Notification } from '../../domain/entities/notification';
+import type {
+  NotificationFilters,
+  NotificationRepository,
+} from '../../domain/repositories/notification-repository';
 import { NotificationId } from '../../domain/value-objects/notification-id';
 
 export class PrismaNotificationRepository implements NotificationRepository {

@@ -2,9 +2,9 @@
  * Mark As Read Use Case
  */
 
-import { NotificationId } from '../../domain/value-objects/notification-id';
-import type { NotificationRepository } from '../../domain/repositories';
 import { ValidationError } from '@noos/suru-types';
+import type { NotificationRepository } from '../../domain/repositories';
+import { NotificationId } from '../../domain/value-objects/notification-id';
 
 export interface MarkAsReadInput {
   notificationId: string;

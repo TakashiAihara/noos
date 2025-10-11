@@ -3,11 +3,11 @@
  */
 
 import { PrismaClient } from '@noos/suru-db';
-import type { UserRepository, UserFilters } from '../../domain/repositories/user-repository';
-import { User } from '../../domain/entities/user';
-import { UserId } from '../../domain/value-objects/user-id';
-import { Email } from '../../domain/value-objects/email';
 import { ValidationError } from '@noos/suru-types';
+import { User } from '../../domain/entities/user';
+import type { UserFilters, UserRepository } from '../../domain/repositories/user-repository';
+import { Email } from '../../domain/value-objects/email';
+import { UserId } from '../../domain/value-objects/user-id';
 
 export class PrismaUserRepository implements UserRepository {
   constructor(private prisma: PrismaClient) {}

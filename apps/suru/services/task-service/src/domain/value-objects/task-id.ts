@@ -2,7 +2,7 @@
  * Task ID Value Object
  */
 
-import { validateUUID, ValidationError } from '@noos/suru-utils';
+import { ValidationError, validateUUID } from '@noos/suru-utils';
 
 export class TaskId {
   private readonly value: string;

@@ -2,9 +2,9 @@
  * Task Entity Unit Tests
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { Task } from '../entities/task';
-import { TaskTitle, TaskStatus, Priority } from '../value-objects';
+import { Priority, TaskStatus, TaskTitle } from '../value-objects';
 
 describe('Task Entity', () => {
   describe('create', () => {

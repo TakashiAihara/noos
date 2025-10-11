@@ -3,13 +3,13 @@
  */
 
 import { PrismaClient } from '@noos/suru-db';
-import type {
-  ProjectRepository,
-  ProjectFilters,
-} from '../../domain/repositories/project-repository';
-import { Project } from '../../domain/entities/project';
-import { ProjectId } from '../../domain/value-objects/project-id';
 import { ValidationError } from '@noos/suru-types';
+import { Project } from '../../domain/entities/project';
+import type {
+  ProjectFilters,
+  ProjectRepository,
+} from '../../domain/repositories/project-repository';
+import { ProjectId } from '../../domain/value-objects/project-id';
 
 export class PrismaProjectRepository implements ProjectRepository {
   constructor(private prisma: PrismaClient) {}
