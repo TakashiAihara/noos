@@ -2,8 +2,8 @@
  * Task Entity (Aggregate Root)
  */
 
-import { TaskId, TaskTitle, TaskStatus, Priority } from '../value-objects';
 import { ValidationError } from '@noos/suru-types';
+import { Priority, TaskId, TaskStatus, TaskTitle } from '../value-objects';
 
 export interface TaskProps {
   id: TaskId;

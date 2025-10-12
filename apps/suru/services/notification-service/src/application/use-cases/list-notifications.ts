@@ -2,7 +2,7 @@
  * List Notifications Use Case
  */
 
-import type { NotificationRepository, NotificationFilters } from '../../domain/repositories';
+import type { NotificationFilters, NotificationRepository } from '../../domain/repositories';
 
 export interface ListNotificationsInput {
   userId: string;

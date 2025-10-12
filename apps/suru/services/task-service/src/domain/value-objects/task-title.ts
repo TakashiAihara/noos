@@ -2,7 +2,7 @@
  * Task Title Value Object
  */
 
-import { validateLength, validateRequired, ValidationError } from '@noos/suru-utils';
+import { ValidationError, validateLength, validateRequired } from '@noos/suru-utils';
 
 export class TaskTitle {
   private readonly value: string;

@@ -2,7 +2,7 @@
  * Notification Entity Tests
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { Notification } from '../entities/notification';
 import { NotificationTypeEnum } from '../value-objects/notification-type';
 

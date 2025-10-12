@@ -3,19 +3,19 @@
  * These tests validate the service contract without implementation
  */
 
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { createPromiseClient } from '@connectrpc/connect';
 import { createGrpcTransport } from '@connectrpc/connect-node';
 import { TaskService } from '@noos/suru-proto';
 import type {
+  AddSubtaskRequest,
+  AssignTaskRequest,
   CreateTaskRequest,
+  DeleteTaskRequest,
   GetTaskRequest,
   ListTasksRequest,
   UpdateTaskRequest,
-  DeleteTaskRequest,
-  AssignTaskRequest,
-  AddSubtaskRequest,
 } from '@noos/suru-proto';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 const TEST_PORT = 50051;
 const transport = createGrpcTransport({

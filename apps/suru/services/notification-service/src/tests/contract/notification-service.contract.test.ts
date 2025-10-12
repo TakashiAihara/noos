@@ -2,16 +2,16 @@
  * Contract tests for Notification Service gRPC interface
  */
 
-import { describe, it, expect } from 'vitest';
 import { createPromiseClient } from '@connectrpc/connect';
 import { createGrpcTransport } from '@connectrpc/connect-node';
 import { NotificationService } from '@noos/suru-proto';
 import type {
+  CreateNotificationRequest,
   ListNotificationsRequest,
   MarkAsReadRequest,
   SubscribePushRequest,
-  CreateNotificationRequest,
 } from '@noos/suru-proto';
+import { describe, expect, it } from 'vitest';
 
 const TEST_PORT = 50054;
 const transport = createGrpcTransport({
