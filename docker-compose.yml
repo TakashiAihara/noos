@@ -1,7 +1,7 @@
 x-common-volume: &common-volume
   volumes:
     - .:/app:delegated
-    - ${HOME}/.pnpm-store:/app/.pnpm-store:delegated
+    - ${HOME}/.bun/install/cache:/app/.bun-cache:delegated
 
 name: noos-local
 
