@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "pnpm run proto:generate && tsc",
+    "build": "bun run proto:generate && tsc",
     "proto:generate": "buf generate",
     "clean": "rm -rf dist generated"
   },

@@ -104,17 +104,16 @@ This ensures all work is tracked and documented, even for unplanned tasks.
 This ensures code quality and prevents breaking changes from being merged.
 
 ## Build and Test Commands
-- Install dependencies: `pnpm install`
-- Run tests: `pnpm test`
-- Run a single test: `pnpm test -- path/to/testfile.test.js`
-- Lint code: `pnpm lint`
-- Type check: `pnpm typecheck`
-- Build project: `pnpm build`
+- Install dependencies: `bun install`
+- Run tests: `bun run test`
+- Run a single test: `bun run test -- path/to/testfile.test.js`
+- Lint code: `bun run lint`
+- Type check: `bun run typecheck`
+- Build project: `bun run build`
 
 ## Code Style Guidelines
 - Use TypeScript for type safety
-- Format with Prettier
-- Follow ESLint rules
+- Format and lint with Biome
 - Use camelCase for variables and functions
 - Use PascalCase for classes and interfaces
 - Use kebab-case for file names

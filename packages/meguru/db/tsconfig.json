@@ -1,4 +1,0 @@
-{
-  "extends": "@tooling/tsconfig/base.json",
-  "exclude": ["node_modules", "dist"]
-}
