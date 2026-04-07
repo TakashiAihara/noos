@@ -3,21 +3,24 @@ import {
   type QueryOptions,
   type RawExtension,
   SortBy,
-  type SortByValue,
   getStat,
   queryExtensions,
 } from "./marketplace-api.js";
 import { insertSnapshot, upsertExtension } from "./db.js";
 
 const PAGE_SIZE = 100;
-const MAX_PAGES = 10;
+const DELAY_MS = 1000;
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 function todayISO(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
 function processExtension(
-  db: Database.Database,
+  db: Database,
   ext: RawExtension,
   snapshotDate: string,
 ) {
@@ -50,27 +53,25 @@ function processExtension(
   });
 }
 
-async function collectPages(
-  db: Database.Database,
-  sortBy: SortByValue,
-  sortLabel: string,
-  maxPages: number,
-): Promise<number> {
-  let total = 0;
+export async function collect(db: Database): Promise<void> {
   const snapshotDate = todayISO();
+  let page = 1;
+  let total = 0;
 
-  for (let page = 1; page <= maxPages; page++) {
+  console.log(`Starting full collection: date=${snapshotDate}`);
+
+  while (true) {
     const options: QueryOptions = {
-      sortBy,
+      sortBy: SortBy.Installs,
       pageSize: PAGE_SIZE,
       pageNumber: page,
     };
 
-    console.log(`  [${sortLabel}] page ${page}/${maxPages}...`);
+    console.log(`  page ${page}...`);
     const extensions = await queryExtensions(options);
 
     if (extensions.length === 0) {
-      console.log(`  [${sortLabel}] no more results`);
+      console.log("  no more results, done.");
       break;
     }
 
@@ -82,43 +83,15 @@ async function collectPages(
     tx();
 
     total += extensions.length;
-    console.log(
-      `  [${sortLabel}] saved ${extensions.length} extensions (total: ${total})`,
-    );
+    console.log(`  saved ${extensions.length} (total: ${total})`);
+
+    if (extensions.length < PAGE_SIZE) {
+      break;
+    }
+
+    await sleep(DELAY_MS);
+    page++;
   }
 
-  return total;
-}
-
-export type SortMode = "all" | "trending" | "installs";
-
-export async function collect(
-  db: Database.Database,
-  mode: SortMode = "all",
-  maxPages = MAX_PAGES,
-): Promise<void> {
-  console.log(
-    `Starting collection: mode=${mode}, maxPages=${maxPages}, date=${todayISO()}`,
-  );
-
-  const sorts: Array<{ sortBy: SortByValue; label: string }> = [];
-
-  if (mode === "all" || mode === "installs") {
-    sorts.push({ sortBy: SortBy.Installs, label: "installs" });
-  }
-  if (mode === "all" || mode === "trending") {
-    sorts.push(
-      { sortBy: SortBy.TrendingDaily, label: "trending-daily" },
-      { sortBy: SortBy.TrendingWeekly, label: "trending-weekly" },
-      { sortBy: SortBy.TrendingMonthly, label: "trending-monthly" },
-    );
-  }
-
-  let grandTotal = 0;
-  for (const { sortBy, label } of sorts) {
-    const count = await collectPages(db, sortBy, label, maxPages);
-    grandTotal += count;
-  }
-
-  console.log(`Collection complete. Total records processed: ${grandTotal}`);
+  console.log(`Collection complete. Total: ${total} extensions`);
 }

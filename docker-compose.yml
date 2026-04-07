@@ -291,12 +291,25 @@ services:
     <<: *common-volume
     profiles:
       - all
+
+  vscode-marketplace-crawler:
+    build:
+      context: .
+      dockerfile: ./apps/meguru/vscode-marketplace-crawler/Dockerfile
+    volumes:
+      - vscode-marketplace-data:/app/apps/meguru/vscode-marketplace-crawler/data
+    restart: "no"
+    profiles:
+      - crawler
+      - all
+
 networks:
   cockroach-net:
 
 volumes:
   localstack_data:
   dgraph_data:
+  vscode-marketplace-data:
 
   cockroach-data1:
   cockroach-data2:
