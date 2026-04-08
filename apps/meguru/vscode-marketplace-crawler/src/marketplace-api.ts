@@ -133,5 +133,5 @@ export function getStat(
   extension: RawExtension,
   name: string,
 ): number | undefined {
-  return extension.statistics.find((s) => s.statisticName === name)?.value;
+  return extension.statistics?.find((s) => s.statisticName === name)?.value;
 }
