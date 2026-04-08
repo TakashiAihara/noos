@@ -8,7 +8,7 @@ import {
 import { getDb, insertSnapshot, upsertExtension } from "./db.js";
 
 const PAGE_SIZE = 100;
-const DELAY_MS = 5000;
+const DELAY_MS = Number(process.env["CRAWL_DELAY_MS"] ?? "5000");
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));

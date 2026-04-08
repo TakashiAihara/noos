@@ -320,6 +320,7 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: postgres://crawler:crawler@crawler-db:5432/marketplace
+      CRAWL_DELAY_MS: ${CRAWL_DELAY_MS:-5000}
     restart: unless-stopped
     profiles:
       - crawler
