@@ -86,6 +86,9 @@ function buildFilters(options: QueryOptions) {
   ];
 }
 
+const MAX_RETRIES = 3;
+const RETRY_DELAY_MS = 5000;
+
 export async function queryExtensions(
   options: QueryOptions,
 ): Promise<RawExtension[]> {
@@ -95,23 +98,35 @@ export async function queryExtensions(
     flags: DEFAULT_FLAGS,
   };
 
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: `application/json;api-version=${API_VERSION}`,
-    },
-    body: JSON.stringify(body),
-  });
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: `application/json;api-version=${API_VERSION}`,
+      },
+      body: JSON.stringify(body),
+    });
 
-  if (!response.ok) {
-    throw new Error(
-      `Marketplace API error: ${response.status} ${response.statusText}`,
+    if (response.ok) {
+      const data = (await response.json()) as QueryResponse;
+      return data.results[0]?.extensions ?? [];
+    }
+
+    console.warn(
+      `  API error ${response.status} (attempt ${attempt}/${MAX_RETRIES})`,
     );
+
+    if (attempt < MAX_RETRIES) {
+      await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS));
+    } else {
+      throw new Error(
+        `Marketplace API error after ${MAX_RETRIES} retries: ${response.status} ${response.statusText}`,
+      );
+    }
   }
 
-  const data = (await response.json()) as QueryResponse;
-  return data.results[0]?.extensions ?? [];
+  return [];
 }
 
 export function getStat(
