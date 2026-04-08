@@ -1,10 +1,9 @@
-import { initDb } from "./db.js";
+import { closeDb, initDb } from "./db.js";
 import { collect } from "./collector.js";
 
-const db = initDb();
-
 try {
-  await collect(db);
+  await initDb();
+  await collect();
 } finally {
-  db.close();
+  await closeDb();
 }

@@ -1,4 +1,3 @@
-import type { Database } from "bun:sqlite";
 import {
   type QueryOptions,
   type RawExtension,
@@ -6,7 +5,7 @@ import {
   getStat,
   queryExtensions,
 } from "./marketplace-api.js";
-import { insertSnapshot, upsertExtension } from "./db.js";
+import { getDb, insertSnapshot, upsertExtension } from "./db.js";
 
 const PAGE_SIZE = 100;
 const DELAY_MS = 1000;
@@ -19,12 +18,11 @@ function todayISO(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
-function processExtension(
-  db: Database,
+async function processExtension(
   ext: RawExtension,
   snapshotDate: string,
-) {
-  upsertExtension(db, {
+): Promise<void> {
+  await upsertExtension({
     id: ext.extensionId,
     name: `${ext.publisher.publisherName}.${ext.extensionName}`,
     display_name: ext.displayName,
@@ -37,7 +35,7 @@ function processExtension(
     tags: ext.tags?.join(",") ?? null,
   });
 
-  insertSnapshot(db, {
+  await insertSnapshot({
     extension_id: ext.extensionId,
     snapshot_date: snapshotDate,
     install_count: getStat(ext, "install") ?? null,
@@ -53,8 +51,9 @@ function processExtension(
   });
 }
 
-export async function collect(db: Database): Promise<void> {
+export async function collect(): Promise<void> {
   const snapshotDate = todayISO();
+  const db = getDb();
   let page = 1;
   let total = 0;
 
@@ -75,12 +74,11 @@ export async function collect(db: Database): Promise<void> {
       break;
     }
 
-    const tx = db.transaction(() => {
+    await db.begin(async () => {
       for (const ext of extensions) {
-        processExtension(db, ext, snapshotDate);
+        await processExtension(ext, snapshotDate);
       }
     });
-    tx();
 
     total += extensions.length;
     console.log(`  saved ${extensions.length} (total: ${total})`);

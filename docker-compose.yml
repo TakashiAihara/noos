@@ -292,16 +292,37 @@ services:
     profiles:
       - all
 
+  crawler-db:
+    image: postgres:17
+    volumes:
+      - crawler-db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: crawler
+      POSTGRES_PASSWORD: crawler
+      POSTGRES_DB: marketplace
+    ports:
+      - 5433:5432
+    restart: unless-stopped
+    healthcheck:
+      test: [ CMD-SHELL, pg_isready -U crawler -d marketplace ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    profiles:
+      - crawler
+
   vscode-marketplace-crawler:
     build:
       context: .
       dockerfile: ./apps/meguru/vscode-marketplace-crawler/Dockerfile
-    volumes:
-      - vscode-marketplace-data:/app/apps/meguru/vscode-marketplace-crawler/data
-    restart: "no"
+    depends_on:
+      crawler-db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://crawler:crawler@crawler-db:5432/marketplace
+    restart: unless-stopped
     profiles:
       - crawler
-      - all
 
 networks:
   cockroach-net:
@@ -309,7 +330,7 @@ networks:
 volumes:
   localstack_data:
   dgraph_data:
-  vscode-marketplace-data:
+  crawler-db-data:
 
   cockroach-data1:
   cockroach-data2:
