@@ -1,27 +1,28 @@
-import type { Database } from "bun:sqlite";
 import {
   type QueryOptions,
   type RawExtension,
   SortBy,
-  type SortByValue,
   getStat,
   queryExtensions,
 } from "./marketplace-api.js";
-import { insertSnapshot, upsertExtension } from "./db.js";
+import { getDb, insertSnapshot, upsertExtension } from "./db.js";
 
 const PAGE_SIZE = 100;
-const MAX_PAGES = 10;
+const DELAY_MS = Number(process.env["CRAWL_DELAY_MS"] ?? "5000");
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 function todayISO(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
-function processExtension(
-  db: Database.Database,
+async function processExtension(
   ext: RawExtension,
   snapshotDate: string,
-) {
-  upsertExtension(db, {
+): Promise<void> {
+  await upsertExtension({
     id: ext.extensionId,
     name: `${ext.publisher.publisherName}.${ext.extensionName}`,
     display_name: ext.displayName,
@@ -34,7 +35,7 @@ function processExtension(
     tags: ext.tags?.join(",") ?? null,
   });
 
-  insertSnapshot(db, {
+  await insertSnapshot({
     extension_id: ext.extensionId,
     snapshot_date: snapshotDate,
     install_count: getStat(ext, "install") ?? null,
@@ -50,75 +51,45 @@ function processExtension(
   });
 }
 
-async function collectPages(
-  db: Database.Database,
-  sortBy: SortByValue,
-  sortLabel: string,
-  maxPages: number,
-): Promise<number> {
-  let total = 0;
+export async function collect(): Promise<void> {
   const snapshotDate = todayISO();
+  const db = getDb();
+  let page = 1;
+  let total = 0;
 
-  for (let page = 1; page <= maxPages; page++) {
+  console.log(`Starting full collection: date=${snapshotDate}`);
+
+  while (true) {
     const options: QueryOptions = {
-      sortBy,
+      sortBy: SortBy.Installs,
       pageSize: PAGE_SIZE,
       pageNumber: page,
     };
 
-    console.log(`  [${sortLabel}] page ${page}/${maxPages}...`);
+    console.log(`  page ${page}...`);
     const extensions = await queryExtensions(options);
 
     if (extensions.length === 0) {
-      console.log(`  [${sortLabel}] no more results`);
+      console.log("  no more results, done.");
       break;
     }
 
-    const tx = db.transaction(() => {
+    await db.begin(async () => {
       for (const ext of extensions) {
-        processExtension(db, ext, snapshotDate);
+        await processExtension(ext, snapshotDate);
       }
     });
-    tx();
 
     total += extensions.length;
-    console.log(
-      `  [${sortLabel}] saved ${extensions.length} extensions (total: ${total})`,
-    );
+    console.log(`  saved ${extensions.length} (total: ${total})`);
+
+    if (extensions.length < PAGE_SIZE) {
+      break;
+    }
+
+    await sleep(DELAY_MS);
+    page++;
   }
 
-  return total;
-}
-
-export type SortMode = "all" | "trending" | "installs";
-
-export async function collect(
-  db: Database.Database,
-  mode: SortMode = "all",
-  maxPages = MAX_PAGES,
-): Promise<void> {
-  console.log(
-    `Starting collection: mode=${mode}, maxPages=${maxPages}, date=${todayISO()}`,
-  );
-
-  const sorts: Array<{ sortBy: SortByValue; label: string }> = [];
-
-  if (mode === "all" || mode === "installs") {
-    sorts.push({ sortBy: SortBy.Installs, label: "installs" });
-  }
-  if (mode === "all" || mode === "trending") {
-    sorts.push(
-      { sortBy: SortBy.TrendingDaily, label: "trending-daily" },
-      { sortBy: SortBy.TrendingWeekly, label: "trending-weekly" },
-      { sortBy: SortBy.TrendingMonthly, label: "trending-monthly" },
-    );
-  }
-
-  let grandTotal = 0;
-  for (const { sortBy, label } of sorts) {
-    const count = await collectPages(db, sortBy, label, maxPages);
-    grandTotal += count;
-  }
-
-  console.log(`Collection complete. Total records processed: ${grandTotal}`);
+  console.log(`Collection complete. Total: ${total} extensions`);
 }

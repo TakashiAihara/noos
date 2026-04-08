@@ -15,6 +15,9 @@
     "apps/meguru/vscode-marketplace-crawler": {
       "name": "@meguru/vscode-marketplace-crawler",
       "version": "0.1.0",
+      "dependencies": {
+        "postgres": "^3.4.5",
+      },
       "devDependencies": {
         "bun-types": "^1.3.11",
         "typescript": "catalog:",

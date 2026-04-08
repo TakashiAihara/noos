@@ -1,21 +1,29 @@
-import { Database } from "bun:sqlite";
-import { mkdirSync } from "node:fs";
-import path from "node:path";
+import postgres from "postgres";
 
-const DB_PATH = path.join(
-  import.meta.dirname,
-  "..",
-  "data",
-  "marketplace.db",
-);
+const DATABASE_URL =
+  process.env["DATABASE_URL"] ??
+  "postgres://crawler:crawler@localhost:5432/marketplace";
 
-export function initDb(): Database {
-  mkdirSync(path.dirname(DB_PATH), { recursive: true });
+let sql: postgres.Sql | null = null;
 
-  const db = new Database(DB_PATH, { create: true });
-  db.exec("PRAGMA journal_mode = WAL");
+export function getDb(): postgres.Sql {
+  if (!sql) {
+    sql = postgres(DATABASE_URL);
+  }
+  return sql;
+}
 
-  db.exec(`
+export async function closeDb(): Promise<void> {
+  if (sql) {
+    await sql.end();
+    sql = null;
+  }
+}
+
+export async function initDb(): Promise<void> {
+  const db = getDb();
+
+  await db`
     CREATE TABLE IF NOT EXISTS extensions (
       id TEXT PRIMARY KEY,
       name TEXT NOT NULL,
@@ -24,37 +32,42 @@ export function initDb(): Database {
       publisher_name TEXT NOT NULL,
       publisher_display_name TEXT NOT NULL,
       short_description TEXT,
-      published_date TEXT NOT NULL,
+      published_date TIMESTAMPTZ NOT NULL,
       categories TEXT,
       tags TEXT,
-      created_at TEXT NOT NULL DEFAULT (datetime('now'))
-    );
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    )
+  `;
 
+  await db`
     CREATE TABLE IF NOT EXISTS daily_snapshots (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id SERIAL PRIMARY KEY,
       extension_id TEXT NOT NULL REFERENCES extensions(id),
-      snapshot_date TEXT NOT NULL,
-      install_count REAL,
-      download_count REAL,
-      average_rating REAL,
-      rating_count REAL,
-      trending_daily REAL,
-      trending_weekly REAL,
-      trending_monthly REAL,
-      update_count REAL,
+      snapshot_date DATE NOT NULL,
+      install_count DOUBLE PRECISION,
+      download_count DOUBLE PRECISION,
+      average_rating DOUBLE PRECISION,
+      rating_count DOUBLE PRECISION,
+      trending_daily DOUBLE PRECISION,
+      trending_weekly DOUBLE PRECISION,
+      trending_monthly DOUBLE PRECISION,
+      update_count DOUBLE PRECISION,
       latest_version TEXT,
-      last_updated TEXT,
-      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      last_updated TIMESTAMPTZ,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
       UNIQUE(extension_id, snapshot_date)
-    );
+    )
+  `;
 
+  await db`
     CREATE INDEX IF NOT EXISTS idx_snapshots_date
-      ON daily_snapshots(snapshot_date);
-    CREATE INDEX IF NOT EXISTS idx_snapshots_ext_date
-      ON daily_snapshots(extension_id, snapshot_date);
-  `);
+      ON daily_snapshots(snapshot_date)
+  `;
 
-  return db;
+  await db`
+    CREATE INDEX IF NOT EXISTS idx_snapshots_ext_date
+      ON daily_snapshots(extension_id, snapshot_date)
+  `;
 }
 
 export interface ExtensionRow {
@@ -85,56 +98,34 @@ export interface SnapshotRow {
   last_updated: string | null;
 }
 
-export function upsertExtension(db: Database, row: ExtensionRow) {
-  db.prepare(`
+export async function upsertExtension(row: ExtensionRow): Promise<void> {
+  const db = getDb();
+  await db`
     INSERT INTO extensions (id, name, display_name, publisher_id, publisher_name, publisher_display_name, short_description, published_date, categories, tags)
-    VALUES ($id, $name, $display_name, $publisher_id, $publisher_name, $publisher_display_name, $short_description, $published_date, $categories, $tags)
+    VALUES (${row.id}, ${row.name}, ${row.display_name}, ${row.publisher_id}, ${row.publisher_name}, ${row.publisher_display_name}, ${row.short_description}, ${row.published_date}, ${row.categories}, ${row.tags})
     ON CONFLICT(id) DO UPDATE SET
-      display_name = excluded.display_name,
-      short_description = excluded.short_description,
-      categories = excluded.categories,
-      tags = excluded.tags
-  `).run({
-    $id: row.id,
-    $name: row.name,
-    $display_name: row.display_name,
-    $publisher_id: row.publisher_id,
-    $publisher_name: row.publisher_name,
-    $publisher_display_name: row.publisher_display_name,
-    $short_description: row.short_description,
-    $published_date: row.published_date,
-    $categories: row.categories,
-    $tags: row.tags,
-  });
+      display_name = EXCLUDED.display_name,
+      short_description = EXCLUDED.short_description,
+      categories = EXCLUDED.categories,
+      tags = EXCLUDED.tags
+  `;
 }
 
-export function insertSnapshot(db: Database, row: SnapshotRow) {
-  db.prepare(`
+export async function insertSnapshot(row: SnapshotRow): Promise<void> {
+  const db = getDb();
+  await db`
     INSERT INTO daily_snapshots (extension_id, snapshot_date, install_count, download_count, average_rating, rating_count, trending_daily, trending_weekly, trending_monthly, update_count, latest_version, last_updated)
-    VALUES ($extension_id, $snapshot_date, $install_count, $download_count, $average_rating, $rating_count, $trending_daily, $trending_weekly, $trending_monthly, $update_count, $latest_version, $last_updated)
+    VALUES (${row.extension_id}, ${row.snapshot_date}, ${row.install_count}, ${row.download_count}, ${row.average_rating}, ${row.rating_count}, ${row.trending_daily}, ${row.trending_weekly}, ${row.trending_monthly}, ${row.update_count}, ${row.latest_version}, ${row.last_updated})
     ON CONFLICT(extension_id, snapshot_date) DO UPDATE SET
-      install_count = excluded.install_count,
-      download_count = excluded.download_count,
-      average_rating = excluded.average_rating,
-      rating_count = excluded.rating_count,
-      trending_daily = excluded.trending_daily,
-      trending_weekly = excluded.trending_weekly,
-      trending_monthly = excluded.trending_monthly,
-      update_count = excluded.update_count,
-      latest_version = excluded.latest_version,
-      last_updated = excluded.last_updated
-  `).run({
-    $extension_id: row.extension_id,
-    $snapshot_date: row.snapshot_date,
-    $install_count: row.install_count,
-    $download_count: row.download_count,
-    $average_rating: row.average_rating,
-    $rating_count: row.rating_count,
-    $trending_daily: row.trending_daily,
-    $trending_weekly: row.trending_weekly,
-    $trending_monthly: row.trending_monthly,
-    $update_count: row.update_count,
-    $latest_version: row.latest_version,
-    $last_updated: row.last_updated,
-  });
+      install_count = EXCLUDED.install_count,
+      download_count = EXCLUDED.download_count,
+      average_rating = EXCLUDED.average_rating,
+      rating_count = EXCLUDED.rating_count,
+      trending_daily = EXCLUDED.trending_daily,
+      trending_weekly = EXCLUDED.trending_weekly,
+      trending_monthly = EXCLUDED.trending_monthly,
+      update_count = EXCLUDED.update_count,
+      latest_version = EXCLUDED.latest_version,
+      last_updated = EXCLUDED.last_updated
+  `;
 }
