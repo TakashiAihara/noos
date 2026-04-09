@@ -10,6 +10,7 @@
       "apps/suru/*",
       "apps/suru/services/*",
       "packages/common/*",
+      "packages/meguru/*",
       "packages/yomu/*",
       "packages/suru/common/*",
       "tooling/*"
