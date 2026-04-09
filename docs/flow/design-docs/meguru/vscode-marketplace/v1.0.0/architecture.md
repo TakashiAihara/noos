@@ -3,22 +3,22 @@
 ## Overview
 
 VSCode Marketplace の拡張機能データを日次で全件収集し、トレンド分析を可視化・CLIで提供するシステム。
+全コンポーネントは Bun + TypeScript で統一。
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
 │                       Cloudflare                             │
 │                                                              │
 │  ┌──────────────┐    ┌────────────┐    ┌─────────────┐       │
-│  │ Cron Trigger │───▶│  Crawler   │───▶│   Queue     │       │
-│  │  (日次)      │    │  Worker    │◀───│ (Paging)    │       │
+│  │ Cron Trigger │───▶│ collector  │───▶│   Queue     │       │
+│  │  (日次)      │    │  (Hono)    │◀───│ (Paging)    │       │
 │  └──────────────┘    └─────┬──────┘    └─────────────┘       │
 │                            │                                 │
 │                            ▼ Service Binding                 │
 │                    ┌───────────────┐                         │
-│                    │   Storage     │                         │
-│                    │   Worker      │──▶ R2 (NDJSON)          │
-│                    │ (Repository   │                         │
-│                    │  + DuckDB)    │                         │
+│                    │  repository   │                         │
+│                    │   (Hono)      │──▶ R2 (NDJSON)          │
+│                    │  + DuckDB    │                         │
 │                    └──────┬────────┘                         │
 │                      ▲    ▲                                  │
 │          Service     │    │  Service                         │
@@ -26,23 +26,22 @@ VSCode Marketplace の拡張機能データを日次で全件収集し、トレ�
 │                 ┌────┘    └────┐                             │
 │                 │              │                             │
 │          ┌──────────┐  ┌─────────────┐                      │
-│          │ Frontend │  │     API     │                      │
-│          │  Worker  │  │   Worker    │                      │
-│          │  (Hono)  │  │  (Hono)    │                      │
+│          │dashboard │  │   gateway   │                      │
+│          │  (Hono)  │  │   (Hono)    │                      │
 │          └──────────┘  └─────────────┘                      │
 │                              ▲                               │
 │                              │                               │
 └──────────────────────────────┼───────────────────────────────┘
-                               │ HTTP
-                         ┌─────────────┐
-                         │    CLI      │
-                         │  (Bun)     │
-                         └─────────────┘
+│                              │ HTTP
+│                        ┌─────────────┐
+│                        │    cli      │
+│                        │   (Bun)    │
+│                        └─────────────┘
 ```
 
 ## Components
 
-### 1. Storage Worker (Repository + Analysis)
+### 1. repository
 
 全コンポーネントの中核。R2 へのデータアクセスと DuckDB 集計を一元管理する。
 
@@ -53,35 +52,35 @@ VSCode Marketplace の拡張機能データを日次で全件収集し、トレ�
 - 事前集計データのキャッシュ
 
 **インターフェース（Service Binding 経由）:**
-- `write(date, extensions)` — スナップショット書き込み
-- `query(type, params)` — 集計クエリ実行
-- `getTrending(period)` — トレンド取得
-- `getGrowth(extensionId)` — 成長率取得
+- `POST /write` — スナップショット書き込み
+- `GET /query/:type` — 集計クエリ実行
+- `GET /trending` — トレンド取得
+- `GET /growth/:extensionId` — 成長率取得
 
 **技術:**
-- Cloudflare Workers + R2 Binding
+- Hono + Cloudflare Workers + R2 Binding
 - DuckDB-WASM（集計処理）
 
-### 2. Crawler Worker
+### 2. collector
 
 Marketplace Gallery API から全拡張機能データを日次収集する。
 
 **実行フロー:**
 
-1. Cron Trigger が日次で Worker を起動
-2. Worker が1ページ(100件)取得
-3. Storage Worker に書き込みを委譲（Service Binding）
+1. Cron Trigger が日次で起動
+2. 1ページ(100件)取得
+3. repository に書き込みを委譲（Service Binding）
 4. 次ページのメッセージを Queue に投入
-5. Queue が次の Worker を起動（間隔 5秒）
+5. Queue が次の実行を起動（間隔 5秒）
 6. 空ページが返るまで繰り返し（~1,180ページ）
 
 **技術:**
-- Cloudflare Workers + Queues
-- Raw Workers API（フレームワーク不要）
+- Hono + Cloudflare Workers + Queues
+- Hono: fetch ハンドラ / Raw Workers API: queue, scheduled ハンドラ
 
-### 3. API Worker
+### 3. gateway
 
-外部クライアント（CLI 等）向けの HTTP API。Storage Worker の集計結果を JSON で提供する。
+外部クライアント（CLI 等）向けの HTTP API。repository の集計結果を JSON で提供する。
 
 **エンドポイント:**
 - `GET /api/trending?period=weekly` — トレンドランキング
@@ -91,11 +90,11 @@ Marketplace Gallery API から全拡張機能データを日次収集する。
 
 **技術:**
 - Hono (Cloudflare Workers)
-- Service Binding → Storage Worker
+- Service Binding → repository
 
-### 4. Frontend Worker
+### 4. dashboard
 
-ブラウザ向けダッシュボード。API Worker と同じ Hono アプリ内で提供。
+ブラウザ向けダッシュボード。
 
 **機能 (v1.0.0):**
 - トレンド急上昇の拡張機能一覧
@@ -105,10 +104,11 @@ Marketplace Gallery API から全拡張機能データを日次収集する。
 **技術:**
 - Hono JSX (SSR)
 - 最小限の CSS
+- Service Binding → repository
 
-### 5. CLI
+### 5. cli
 
-ローカルまたは AI エージェントから利用するコマンドラインツール。API Worker を叩く。
+ローカルまたは AI エージェントから利用するコマンドラインツール。gateway を叩く。
 
 **設計方針:**
 - AI フレンドリー: JSON 出力がデフォルト、構造化されたレスポンス
@@ -117,25 +117,26 @@ Marketplace Gallery API から全拡張機能データを日次収集する。
 
 **コマンド例:**
 ```bash
-# トレンドランキング（JSON）
 meguru trending --period weekly --limit 20
-
-# 特定拡張の成長推移
 meguru growth ms-python.python --days 30
-
-# カテゴリ別サマリー
 meguru categories --sort installs
-
-# 検索
 meguru search "copilot" --format table
-
-# AI 向け: 自然言語風サマリー
 meguru summary --format text
 ```
 
 **技術:**
 - Bun (TypeScript)
-- API Worker への HTTP リクエスト
+- gateway への HTTP リクエスト
+
+## 技術統一方針
+
+| 項目 | 選定 |
+|---|---|
+| 言語 | TypeScript |
+| ランタイム | Bun (ローカル / CLI) + Cloudflare Workers (クラウド) |
+| フレームワーク | Hono（全サービス共通） |
+| Lint / Format | Biome |
+| テスト | Vitest |
 
 ## Data Flow
 
@@ -143,21 +144,21 @@ meguru summary --format text
 Marketplace API
       │
       ▼
-  Crawler Worker
+  collector
       │ Service Binding
       ▼
-  Storage Worker ──▶ R2 (raw NDJSON)
-      │                  │
-      │ (集計)            │
-      ▼                  ▼
-  aggregated cache    snapshots/
+  repository ──▶ R2 (raw NDJSON)
+      │                │
+      │ (集計)          │
+      ▼                ▼
+  aggregated cache   snapshots/
       │
       ▼
-  API Worker (Hono)
+  gateway (Hono)
       │
    ┌──┴──┐
    ▼     ▼
-Frontend  CLI
+dashboard  cli
 ```
 
 ## Storage Layout (R2)
@@ -177,8 +178,8 @@ vscode-marketplace/
 
 ## Scalability
 
-- クローラー追加（例: Paperspace monitor）は Crawler Worker + Queue ペアを追加
-- Storage Worker は共通基盤として全クローラーが利用
+- クローラー追加（例: Paperspace monitor）は collector + Queue ペアを追加
+- repository は共通基盤として全クローラーが利用
 - R2 バケット内はプレフィックスで分離: `paperspace/snapshots/...`
-- API/Frontend はデータソースを増やすだけで拡張可能
-- CLI は API エンドポイント追加に追従するだけ
+- gateway / dashboard はデータソースを増やすだけで拡張可能
+- cli は gateway エンドポイント追加に追従するだけ
