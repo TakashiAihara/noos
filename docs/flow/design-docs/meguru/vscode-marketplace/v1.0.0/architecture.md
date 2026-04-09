@@ -5,38 +5,33 @@
 VSCode Marketplace の拡張機能データを日次で全件収集し、トレンド分析を可視化・CLIで提供するシステム。
 全コンポーネントは Bun + TypeScript で統一。
 
+```mermaid
+graph TB
+  subgraph Cloudflare
+    cron[Cron Trigger<br/>日次] --> collector[collector<br/>Hono]
+    collector <--> queue[Queue<br/>Paging]
+    collector -->|Service Binding| repository[repository<br/>Hono + DuckDB]
+    repository --> r2[(R2<br/>NDJSON)]
+    dashboard[dashboard<br/>Hono JSX] -->|Service Binding| repository
+    gateway[gateway<br/>Hono] -->|Service Binding| repository
+  end
+
+  cli[cli<br/>Bun] -->|HTTP| gateway
+  browser[Browser] -->|HTTP| dashboard
+  marketplace[Marketplace API] -->|fetch| collector
 ```
-┌──────────────────────────────────────────────────────────────┐
-│                       Cloudflare                             │
-│                                                              │
-│  ┌──────────────┐    ┌────────────┐    ┌─────────────┐       │
-│  │ Cron Trigger │───▶│ collector  │───▶│   Queue     │       │
-│  │  (日次)      │    │  (Hono)    │◀───│ (Paging)    │       │
-│  └──────────────┘    └─────┬──────┘    └─────────────┘       │
-│                            │                                 │
-│                            ▼ Service Binding                 │
-│                    ┌───────────────┐                         │
-│                    │  repository   │                         │
-│                    │   (Hono)      │──▶ R2 (NDJSON)          │
-│                    │  + DuckDB    │                         │
-│                    └──────┬────────┘                         │
-│                      ▲    ▲                                  │
-│          Service     │    │  Service                         │
-│          Binding     │    │  Binding                         │
-│                 ┌────┘    └────┐                             │
-│                 │              │                             │
-│          ┌──────────┐  ┌─────────────┐                      │
-│          │dashboard │  │   gateway   │                      │
-│          │  (Hono)  │  │   (Hono)    │                      │
-│          └──────────┘  └─────────────┘                      │
-│                              ▲                               │
-│                              │                               │
-└──────────────────────────────┼───────────────────────────────┘
-│                              │ HTTP
-│                        ┌─────────────┐
-│                        │    cli      │
-│                        │   (Bun)    │
-│                        └─────────────┘
+
+```mermaid
+flowchart LR
+  subgraph データフロー
+    A[Marketplace API] --> B[collector]
+    B -->|Service Binding| C[repository]
+    C --> D[(R2)]
+    C -->|集計| E[aggregated cache]
+    E --> F[gateway]
+    F --> G[dashboard]
+    F --> H[cli]
+  end
 ```
 
 ## Components
@@ -140,25 +135,16 @@ meguru summary --format text
 
 ## Data Flow
 
-```
-Marketplace API
-      │
-      ▼
-  collector
-      │ Service Binding
-      ▼
-  repository ──▶ R2 (raw NDJSON)
-      │                │
-      │ (集計)          │
-      ▼                ▼
-  aggregated cache   snapshots/
-      │
-      ▼
-  gateway (Hono)
-      │
-   ┌──┴──┐
-   ▼     ▼
-dashboard  cli
+```mermaid
+flowchart TB
+  A[Marketplace API] --> B[collector]
+  B -->|Service Binding| C[repository]
+  C --> D[(R2 - raw NDJSON)]
+  C -->|集計| E[aggregated cache]
+  D --> F[snapshots/]
+  E --> G[gateway]
+  G --> H[dashboard]
+  G --> I[cli]
 ```
 
 ## Storage Layout (R2)
