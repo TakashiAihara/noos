@@ -5,6 +5,8 @@ import { SortBy, queryExtensions, toExtensionSnapshot } from './marketplace-api.
 interface Env {
   REPOSITORY: Fetcher;
   CRAWL_QUEUE: Queue<CrawlQueueMessage>;
+  TRIGGER_SECRET: string;
+  INTERNAL_SECRET: string;
 }
 
 const PAGE_SIZE = 100;
@@ -18,7 +20,12 @@ function todayISO(): string {
 // ----------------------------------------------------------------
 const app = new Hono<{ Bindings: Env }>();
 
-app.get('/trigger', async (c) => {
+// POST /trigger — protected by TRIGGER_SECRET env var
+app.post('/trigger', async (c) => {
+  const provided = c.req.header('X-Trigger-Secret');
+  if (!c.env.TRIGGER_SECRET || provided !== c.env.TRIGGER_SECRET) {
+    return c.json({ error: 'Unauthorized' }, 401);
+  }
   await enqueueFirstPage(c.env, todayISO());
   return c.json({ ok: true, message: 'Collection triggered' });
 });
@@ -31,6 +38,19 @@ app.get('/health', (c) => c.json({ ok: true }));
 async function enqueueFirstPage(env: Env, snapshotDate: string): Promise<void> {
   await env.CRAWL_QUEUE.send({ pageNumber: 1, snapshotDate });
   console.log(`[collector] Enqueued page 1 for ${snapshotDate}`);
+}
+
+// ----------------------------------------------------------------
+// Invalidate caches (checks response status)
+// ----------------------------------------------------------------
+async function invalidateRepositoryCaches(env: Env): Promise<void> {
+  const res = await env.REPOSITORY.fetch('http://internal/invalidate', {
+    method: 'POST',
+    headers: { 'X-Internal-Secret': env.INTERNAL_SECRET },
+  });
+  if (!res.ok) {
+    throw new Error(`Repository invalidate failed: ${res.status} ${res.statusText}`);
+  }
 }
 
 // ----------------------------------------------------------------
@@ -47,8 +67,7 @@ async function processPage(env: Env, pageNumber: number, snapshotDate: string): 
 
   if (extensions.length === 0) {
     console.log(`[collector] Page ${pageNumber} empty — collection complete`);
-    // Invalidate caches now that collection is done
-    await env.REPOSITORY.fetch('http://internal/invalidate', { method: 'POST' });
+    await invalidateRepositoryCaches(env);
     return;
   }
 
@@ -56,8 +75,11 @@ async function processPage(env: Env, pageNumber: number, snapshotDate: string): 
 
   const res = await env.REPOSITORY.fetch('http://internal/write', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ date: snapshotDate, records }),
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Internal-Secret': env.INTERNAL_SECRET,
+    },
+    body: JSON.stringify({ date: snapshotDate, chunkId: `page-${pageNumber}`, records }),
   });
 
   if (!res.ok) {
@@ -66,12 +88,10 @@ async function processPage(env: Env, pageNumber: number, snapshotDate: string): 
 
   console.log(`[collector] Page ${pageNumber}: wrote ${records.length} records`);
 
-  // Enqueue next page if there are more results
   if (extensions.length === PAGE_SIZE) {
     await env.CRAWL_QUEUE.send({ pageNumber: pageNumber + 1, snapshotDate });
   } else {
-    // Last page — invalidate caches
-    await env.REPOSITORY.fetch('http://internal/invalidate', { method: 'POST' });
+    await invalidateRepositoryCaches(env);
     console.log(`[collector] Collection complete for ${snapshotDate}`);
   }
 }

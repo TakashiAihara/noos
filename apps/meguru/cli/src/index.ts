@@ -15,13 +15,18 @@ const GATEWAY_URL =
 
 async function fetchApi<T>(path: string): Promise<T> {
   const url = `${GATEWAY_URL}${path}`;
-  const response = await fetch(url);
-  if (!response.ok) {
-    const text = await response.text().catch(() => '');
-    console.error(`[meguru] API error ${response.status}: ${text}`, { url });
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      const text = await response.text().catch(() => '');
+      console.error(`[meguru] API error ${response.status}: ${text}`, { url });
+      process.exit(1);
+    }
+    return (await response.json()) as T;
+  } catch (err) {
+    console.error('[meguru] Request failed', { url, error: err });
     process.exit(1);
   }
-  return response.json() as Promise<T>;
 }
 
 // ----------------------------------------------------------------
@@ -49,10 +54,20 @@ function toTable(rows: Record<string, unknown>[]): string {
 function print(data: unknown, format: OutputFormat): void {
   if (format === 'json') {
     process.stdout.write(`${JSON.stringify(data, null, 2)}\n`);
-  } else if (format === 'table' && Array.isArray(data)) {
-    process.stdout.write(`${toTable(data as Record<string, unknown>[])}\n`);
-  } else {
-    process.stdout.write(`${String(data)}\n`);
+  } else if (format === 'table') {
+    const rows = Array.isArray(data)
+      ? (data as Record<string, unknown>[])
+      : [data as Record<string, unknown>];
+    process.stdout.write(`${toTable(rows)}\n`);
+  } else if (format === 'text') {
+    if (Array.isArray(data)) {
+      // Render array as newline-separated JSON lines for text mode
+      for (const item of data as unknown[]) {
+        process.stdout.write(`${JSON.stringify(item)}\n`);
+      }
+    } else {
+      process.stdout.write(`${String(data)}\n`);
+    }
   }
 }
 

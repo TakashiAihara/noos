@@ -3,6 +3,11 @@ main = "src/index.ts"
 compatibility_date = "2024-11-01"
 compatibility_flags = ["nodejs_compat"]
 
+# Set via: wrangler secret put TRIGGER_SECRET
+# Used to authenticate POST /trigger calls
+# Set via: wrangler secret put INTERNAL_SECRET (same value as repository)
+# Passed to repository /write and /invalidate as X-Internal-Secret header
+
 # Service Binding → repository worker
 [[services]]
 binding = "REPOSITORY"

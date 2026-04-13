@@ -70,11 +70,16 @@ export async function getGrowth(
   extensionId: string,
   days: number,
 ): Promise<GrowthPoint[]> {
-  const cacheKey = `growth/${extensionId}.json`;
-  const cached = await readAggregated<GrowthPoint[]>(bucket, cacheKey);
-  if (cached) return cached.slice(-days);
+  const allDates = await listSnapshotDates(bucket);
+  const latestDate = allDates[0];
+  if (!latestDate) return [];
 
-  const dates = (await listSnapshotDates(bucket)).slice(0, days);
+  // Cache key includes latestDate + days window to avoid stale results
+  const cacheKey = `growth/${latestDate}/${days}/${extensionId}.json`;
+  const cached = await readAggregated<GrowthPoint[]>(bucket, cacheKey);
+  if (cached) return cached;
+
+  const dates = allDates.slice(0, days);
   const points: GrowthPoint[] = [];
 
   for (const date of dates) {
@@ -91,6 +96,7 @@ export async function getGrowth(
   }
 
   points.sort((a, b) => a.date.localeCompare(b.date));
+  await writeAggregated(bucket, cacheKey, points);
   return points;
 }
 

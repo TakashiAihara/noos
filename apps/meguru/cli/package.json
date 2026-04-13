@@ -4,11 +4,12 @@
   "private": true,
   "type": "module",
   "bin": {
-    "meguru": "./src/index.ts"
+    "meguru": "./dist/meguru"
   },
   "scripts": {
     "start": "bun run src/index.ts",
     "build": "bun build src/index.ts --outfile dist/meguru --target bun --sourcemap",
+    "prepack": "bun run build",
     "typecheck": "tsc --noEmit",
     "lint": "biome check --write .",
     "lint:check": "biome check .",

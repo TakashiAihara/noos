@@ -8,17 +8,19 @@ const R2_PREFIX = 'vscode-marketplace';
 
 /**
  * Write a batch of ExtensionSnapshot records to R2 as NDJSON.
- * Each batch is stored as a separate chunk file:
- *   vscode-marketplace/snapshots/<date>/<timestamp>-<random>.ndjson
- * Multiple chunks per date are expected (one per collector page).
+ * Each batch is stored as a deterministic chunk file:
+ *   vscode-marketplace/snapshots/<date>/<chunkId>.ndjson
+ * Using a deterministic chunkId (e.g. "page-1") ensures retries overwrite
+ * rather than appending duplicate records.
  */
 export async function writeSnapshotChunk(
   bucket: R2Bucket,
   date: string,
+  chunkId: string,
   records: ExtensionSnapshot[],
 ): Promise<void> {
   const ndjson = records.map((r) => JSON.stringify(r)).join('\n');
-  const key = `${R2_PREFIX}/snapshots/${date}/${Date.now()}-${Math.random().toString(36).slice(2)}.ndjson`;
+  const key = `${R2_PREFIX}/snapshots/${date}/${chunkId}.ndjson`;
   await bucket.put(key, ndjson, {
     httpMetadata: { contentType: 'application/x-ndjson' },
   });

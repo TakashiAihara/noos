@@ -84,6 +84,7 @@ interface QueryResponse {
 // ----------------------------------------------------------------
 
 const MAX_RETRIES = 5;
+const REQUEST_TIMEOUT_MS = 30_000;
 
 export async function queryExtensions(options: QueryOptions): Promise<RawExtension[]> {
   const body = {
@@ -100,38 +101,52 @@ export async function queryExtensions(options: QueryOptions): Promise<RawExtensi
     flags: FLAGS,
   };
 
-  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
-    const response = await fetch(MARKETPLACE_API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: `application/json;api-version=${API_VERSION}`,
-      },
-      body: JSON.stringify(body),
-    });
+  let lastError: unknown;
 
-    if (response.ok) {
-      const data = (await response.json()) as QueryResponse;
-      return data.results[0]?.extensions ?? [];
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+    try {
+      const response = await fetch(MARKETPLACE_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: `application/json;api-version=${API_VERSION}`,
+        },
+        body: JSON.stringify(body),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      if (response.ok) {
+        const data = (await response.json()) as QueryResponse;
+        return data.results[0]?.extensions ?? [];
+      }
+
+      lastError = new Error(`HTTP ${response.status}`);
+      console.warn(
+        `Marketplace API error ${response.status} (attempt ${attempt}/${MAX_RETRIES}), page ${options.pageNumber}`,
+      );
+    } catch (err) {
+      clearTimeout(timeoutId);
+      lastError = err;
+      console.warn(
+        `Marketplace API request failed (attempt ${attempt}/${MAX_RETRIES}), page ${options.pageNumber}:`,
+        err,
+      );
     }
 
-    const status = response.status;
-    console.warn(
-      `Marketplace API error ${status} (attempt ${attempt}/${MAX_RETRIES}), page ${options.pageNumber}`,
-    );
-
     if (attempt < MAX_RETRIES) {
-      // Exponential backoff: 1s, 2s, 4s, 8s (skipped on last attempt)
       const delay = 2 ** (attempt - 1) * 1000;
       await new Promise((resolve) => setTimeout(resolve, delay));
-    } else {
-      throw new Error(
-        `Marketplace API failed after ${MAX_RETRIES} retries on page ${options.pageNumber}: ${status}`,
-      );
     }
   }
 
-  return [];
+  throw new Error(
+    `Marketplace API failed after ${MAX_RETRIES} retries on page ${options.pageNumber}: ${lastError}`,
+  );
 }
 
 // ----------------------------------------------------------------

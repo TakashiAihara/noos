@@ -3,6 +3,9 @@ main = "src/index.ts"
 compatibility_date = "2024-11-01"
 compatibility_flags = ["nodejs_compat"]
 
+# Set via: wrangler secret put INTERNAL_SECRET
+# Used to authenticate /write and /invalidate calls from collector
+
 # R2 bucket — create with: wrangler r2 bucket create meguru-vscode-marketplace
 [[r2_buckets]]
 binding = "VSCODE_MARKETPLACE_BUCKET"

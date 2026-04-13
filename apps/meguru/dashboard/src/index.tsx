@@ -66,10 +66,25 @@ app.get('/', async (c) => {
   const period = (c.req.query('period') ?? 'weekly') as 'daily' | 'weekly' | 'monthly';
   const limit = 50;
 
-  const res = await c.env.REPOSITORY.fetch(
-    `http://internal/trending?period=${period}&limit=${limit}`,
-  );
-  const items = (await res.json()) as TrendingItem[];
+  let items: TrendingItem[] = [];
+  try {
+    const res = await c.env.REPOSITORY.fetch(
+      `http://internal/trending?period=${period}&limit=${limit}`,
+    );
+    if (!res.ok) throw new Error(`Repository error ${res.status}`);
+    items = (await res.json()) as TrendingItem[];
+  } catch (err) {
+    console.error('[dashboard] / fetch error:', err);
+    return c.html(
+      <Layout title="Trending">
+        <div class="section">
+          <h2>Trending Extensions</h2>
+          <p style="color:#f85149">Failed to load data. Please try again later.</p>
+        </div>
+      </Layout>,
+      500,
+    );
+  }
 
   const tabs = [
     { label: 'Weekly', value: 'weekly' },
@@ -121,9 +136,9 @@ app.get('/', async (c) => {
                 <td class="num">{item.install_count?.toLocaleString() ?? '—'}</td>
                 <td class="num">
                   {period === 'daily'
-                    ? item.trending_daily?.toFixed(2)
+                    ? (item.trending_daily?.toFixed(2) ?? '—')
                     : period === 'monthly'
-                      ? item.trending_monthly?.toFixed(2)
+                      ? (item.trending_monthly?.toFixed(2) ?? '—')
                       : (item.trending_weekly?.toFixed(2) ?? '—')}
                 </td>
                 <td class="num">
@@ -149,8 +164,23 @@ app.get('/', async (c) => {
 // ----------------------------------------------------------------
 
 app.get('/categories', async (c) => {
-  const res = await c.env.REPOSITORY.fetch('http://internal/categories');
-  const categories = (await res.json()) as CategorySummary[];
+  let categories: CategorySummary[] = [];
+  try {
+    const res = await c.env.REPOSITORY.fetch('http://internal/categories');
+    if (!res.ok) throw new Error(`Repository error ${res.status}`);
+    categories = (await res.json()) as CategorySummary[];
+  } catch (err) {
+    console.error('[dashboard] /categories fetch error:', err);
+    return c.html(
+      <Layout title="Categories">
+        <div class="section">
+          <h2>Categories</h2>
+          <p style="color:#f85149">Failed to load data. Please try again later.</p>
+        </div>
+      </Layout>,
+      500,
+    );
+  }
 
   return c.html(
     <Layout title="Categories">
