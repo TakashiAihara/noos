@@ -5,6 +5,17 @@ interface Env {
   REPOSITORY: Fetcher;
 }
 
+const VALID_PERIODS = new Set(['daily', 'weekly', 'monthly'] as const);
+type Period = 'daily' | 'weekly' | 'monthly';
+
+function normalizePeriod(value: string | undefined): Period {
+  return VALID_PERIODS.has(value as Period) ? (value as Period) : 'weekly';
+}
+
+function formatNumber(n: number): string {
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
 const app = new Hono<{ Bindings: Env }>();
 
 // ----------------------------------------------------------------
@@ -63,7 +74,7 @@ function Layout({ title, children }: { title: string; children: unknown }) {
 // ----------------------------------------------------------------
 
 app.get('/', async (c) => {
-  const period = (c.req.query('period') ?? 'weekly') as 'daily' | 'weekly' | 'monthly';
+  const period = normalizePeriod(c.req.query('period'));
   const limit = 50;
 
   let items: TrendingItem[] = [];
@@ -133,7 +144,9 @@ app.get('/', async (c) => {
                     </span>
                   ))}
                 </td>
-                <td class="num">{item.install_count?.toLocaleString() ?? '—'}</td>
+                <td class="num">
+                  {item.install_count != null ? formatNumber(item.install_count) : '—'}
+                </td>
                 <td class="num">
                   {period === 'daily'
                     ? (item.trending_daily?.toFixed(2) ?? '—')
@@ -200,8 +213,8 @@ app.get('/categories', async (c) => {
               <tr key={cat.category}>
                 <td class="rank">{i + 1}</td>
                 <td>{cat.category}</td>
-                <td class="num">{cat.total_extensions.toLocaleString()}</td>
-                <td class="num">{cat.total_installs.toLocaleString()}</td>
+                <td class="num">{formatNumber(cat.total_extensions)}</td>
+                <td class="num">{formatNumber(cat.total_installs)}</td>
               </tr>
             ))}
           </tbody>

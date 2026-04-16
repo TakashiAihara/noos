@@ -54,7 +54,7 @@ interface Publisher {
   displayName: string;
   domain: string | null;
   isDomainVerified: boolean;
-  publisherFlags: string | null;
+  flags: string | null;
 }
 
 export interface RawExtension {
@@ -70,7 +70,6 @@ export interface RawExtension {
   publishedDate: string;
   releaseDate: string;
   lastUpdated: string;
-  pricing?: string | null;
 }
 
 interface QueryResponse {
@@ -189,7 +188,7 @@ export function toExtensionSnapshot(ext: RawExtension, snapshotDate: string): Ex
     publisher_display_name: ext.publisher.displayName,
     publisher_domain: ext.publisher.domain ?? null,
     publisher_domain_verified: ext.publisher.isDomainVerified ?? false,
-    publisher_verified: ext.publisher.publisherFlags === 'verified',
+    publisher_verified: ext.publisher.flags === 'verified',
 
     short_description: ext.shortDescription ?? null,
     categories: ext.categories ?? [],
@@ -212,7 +211,7 @@ export function toExtensionSnapshot(ext: RawExtension, snapshotDate: string): Ex
     target_platform: latestVersion?.targetPlatform ?? null,
     engine: getVersionProp(ext, 'Microsoft.VisualStudio.Code.Engine') ?? null,
     is_pre_release: getVersionProp(ext, 'Microsoft.VisualStudio.Code.PreRelease') === 'true',
-    pricing: ext.pricing ?? null,
+    pricing: getVersionProp(ext, 'Microsoft.VisualStudio.Services.Content.Pricing') ?? null,
     executes_code: getVersionProp(ext, 'Microsoft.VisualStudio.Code.ExecutesCode') === '1',
     extension_dependencies: splitProp(
       getVersionProp(ext, 'Microsoft.VisualStudio.Code.ExtensionDependencies'),

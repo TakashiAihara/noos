@@ -53,8 +53,9 @@ export async function getTrending(
 
   items.sort((a, b) => (b[sortField] ?? 0) - (a[sortField] ?? 0));
 
-  await writeAggregated(bucket, cacheKey, items);
-  return items.slice(0, limit);
+  const top = items.slice(0, 500);
+  await writeAggregated(bucket, cacheKey, top);
+  return top.slice(0, limit);
 }
 
 // ----------------------------------------------------------------
@@ -186,4 +187,17 @@ export async function invalidateCaches(bucket: R2Bucket): Promise<void> {
     'vscode-marketplace/aggregated/categories.json',
   ];
   await Promise.all(keys.map((k) => bucket.delete(k)));
+
+  // Delete growth caches (prefixed with growth/)
+  const growthPrefix = 'vscode-marketplace/aggregated/growth/';
+  let cursor: string | undefined;
+  do {
+    const listed = await bucket.list(
+      cursor ? { prefix: growthPrefix, cursor } : { prefix: growthPrefix },
+    );
+    if (listed.objects.length > 0) {
+      await Promise.all(listed.objects.map((obj) => bucket.delete(obj.key)));
+    }
+    cursor = listed.truncated ? listed.cursor : undefined;
+  } while (cursor);
 }

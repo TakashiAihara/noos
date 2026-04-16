@@ -11,10 +11,15 @@ const app = new Hono<{ Bindings: Env }>();
 app.use('/api/*', cors());
 
 // ----------------------------------------------------------------
-// Helper: forward to repository via Service Binding
+// Helpers
 // ----------------------------------------------------------------
 function repo(env: Env, path: string): Promise<Response> {
   return env.REPOSITORY.fetch(`http://internal${path}`);
+}
+
+const VALID_PERIODS = new Set(['daily', 'weekly', 'monthly']);
+function normalizePeriod(value: string | undefined): string {
+  return VALID_PERIODS.has(value ?? '') ? (value as string) : 'weekly';
 }
 
 // ----------------------------------------------------------------
@@ -23,7 +28,7 @@ function repo(env: Env, path: string): Promise<Response> {
 app.get('/api/trending', async (c) => {
   try {
     const qs = new URLSearchParams({
-      period: c.req.query('period') ?? 'weekly',
+      period: normalizePeriod(c.req.query('period')),
       limit: c.req.query('limit') ?? '20',
     }).toString();
     const res = await repo(c.env, `/trending?${qs}`);

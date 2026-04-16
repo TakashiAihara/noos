@@ -83,8 +83,22 @@ function getFlag(name: string, fallback: string): string {
   return idx >= 0 && args[idx + 1] != null ? (args[idx + 1] as string) : fallback;
 }
 
-const format = getFlag('format', 'json') as OutputFormat;
-const period = getFlag('period', 'weekly');
+const VALID_FORMATS = new Set<OutputFormat>(['json', 'table', 'text']);
+const rawFormat = getFlag('format', 'json');
+if (!VALID_FORMATS.has(rawFormat as OutputFormat)) {
+  console.error(`[meguru] Invalid format: "${rawFormat}". Valid: json, table, text`);
+  process.exit(1);
+}
+const format = rawFormat as OutputFormat;
+
+const VALID_PERIODS = new Set(['daily', 'weekly', 'monthly']);
+const rawPeriod = getFlag('period', 'weekly');
+if (!VALID_PERIODS.has(rawPeriod)) {
+  console.error(`[meguru] Invalid period: "${rawPeriod}". Valid: daily, weekly, monthly`);
+  process.exit(1);
+}
+const period = rawPeriod;
+
 const limit = getFlag('limit', '20');
 const days = getFlag('days', '30');
 

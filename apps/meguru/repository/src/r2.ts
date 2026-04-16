@@ -71,7 +71,11 @@ export async function* iterateSnapshotRecords(
       for (const line of text.split('\n')) {
         const trimmed = line.trim();
         if (trimmed) {
-          yield JSON.parse(trimmed) as ExtensionSnapshot;
+          try {
+            yield JSON.parse(trimmed) as ExtensionSnapshot;
+          } catch (err) {
+            console.warn(`[r2] Skipping malformed NDJSON line in ${obj.key}:`, err);
+          }
         }
       }
     }

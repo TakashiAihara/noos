@@ -16,7 +16,7 @@
       "name": "@meguru/cli",
       "version": "0.1.0",
       "bin": {
-        "meguru": "./src/index.ts",
+        "meguru": "./dist/meguru",
       },
       "dependencies": {
         "@meguru/types": "workspace:*",
