@@ -18,8 +18,7 @@ async function fetchApi<T>(path: string): Promise<T> {
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      const text = await response.text().catch(() => '');
-      console.error(`[meguru] API error ${response.status}: ${text}`, { url });
+      console.error(`[meguru] API error ${response.status}`, { url });
       process.exit(1);
     }
     return (await response.json()) as T;
@@ -191,7 +190,26 @@ switch (command) {
       fetchApi<CategorySummary[]>('/api/categories'),
     ]);
 
-    if (format === 'text') {
+    if (format === 'table') {
+      process.stdout.write('=== Top 5 Trending ===\n');
+      print(
+        trending.map((t) => ({
+          name: t.name,
+          installs: t.install_count ?? '-',
+          trending: t.trending_weekly ?? '-',
+        })),
+        'table',
+      );
+      process.stdout.write('\n=== Top Categories ===\n');
+      print(
+        categories.slice(0, 5).map((c) => ({
+          category: c.category,
+          extensions: c.total_extensions,
+          installs: c.total_installs,
+        })),
+        'table',
+      );
+    } else if (format === 'text') {
       process.stdout.write(`=== Top 5 Trending (${period}) ===\n`);
       for (const [i, t] of trending.entries()) {
         process.stdout.write(

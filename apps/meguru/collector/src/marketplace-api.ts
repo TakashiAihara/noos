@@ -117,8 +117,6 @@ export async function queryExtensions(options: QueryOptions): Promise<RawExtensi
         signal: controller.signal,
       });
 
-      clearTimeout(timeoutId);
-
       if (response.ok) {
         const data = (await response.json()) as QueryResponse;
         return data.results[0]?.extensions ?? [];
@@ -129,12 +127,13 @@ export async function queryExtensions(options: QueryOptions): Promise<RawExtensi
         `Marketplace API error ${response.status} (attempt ${attempt}/${MAX_RETRIES}), page ${options.pageNumber}`,
       );
     } catch (err) {
-      clearTimeout(timeoutId);
       lastError = err;
       console.warn(
         `Marketplace API request failed (attempt ${attempt}/${MAX_RETRIES}), page ${options.pageNumber}:`,
         err,
       );
+    } finally {
+      clearTimeout(timeoutId);
     }
 
     if (attempt < MAX_RETRIES) {

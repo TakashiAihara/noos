@@ -41,9 +41,14 @@ export async function readAggregated<T>(bucket: R2Bucket, key: string): Promise<
 }
 
 export async function writeAggregated(bucket: R2Bucket, key: string, data: unknown): Promise<void> {
-  await bucket.put(`${R2_PREFIX}/aggregated/${key}`, JSON.stringify(data), {
-    httpMetadata: { contentType: 'application/json' },
-  });
+  try {
+    await bucket.put(`${R2_PREFIX}/aggregated/${key}`, JSON.stringify(data), {
+      httpMetadata: { contentType: 'application/json' },
+    });
+  } catch (err) {
+    console.error(`[r2] Failed to write aggregated cache ${key}:`, err);
+    throw err;
+  }
 }
 
 // ----------------------------------------------------------------
@@ -65,18 +70,22 @@ export async function* iterateSnapshotRecords(
     const listed = await bucket.list(cursor ? { prefix, cursor } : { prefix });
 
     for (const obj of listed.objects) {
-      const file = await bucket.get(obj.key);
-      if (!file) continue;
-      const text = await file.text();
-      for (const line of text.split('\n')) {
-        const trimmed = line.trim();
-        if (trimmed) {
-          try {
-            yield JSON.parse(trimmed) as ExtensionSnapshot;
-          } catch (err) {
-            console.warn(`[r2] Skipping malformed NDJSON line in ${obj.key}:`, err);
+      try {
+        const file = await bucket.get(obj.key);
+        if (!file) continue;
+        const text = await file.text();
+        for (const line of text.split('\n')) {
+          const trimmed = line.trim();
+          if (trimmed) {
+            try {
+              yield JSON.parse(trimmed) as ExtensionSnapshot;
+            } catch (err) {
+              console.warn(`[r2] Skipping malformed NDJSON line in ${obj.key}:`, err);
+            }
           }
         }
+      } catch (err) {
+        console.warn(`[r2] Failed to read chunk ${obj.key}, skipping:`, err);
       }
     }
 
