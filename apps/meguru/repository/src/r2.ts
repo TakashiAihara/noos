@@ -67,7 +67,15 @@ export async function* iterateSnapshotRecords(
   let cursor: string | undefined;
 
   do {
-    const listed = await bucket.list(cursor ? { prefix, cursor } : { prefix });
+    let listed: R2Objects;
+    try {
+      listed = await bucket.list(cursor ? { prefix, cursor } : { prefix });
+    } catch (err) {
+      throw new Error(
+        `[r2] iterateSnapshotRecords: bucket.list failed (prefix=${prefix}, cursor=${cursor ?? 'none'}): ${err instanceof Error ? err.message : String(err)}`,
+        { cause: err },
+      );
+    }
 
     for (const obj of listed.objects) {
       try {
@@ -102,9 +110,17 @@ export async function listSnapshotDates(bucket: R2Bucket): Promise<string[]> {
   let cursor: string | undefined;
 
   do {
-    const listed = await bucket.list(
-      cursor ? { prefix, delimiter: '/', cursor } : { prefix, delimiter: '/' },
-    );
+    let listed: R2Objects;
+    try {
+      listed = await bucket.list(
+        cursor ? { prefix, delimiter: '/', cursor } : { prefix, delimiter: '/' },
+      );
+    } catch (err) {
+      throw new Error(
+        `[r2] listSnapshotDates: bucket.list failed (prefix=${prefix}, cursor=${cursor ?? 'none'}): ${err instanceof Error ? err.message : String(err)}`,
+        { cause: err },
+      );
+    }
     for (const cp of listed.delimitedPrefixes) {
       const date = cp.replace(prefix, '').replace('/', '');
       if (date) dateSet.add(date);

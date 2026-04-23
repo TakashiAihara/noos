@@ -79,7 +79,23 @@ const command = args[0] ?? '';
 
 function getFlag(name: string, fallback: string): string {
   const idx = args.indexOf(`--${name}`);
-  return idx >= 0 && args[idx + 1] != null ? (args[idx + 1] as string) : fallback;
+  if (idx < 0) return fallback;
+  const value = args[idx + 1];
+  if (value == null || value.startsWith('--')) {
+    console.error(`[meguru] Missing value for --${name}`);
+    process.exit(1);
+  }
+  return value;
+}
+
+function getPositiveIntFlag(name: string, fallback: number): number {
+  const raw = getFlag(name, String(fallback));
+  const parsed = Number(raw);
+  if (!Number.isInteger(parsed) || parsed <= 0) {
+    console.error(`[meguru] Invalid --${name}: "${raw}" (must be a positive integer)`);
+    process.exit(1);
+  }
+  return parsed;
 }
 
 const VALID_FORMATS = new Set<OutputFormat>(['json', 'table', 'text']);
@@ -98,8 +114,8 @@ if (!VALID_PERIODS.has(rawPeriod)) {
 }
 const period = rawPeriod;
 
-const limit = getFlag('limit', '20');
-const days = getFlag('days', '30');
+const limit = getPositiveIntFlag('limit', 20);
+const days = getPositiveIntFlag('days', 30);
 
 // ----------------------------------------------------------------
 // Commands
