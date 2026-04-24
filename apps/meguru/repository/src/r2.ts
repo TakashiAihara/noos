@@ -21,9 +21,13 @@ export async function writeSnapshotChunk(
 ): Promise<void> {
   const ndjson = records.map((r) => JSON.stringify(r)).join('\n');
   const key = `${R2_PREFIX}/snapshots/${date}/${chunkId}.ndjson`;
-  await bucket.put(key, ndjson, {
-    httpMetadata: { contentType: 'application/x-ndjson' },
-  });
+  try {
+    await bucket.put(key, ndjson, {
+      httpMetadata: { contentType: 'application/x-ndjson' },
+    });
+  } catch (err) {
+    throw new Error(`R2 write failed for key ${key}: ${err instanceof Error ? err.message : String(err)}`, { cause: err });
+  }
 }
 
 // ----------------------------------------------------------------

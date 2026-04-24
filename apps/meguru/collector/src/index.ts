@@ -26,8 +26,13 @@ app.post('/trigger', async (c) => {
   if (!c.env.TRIGGER_SECRET || provided !== c.env.TRIGGER_SECRET) {
     return c.json({ error: 'Unauthorized' }, 401);
   }
-  await enqueueFirstPage(c.env, todayISO());
-  return c.json({ ok: true, message: 'Collection triggered' });
+  try {
+    await enqueueFirstPage(c.env, todayISO());
+    return c.json({ ok: true, message: 'Collection triggered' });
+  } catch (err) {
+    console.error('[collector] /trigger error:', err);
+    return c.json({ error: 'Internal Server Error' }, 500);
+  }
 });
 
 app.get('/health', (c) => c.json({ ok: true }));
@@ -91,7 +96,6 @@ async function processPage(env: Env, pageNumber: number, snapshotDate: string): 
   if (extensions.length === PAGE_SIZE) {
     await env.CRAWL_QUEUE.send({ pageNumber: pageNumber + 1, snapshotDate });
   } else {
-    await invalidateRepositoryCaches(env);
     console.log(`[collector] Collection complete for ${snapshotDate}`);
   }
 }
@@ -104,7 +108,12 @@ export default {
 
   // Cron Trigger: daily at 03:00 UTC (configured in wrangler.toml)
   async scheduled(_event: ScheduledEvent, env: Env, _ctx: ExecutionContext): Promise<void> {
-    await enqueueFirstPage(env, todayISO());
+    try {
+      await enqueueFirstPage(env, todayISO());
+    } catch (err) {
+      console.error('[collector] scheduled error:', err);
+      throw err;
+    }
   },
 
   // Queue consumer: max_batch_size = 1, so one message per invocation

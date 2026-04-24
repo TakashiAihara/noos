@@ -23,7 +23,7 @@ queue = "meguru-crawl-queue"
 queue = "meguru-crawl-queue"
 max_batch_size = 1
 max_batch_timeout = 0
-max_retries = 0
+max_retries = 5
 dead_letter_queue = "meguru-crawl-dlq"
 
 # Cron Trigger: daily at 03:00 UTC

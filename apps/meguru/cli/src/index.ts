@@ -18,12 +18,12 @@ async function fetchApi<T>(path: string): Promise<T> {
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      console.error(`[meguru] API error ${response.status}`, { url });
+      console.error(`[meguru] API error ${response.status}`);
       process.exit(1);
     }
     return (await response.json()) as T;
   } catch (err) {
-    console.error('[meguru] Request failed', { url, error: err });
+    console.error('[meguru] Request failed', { error: err });
     process.exit(1);
   }
 }
