@@ -5,9 +5,12 @@ import type { CategorySummary, GrowthPoint, SearchResult, TrendingItem } from '@
 // Config
 // ----------------------------------------------------------------
 
-const GATEWAY_URL =
-  // biome-ignore lint/complexity/useLiteralKeys: tsconfig strictest requires bracket notation for index signatures
-  process.env['MEGURU_GATEWAY_URL'] ?? 'https://meguru-gateway.example.workers.dev';
+// biome-ignore lint/complexity/useLiteralKeys: tsconfig strictest requires bracket notation for index signatures
+const GATEWAY_URL = process.env['MEGURU_GATEWAY_URL'];
+if (!GATEWAY_URL) {
+  console.error('[meguru] MEGURU_GATEWAY_URL environment variable is required');
+  process.exit(1);
+}
 
 // ----------------------------------------------------------------
 // API client
@@ -261,7 +264,7 @@ switch (command) {
         '  --days     30 (default)',
         '',
         'Environment:',
-        '  MEGURU_GATEWAY_URL   Gateway URL (default: https://meguru-gateway.example.workers.dev)',
+        '  MEGURU_GATEWAY_URL   Gateway URL (required)',
         '',
         'Examples:',
         '  meguru trending --period weekly --limit 20 --format table',
