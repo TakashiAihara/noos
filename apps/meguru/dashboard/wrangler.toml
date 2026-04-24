@@ -1,0 +1,12 @@
+name = "meguru-dashboard"
+main = "src/index.tsx"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Service Binding → repository worker
+[[services]]
+binding = "REPOSITORY"
+service = "meguru-repository"
+
+[dev]
+port = 8790

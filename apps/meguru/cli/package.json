@@ -1,0 +1,26 @@
+{
+  "name": "@meguru/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "meguru": "./dist/meguru"
+  },
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "build": "bun build src/index.ts --outfile dist/meguru --target bun --sourcemap",
+    "prepack": "bun run build",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check --write .",
+    "lint:check": "biome check .",
+    "clean": "rm -rf dist node_modules"
+  },
+  "dependencies": {
+    "@meguru/types": "workspace:*"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "bun-types": "^1.3.11",
+    "typescript": "catalog:"
+  }
+}
